@@ -1,9 +1,7 @@
-Bfxr
-homepage : http://www.bfxr.net
-github page : https://github.com/increpare/bfxr
-license : http://www.apache.org/licenses/LICENSE-2.0.html
+# Bfxr
 
-The AIR-specific code is here:
-https://github.com/increpare/Bfxr-AIR
+C++ port of bfxr by increpare
 
-contact : analytic@gmail.com
+Library without gui and dear imgui + sdl2 gui provided
+
+This is a work in progress
