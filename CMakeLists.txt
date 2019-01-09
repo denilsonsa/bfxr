@@ -47,14 +47,17 @@ set(app_src ${app_src} ${CMAKE_CURRENT_BINARY_DIR}/font_noto_sans_display.h)
 
 set(app_src ${app_src}
     # standard imgui
+
+    external/imgui/imconfig.h
     external/imgui/imgui.cpp
     external/imgui/imgui.h
     external/imgui/imgui_demo.cpp
     external/imgui/imgui_draw.cpp
     external/imgui/imgui_internal.h
-    external/imgui/stb_rect_pack.h
-    external/imgui/stb_textedit.h
-    external/imgui/stb_truetype.h
+    external/imgui/imgui_widgets.cpp
+    external/imgui/imstb_rectpack.h
+    external/imgui/imstb_textedit.h
+    external/imgui/imstb_truetype.h
     # sdl binding
     external/imgui/examples/imgui_impl_sdl.h
     external/imgui/examples/imgui_impl_sdl.cpp
