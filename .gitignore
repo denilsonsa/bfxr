@@ -1,2 +1,13 @@
 .DS_Store
 *.un~
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+.idea/
+cmake-build-debug/
+
+build/
+
+imgui.ini
