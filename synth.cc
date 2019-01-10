@@ -29,11 +29,15 @@ namespace Synthesizer
 	 * @author Thomas Vian
 	 */
   struct ByteArray{
-    void writeShort(int);
-    void writeByte(int);
-    void writeFloat(double);
-    int length = 0;
-    int position = 0;
+    std::vector<double>* data = nullptr;
+    void writeFloat(double d)
+    {
+      if(data) {
+        data->emplace_back(d);
+      }
+      length += 1;
+    }
+    unsigned int length = 0;
   };
 
 class SfxrSynth 
@@ -351,8 +355,6 @@ class SfxrSynth
 					 _superSample = 0;
 				 }
 				 
-        // Writes same value to left and right channels
-        buffer.writeFloat(_superSample);
         buffer.writeFloat(_superSample);
 			}
 			
@@ -506,37 +508,25 @@ class SfxrSynth
 			}
 		}
 		
-		/**
-		 * Cache the sound for speedy playback. 
-		 * If a callback is passed in, the caching will be done asynchronously, taking maxTimePerFrame milliseconds 
-		 * per frame to cache, them calling the callback when it's done. 
-		 * If not, the whole sound is cached imidiately - can freeze the player for a few seconds, especially in debug mode. 
-		 * @param	callback			Function to call when the caching is complete
-		 * @param	maxTimePerFrame		Maximum time in milliseconds the caching will use per frame
-		 */
-		void cacheSound(unsigned int maxTimePerFrame = 5)
+		unsigned int GenerateSound(std::vector<double>* data)
 		{
 			reset(true);
 			
 			ByteArray _cachedWave;
+      _cachedWave.data = data;
 			
 				synthWave(_cachedWave, _envelopeFullLength);
 				
 				auto length= _cachedWave.length;
-				
-				if(length < 24576)
+				if(length < 1536)
 				{
 					// If the sound is smaller than the buffer length, add silence to allow it to play
-					_cachedWave.position = length;
-					while (_cachedWave.length<24576) _cachedWave.writeFloat(0.0);
+					while (_cachedWave.length<1536) _cachedWave.writeFloat(0.0);
 				}
+
+        return _cachedWave.length;
 		}
 
-		void Cache()
-		{
-			cacheSound();
-		}
-		
 		//--------------------------------------------------------------------------
 		//
 		//  Sound Parameters
