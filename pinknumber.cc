@@ -1,5 +1,6 @@
 #include <vector>
 #include <cstdlib>
+#include "pinknumber.h"
 
 /*
 class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
@@ -7,21 +8,12 @@ class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
 
 namespace Synthesizer
 {
-	class PinkNumber
-	{
-    private:
-		int max_key;
-		int key;
-    std::vector<int> white_values;
-		unsigned int range;
-
     float random()
     {
       return rand() / static_cast<float>(RAND_MAX);
     }
 		
-    public:
-		PinkNumber()
+    PinkNumber::PinkNumber()
 		{
 			max_key = 0x1f; // Five bits set
 			range = 128;
@@ -32,7 +24,7 @@ namespace Synthesizer
 		
 		
 		//returns number between -1 and 1		
-		float GetNextValue()
+		float PinkNumber::GetNextValue()
 		{
 			int last_key = key;
 			
@@ -53,5 +45,4 @@ namespace Synthesizer
 			}
 			return sum/64.0f-1.0f;
 		}
-	}; 
 }
