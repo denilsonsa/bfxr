@@ -44,8 +44,11 @@ class SfxrSynth
 		 * @param	waveData	If the wave should be written for the waveData
 		 * @return				If the wave is finished
 		 */
-		bool synthWave(ByteArray& buffer, unsigned int length, bool waveData= false, unsigned int sampleRate= 44100, unsigned int bitDepth= 16)
+		bool synthWave(ByteArray& buffer, unsigned int length)
 		{
+      constexpr bool waveData= true;
+      constexpr unsigned int sampleRate= 44100;
+      constexpr unsigned int bitDepth= 16;
 			_finished = false;
 			
 			_sampleCount = 0;
@@ -541,7 +544,7 @@ class SfxrSynth
 			
 			ByteArray _cachedWave;
 			
-				synthWave(_cachedWave, _envelopeFullLength, true);
+				synthWave(_cachedWave, _envelopeFullLength);
 				
 				auto length= _cachedWave.length;
 				
