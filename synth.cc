@@ -46,9 +46,6 @@ class SfxrSynth
 		 */
 		bool synthWave(ByteArray& buffer, unsigned int length)
 		{
-      constexpr bool waveData= true;
-      constexpr unsigned int sampleRate= 44100;
-      constexpr unsigned int bitDepth= 16;
 			_finished = false;
 			
 			_sampleCount = 0;
@@ -354,30 +351,9 @@ class SfxrSynth
 					 _superSample = 0;
 				 }
 				 
-				if(waveData)
-				{
-					// Writes same value to left and right channels
-					buffer.writeFloat(_superSample);
-					buffer.writeFloat(_superSample);
-				}
-				else
-				{
-					_bufferSample += _superSample;
-					
-					_sampleCount++;
-					
-					// Writes mono wave data to the .wav format
-					if(sampleRate == 44100 || _sampleCount == 2)
-					{
-						_bufferSample /= _sampleCount;
-						_sampleCount = 0;
-						
-						if(bitDepth == 16) 	buffer.writeShort(int(32000.0 * _bufferSample));
-						else 				buffer.writeByte(_bufferSample * 127 + 128);
-						
-						_bufferSample = 0.0;
-					}
-				}
+        // Writes same value to left and right channels
+        buffer.writeFloat(_superSample);
+        buffer.writeFloat(_superSample);
 			}
 			
 			return false;
