@@ -330,14 +330,14 @@ class App : public AppBase
     if(ImGui::Begin("Sfxr"))
     {
 
-      if(ImGui::Button("Pickup/Coin")) { param.generatePickupCoin(); }
-      if(ImGui::Button("Laser/Shoot")) { param.generateLaserShoot(); }
-      if(ImGui::Button("Explosion")) { param.generateExplosion(); }
-      if(ImGui::Button("Powerup")) { param.generatePowerup(); }
-      if(ImGui::Button("Hit/Hurt")) { param.generateHitHurt(); }
-      if(ImGui::Button("Jump")) { param.generateJump(); }
+      if(ImGui::Button("Pickup/Coin")) { param.generatePickupCoin(); } ImGui::SameLine();
+      if(ImGui::Button("Laser/Shoot")) { param.generateLaserShoot(); } ImGui::SameLine();
+      if(ImGui::Button("Explosion")) { param.generateExplosion(); } ImGui::SameLine();
+      if(ImGui::Button("Powerup")) { param.generatePowerup(); } ImGui::SameLine();
+      if(ImGui::Button("Hit/Hurt")) { param.generateHitHurt(); } ImGui::SameLine();
+      if(ImGui::Button("Jump")) { param.generateJump(); } ImGui::SameLine();
       if(ImGui::Button("Blip/Select")) { param.generateBlipSelect(); }
-      if(ImGui::Button("Mutate sound")) { param.mutate(); }
+      if(ImGui::Button("Mutate sound")) { param.mutate(); } ImGui::SameLine();
       if(ImGui::Button("Randomzie")) { param.randomize(); }
 
       ImGui::Separator();
