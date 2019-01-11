@@ -425,8 +425,6 @@ struct SfxrSynth
 			
 			if(totalReset)
 			{
-				p.paramsDirty = false;
-				
 				_masterVolume = p.masterVolume.get() * p.masterVolume.get();
 				
 				_waveType = uint(p.waveType.get());

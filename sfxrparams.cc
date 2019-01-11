@@ -352,8 +352,6 @@ namespace Synthesizer
 		 */
 		void SfxrParams::resetParams()
 		{
-			paramsDirty = true;
-			
       auto params = GetParams();
       for(auto* p: params)
       {
@@ -404,8 +402,6 @@ namespace Synthesizer
 					param->set(min  + (max-min)*r);
 				}
 			}
-			
-			paramsDirty = true;
 			
 			if (!waveType.locked)
 			{

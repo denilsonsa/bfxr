@@ -31,7 +31,6 @@ namespace Synthesizer
     public:
 
 		/** If the parameters have been changed since last time (shouldn't used cached sound) */
-		bool paramsDirty = true;			
 		
 		//interface uses this to disable square sliders when non-square wavetype selected
 		// public static const SquareParams:Array = ["squareDuty","dutySweep"];
@@ -80,7 +79,7 @@ namespace Synthesizer
         else if(t < min_value) { current_value = min_value; }
         else  { current_value = t; }
       }
-      bool locked = false;;
+      bool locked = false;
       T current_value = 0;
     };
 
