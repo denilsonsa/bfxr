@@ -81,7 +81,6 @@ namespace Synthesizer
         else current_value = t;
       }
       bool locked = false;;
-      private:
       T current_value = 0;
     };
 

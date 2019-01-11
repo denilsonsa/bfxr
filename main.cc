@@ -25,6 +25,21 @@ const float pi = 3.14159f;
 #undef max
 #endif
 
+#include "synth.h"
+
+void ShowHelpMarker(const char* desc)
+{
+    ImGui::TextDisabled("(?)");
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
+}
+
 class AppBase
 {
  public:
@@ -310,7 +325,36 @@ class App : public AppBase
       }
     }
     ImGui::End();
+
+
+    if(ImGui::Begin("Sfxr"))
+    {
+
+      if(ImGui::Button("Pickup/Coin")) { param.generatePickupCoin(); }
+      if(ImGui::Button("Laser/Shoot")) { param.generateLaserShoot(); }
+      if(ImGui::Button("Explosion")) { param.generateExplosion(); }
+      if(ImGui::Button("Powerup")) { param.generatePowerup(); }
+      if(ImGui::Button("Hit/Hurt")) { param.generateHitHurt(); }
+      if(ImGui::Button("Jump")) { param.generateJump(); }
+      if(ImGui::Button("Blip/Select")) { param.generateBlipSelect(); }
+      if(ImGui::Button("Mutate sound")) { param.mutate(); }
+      if(ImGui::Button("Randomzie")) { param.randomize(); }
+
+      ImGui::Separator();
+      auto params = param.GetParams();
+      for(auto* p: params)
+        {
+          float current_value = p->get();
+          auto changed = ImGui::SliderFloat(p->real_name.c_str(), &current_value, p->min_value, p->max_value);
+          if(changed) {p->set(current_value);}
+          ImGui::SameLine();
+          ShowHelpMarker(p->description.c_str());
+        }
+    }
+    ImGui::End();
   }
+
+  Synthesizer::SfxrParams param;
 
   float
   SynthSample(float time) override

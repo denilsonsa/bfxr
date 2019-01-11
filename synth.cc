@@ -40,7 +40,7 @@ namespace Synthesizer
     unsigned int length = 0;
   };
 
-class SfxrSynth 
+struct SfxrSynth 
 	{
 		/**
 		 * Writes the wave to the supplied buffer ByteArray
@@ -675,5 +675,12 @@ class SfxrSynth
 //		
 		double _compression_factor;
 	};
+
+		unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data)
+    {
+      SfxrSynth synth;
+      synth._params = params;
+      return synth.GenerateSound(data);
+    }
 }
 
