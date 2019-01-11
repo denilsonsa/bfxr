@@ -299,6 +299,14 @@ class AppBase
   SDL_GLContext gl_context;
 };
 
+namespace {
+  float double_to_float(void* data, int idx)
+  {
+    auto* arr = static_cast<std::vector<double>*>(data);
+    return (*arr)[idx];
+  }
+}
+
 class App : public AppBase
 {
  public:
@@ -339,7 +347,12 @@ class App : public AppBase
       if(ImGui::Button("Blip/Select")) { param.generateBlipSelect(); }
       if(ImGui::Button("Mutate sound")) { param.mutate(); } ImGui::SameLine();
       if(ImGui::Button("Randomzie")) { param.randomize(); }
+      if(ImGui::Button("Synth sound")) { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
 
+      if(!samples.empty())
+      {
+        ImGui::PlotLines("Sample", &double_to_float, &samples, samples.size(), 0, nullptr, -1.0f, 1.0f, ImVec2{0, 120});
+      }
       ImGui::Separator();
       auto params = param.GetParams();
       for(auto* p: params)
@@ -355,6 +368,7 @@ class App : public AppBase
   }
 
   Synthesizer::SfxrParams param;
+  std::vector<double> samples;
 
   float
   SynthSample(float time) override
