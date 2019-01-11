@@ -76,9 +76,9 @@ namespace Synthesizer
       T get() const { return current_value; }
       void set(T t)
       {
-        if(t > max_value) current_value = max_value;
-        else if(t < min_value) current_value = min_value;
-        else current_value = t;
+        if(t > max_value) { current_value = max_value; }
+        else if(t < min_value) { current_value = min_value; }
+        else  { current_value = t; }
       }
       bool locked = false;;
       T current_value = 0;

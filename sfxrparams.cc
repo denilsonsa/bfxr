@@ -6,6 +6,7 @@
 
 namespace Synthesizer   
 {
+  double random();
 	/**
 	 * SfxrParams
 	 * 
@@ -339,7 +340,7 @@ namespace Synthesizer
 			if(int(waveType.get()) == 0) 
 				squareDuty.set( random() * 0.6);
 			
-			startFrequency.set( 0.2 + random() * 0.4);
+			startFrequency.set(0.2 + random() * 0.4);
 			
 			sustainTime.set( 0.1 + random() * 0.1);
 			decayTime.set( random() * 0.2);

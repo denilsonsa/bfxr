@@ -1,16 +1,15 @@
 #include <vector>
 #include <cstdlib>
 #include "pinknumber.h"
-
 /*
 class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
 */
 
 namespace Synthesizer
 {
-    float random()
+    double random()
     {
-      return rand() / static_cast<float>(RAND_MAX);
+      return rand() / static_cast<double>(RAND_MAX);
     }
 		
     PinkNumber::PinkNumber()

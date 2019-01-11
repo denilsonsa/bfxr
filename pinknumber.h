@@ -7,7 +7,7 @@ class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
 
 namespace Synthesizer
 {
-  float random();
+  double random();
   
 	class PinkNumber
 	{
