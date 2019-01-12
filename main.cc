@@ -219,7 +219,7 @@ class AppBase
   Draw() = 0;
 
   virtual float
-  SynthSample(float time) = 0;
+  SynthSample(int time) = 0;
 
   void
   OnRender()
@@ -254,10 +254,16 @@ class AppBase
 
     for(int i = 0; i < len; i += 1)
     {
-      const float sample_time =
-          audio_callback_time +
-          (i + samples_consumed) / static_cast<float>(sample_frequency);
-      auto sample = SynthSample(sample_time);
+      const auto sample_time = sample_position + i;
+      float sample = 0.0f;
+      if(sample_time >= sample_length )
+      {
+        sample = 0;
+      }
+      else
+      {
+        sample = SynthSample(sample_time);
+      }
       if(sample > 1)
       {
         sample = 1;
@@ -267,14 +273,11 @@ class AppBase
         sample = -1;
       }
       output[i]       = static_cast<Sint16>(max_amplitude * sample);
-      max_sample_time = sample_time;
     }
 
-    samples_consumed += len;
-    while(samples_consumed >= sample_frequency)
+    if(sample_position <= sample_length )
     {
-      samples_consumed -= sample_frequency;
-      audio_callback_time += 1;
+      sample_position += len;
     }
   }
 
@@ -288,8 +291,15 @@ class AppBase
  public:
   bool ok;
 
+  void PlaySound(int samples)
+  {
+    sample_position = 0;
+    sample_length = samples;
+  }
+
  protected:
-  float max_sample_time     = 0;
+  int sample_position     = 0;
+  int sample_length = 0;
   int   sample_frequency    = 44100;
   float audio_callback_time = 0;
   int   samples_consumed    = 0;
@@ -347,7 +357,8 @@ class App : public AppBase
       if(ImGui::Button("Blip/Select")) { param.generateBlipSelect(); }
       if(ImGui::Button("Mutate sound")) { param.mutate(); } ImGui::SameLine();
       if(ImGui::Button("Randomzie")) { param.randomize(); }
-      if(ImGui::Button("Synth sound")) { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
+      if(ImGui::Button("Synth sound")) { SynthSound(); }
+      if(ImGui::Button("Play sound")) { SynthSound(); PlaySound(samples.size()); }
 
       if(!samples.empty())
       {
@@ -367,13 +378,16 @@ class App : public AppBase
     ImGui::End();
   }
 
+  void SynthSound() { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
+
   Synthesizer::SfxrParams param;
   std::vector<double> samples;
 
   float
-  SynthSample(float time) override
+  SynthSample(int time) override
   {
-    return 0.0f;
+    if(samples.empty()) { return 0.0f; }
+    else return samples[time];
   }
 
   void
