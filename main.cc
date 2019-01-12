@@ -347,18 +347,22 @@ class App : public AppBase
 
     if(ImGui::Begin("Sfxr"))
     {
+      bool sound_changed = false;
+      if(ImGui::Button("Pickup/Coin")) { sound_changed = true; param.generatePickupCoin(); } ImGui::SameLine();
+      if(ImGui::Button("Laser/Shoot")) { sound_changed = true; param.generateLaserShoot(); } ImGui::SameLine();
+      if(ImGui::Button("Explosion")) { sound_changed = true; param.generateExplosion(); } ImGui::SameLine();
+      if(ImGui::Button("Powerup")) { sound_changed = true; param.generatePowerup(); } ImGui::SameLine();
+      if(ImGui::Button("Hit/Hurt")) { sound_changed = true; param.generateHitHurt(); } ImGui::SameLine();
+      if(ImGui::Button("Jump")) { sound_changed = true; param.generateJump(); } ImGui::SameLine();
+      if(ImGui::Button("Blip/Select")) { sound_changed = true; param.generateBlipSelect(); }
 
-      if(ImGui::Button("Pickup/Coin")) { param.generatePickupCoin(); } ImGui::SameLine();
-      if(ImGui::Button("Laser/Shoot")) { param.generateLaserShoot(); } ImGui::SameLine();
-      if(ImGui::Button("Explosion")) { param.generateExplosion(); } ImGui::SameLine();
-      if(ImGui::Button("Powerup")) { param.generatePowerup(); } ImGui::SameLine();
-      if(ImGui::Button("Hit/Hurt")) { param.generateHitHurt(); } ImGui::SameLine();
-      if(ImGui::Button("Jump")) { param.generateJump(); } ImGui::SameLine();
-      if(ImGui::Button("Blip/Select")) { param.generateBlipSelect(); }
-      if(ImGui::Button("Mutate sound")) { param.mutate(); } ImGui::SameLine();
-      if(ImGui::Button("Randomzie")) { param.randomize(); }
-      if(ImGui::Button("Synth sound")) { SynthSound(); }
+      if(ImGui::Button("Mutate sound")) { sound_changed = true; param.mutate(); } ImGui::SameLine();
+      if(ImGui::Button("Randomzie")) { sound_changed = true; param.randomize(); }
+
+      if(ImGui::Button("Synth sound")) { SynthSound(); } ImGui::SameLine();
       if(ImGui::Button("Play sound")) { SynthSound(); PlaySound(samples.size()); }
+
+      ImGui::Checkbox("Play on change", &play_on_change);
 
       if(!samples.empty())
       {
@@ -370,16 +374,22 @@ class App : public AppBase
         {
           float current_value = p->get();
           auto changed = ImGui::SliderFloat(p->real_name.c_str(), &current_value, p->min_value, p->max_value);
-          if(changed) {p->set(current_value);}
+          if(changed) {p->set(current_value); sound_changed = true;}
           ImGui::SameLine();
           ShowHelpMarker(p->description.c_str());
         }
+      if (sound_changed && play_on_change)
+      {
+        SynthSound();
+        PlaySound(samples.size());
+      }
     }
     ImGui::End();
   }
 
   void SynthSound() { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
 
+  bool play_on_change = true;
   Synthesizer::SfxrParams param;
   std::vector<double> samples;
 
