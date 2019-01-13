@@ -3,10 +3,14 @@
 
 #include "pinknumber.h"
 #include "sfxrparams.h"
-
 namespace Synthesizer 
 {
   constexpr double PI = 3.14;
+
+  double Abs(double d) {
+    if(d > 0) return d;
+    else return -d;
+  }
 
 	/**
 	 * SfxrSynth
@@ -237,7 +241,7 @@ struct SfxrSynth
 							}
               case WaveType::Triangle: // Triangle Wave
 							{						
-								_sample += overtonestrength*(abs(1-(tempphase / _periodTemp)*2)-1);
+								_sample += overtonestrength*(Abs(1-(tempphase / _periodTemp)*2)-1);
 								break;
 							}
               case WaveType::Pink: // Pink Noise
@@ -272,7 +276,7 @@ struct SfxrSynth
               case WaveType::Breaker: // Breaker
 							{	
 								double amp= tempphase/_periodTemp;								
-								_sample += overtonestrength*(abs(1-amp*amp*2)-1);
+								_sample += overtonestrength*(Abs(1-amp*amp*2)-1);
 								break;
 							}
 						}
