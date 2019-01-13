@@ -17,7 +17,10 @@
 #include "imgui_impl_opengl3.h"
 #include <SDL.h>
 
+#include "IconsForkAwesome.h"
+
 #include "font_noto_sans_display.h"
+#include "font_forkawesome.h"
 
 const float pi = 3.14159f;
 
@@ -137,6 +140,21 @@ class AppBase
 
     io.Fonts->AddFontFromMemoryCompressedTTF(
         NotoSansDisplay_compressed_data, NotoSansDisplay_compressed_size, 16);
+
+    {
+        static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
+        ImFontConfig         icons_config;
+        icons_config.MergeMode        = true;
+        icons_config.PixelSnapH       = true;
+        icons_config.GlyphMinAdvanceX = 13.0f;
+
+        io.Fonts->AddFontFromMemoryCompressedTTF(
+            ForkAwesome_compressed_data,
+            ForkAwesome_compressed_size,
+            13.0f,
+            &icons_config,
+            icons_ranges);
+    }
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can
@@ -322,7 +340,7 @@ namespace {
       { if(ImGui::RadioButton(str, *val == wt)) { *val = wt; return true; } else { return false; } }
 
       void Locked(bool* b) {
-        if(ImGui::Button(*b ? "Locked" : "Unlocked")) { *b = !*b; }
+        if(ImGui::Button(*b ? ICON_FK_LOCK : ICON_FK_UNLOCK )) { *b = !*b; }
       }
 
 class App : public AppBase

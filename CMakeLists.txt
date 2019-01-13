@@ -44,6 +44,20 @@ add_custom_command(
   COMMENT "Generating binary font: Noto Sans Display"
 )
 set(app_src ${app_src} ${CMAKE_CURRENT_BINARY_DIR}/font_noto_sans_display.h)
+source_group("fonts" FILES ${CMAKE_CURRENT_BINARY_DIR}/font_noto_sans_display.h)
+
+add_custom_command(
+  OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/font_forkawesome.h"
+  COMMAND  binary_to_compressed_c
+  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/forkawesome.ttf ForkAwesome > font_forkawesome.h
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  COMMENT "Generating binary font"
+  )
+set(app_src ${app_src} ${CMAKE_CURRENT_BINARY_DIR}/font_forkawesome.h)
+source_group("fonts" FILES ${CMAKE_CURRENT_BINARY_DIR}/font_forkawesome.h)
+include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
+
+include_directories(SYSTEM external/IconFontCppHeaders/)
 
 set(app_src ${app_src}
     # standard imgui
