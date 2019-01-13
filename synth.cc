@@ -135,7 +135,7 @@ struct SfxrSynth
 				if(_periodTemp < 8) _periodTemp = 8;
 				
 				// Sweeps the square duty
-				if (_waveType == 0)
+				if (_waveType == WaveType::Square)
 				{
 					_squareDuty += _dutySweep;
 						 if(_squareDuty < 0.0) _squareDuty = 0.0;
@@ -190,15 +190,15 @@ struct SfxrSynth
 						_phase = _phase - _periodTemp;
 						
 						// Generates new random noise for this period
-						if(_waveType == 3) 
+						if(_waveType == WaveType::Noise) 
 						{ 
 							for(unsigned int n= 0; n < 32; n++) _noiseBuffer[n] = random() * 2.0 - 1.0;
 						}
-						else if (_waveType == 5)
+						else if (_waveType == WaveType::Pink)
 						{
 							for(unsigned int n = 0; n < 32; n++) _pinkNoiseBuffer[n] = _pinkNumber.GetNextValue();							
 						}
-						else if (_waveType == 6)
+						else if (_waveType == WaveType::Tan)
 						{
 							for(unsigned int n = 0; n < 32; n++) _loResNoiseBuffer[n] = ((n%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[n-1];							
 						}
@@ -212,17 +212,17 @@ struct SfxrSynth
 						// Gets the sample from the oscillator
 						switch(_waveType)
 						{
-							case 0: // Square wave
+              case WaveType::Square: // Square wave
 							{
 								_sample += overtonestrength*(((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
 								break;
 							}
-							case 1: // Saw wave
+              case WaveType::Saw: // Saw wave
 							{
 								_sample += overtonestrength*(1.0 - (tempphase / _periodTemp) * 2.0);
 								break;
 							}
-							case 2: // Sine wave (fast and accurate approx)
+              case WaveType::Sin: // Sine wave (fast and accurate approx)
 							{								
 								 _pos = tempphase / _periodTemp;
 								 _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
@@ -230,28 +230,28 @@ struct SfxrSynth
 								_sample += overtonestrength*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);								
 								break;
 							}
-							case 3: // Noise
+              case WaveType::Noise: // Noise
 							{
 								_sample += overtonestrength*(_noiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
-							case 4: // Triangle Wave
+              case WaveType::Triangle: // Triangle Wave
 							{						
 								_sample += overtonestrength*(abs(1-(tempphase / _periodTemp)*2)-1);
 								break;
 							}
-							case 5: // Pink Noise
+              case WaveType::Pink: // Pink Noise
 							{						
 								_sample += overtonestrength*(_pinkNoiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
-							case 6: // tan
+              case WaveType::Tan: // tan
 							{
 								//detuned
 								_sample += tan(PI*tempphase/_periodTemp)*overtonestrength;
 								break;
 							}
-							case 7: // Whistle 
+              case WaveType::Whistle: // Whistle 
 							{				
 								// Sin wave code
 								_pos = tempphase / _periodTemp;
@@ -269,7 +269,7 @@ struct SfxrSynth
 								
 								break;
 							}
-							case 8: // Breaker
+              case WaveType::Breaker: // Breaker
 							{	
 								double amp= tempphase/_periodTemp;								
 								_sample += overtonestrength*(abs(1-amp*amp*2)-1);
@@ -390,7 +390,7 @@ struct SfxrSynth
 			_slide = 1.0 - p.slide.get() * p.slide.get() * p.slide.get() * 0.01;
 			_deltaSlide = -p.deltaSlide.get() * p.deltaSlide.get() * p.deltaSlide.get() * 0.000001;
 			
-			if (int(p.waveType.get()) == 0)
+			if (p.waveType == WaveType::Square)
 			{
 				_squareDuty = 0.5 - p.squareDuty.get() * 0.5;
 				_dutySweep = -p.dutySweep.get() * 0.00005;
@@ -427,7 +427,7 @@ struct SfxrSynth
 			{
 				_masterVolume = p.masterVolume.get() * p.masterVolume.get();
 				
-				_waveType = uint(p.waveType.get());
+				_waveType = p.waveType;
 				
 				if (p.sustainTime.get() < 0.01) p.sustainTime.set( 0.01);
 				
@@ -579,7 +579,7 @@ struct SfxrSynth
 
 		double _masterVolume;					// masterVolume * masterVolume (for quick calculations)
 //		
-		int _waveType;							// The type of wave to generate
+		WaveType _waveType;							// The type of wave to generate
 //		
 		double _envelopeVolume;					// Current volume of the envelope
 		int _envelopeStage;						// Current stage of the envelope (attack, sustain, decay, end)

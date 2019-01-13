@@ -29,8 +29,7 @@ namespace Synthesizer
 		
   SfxrParams::SfxrParams()
       // real name, decription, grouping, default, min, max, 
-      : waveType ( Param<double>{"Wave Type","Shape of the wave.", 0,2,0,WAVETYPECOUNT-0.0001}) // the 6.999 thing is because this is really an int parameter...		
-      , masterVolume ( Param<double>{"Master Volume","Overall volume of the sound.", 1,0.5,0,1}) 	
+      : masterVolume ( Param<double>{"Master Volume","Overall volume of the sound.", 1,0.5,0,1}) 	
       , attackTime ( Param<double>{"Attack Time","Length of the volume envelope attack.", 1,0,0,1})		
       , sustainTime ( Param<double>{"Sustain Time","Length of the volume envelope sustain.", 1,0.3,0,1}) 	
       , sustainPunch ( Param<double>{"Punch","Tilts the sustain envelope for more 'pop'.", 1,0,0,1}) 		
@@ -85,6 +84,7 @@ namespace Synthesizer
 
 		void SfxrParams::setAllLocked(bool locked)
     {
+      waveType_locked = locked;
       auto params = GetParams();
       for(auto* p: params)
       {
@@ -96,7 +96,6 @@ namespace Synthesizer
 		{
       std::vector<Param<double>*> ret;
 
-      ret.push_back(&waveType);
       ret.push_back(&masterVolume);
       ret.push_back(&attackTime);
       ret.push_back(&sustainTime);
@@ -169,12 +168,12 @@ namespace Synthesizer
 		{
 			resetParams();
 			
-			waveType.set(uint(random() * 3));
-			if( int(waveType.get()) == 2 && random() < 0.5) 
+			auto wt = static_cast<unsigned int>(random() * 3);
+			if( wt == 2 && random() < 0.5) 
 			{
-				waveType.set( 
-					uint(random() * 2));
+				wt = static_cast<unsigned int>(random() * 2);
 			}
+      waveType = static_cast<WaveType>(wt);
 			
 			startFrequency.set(0.5 + random() * 0.5);
 			minFrequency.set(startFrequency.get() - 0.2 - random() * 0.6);
@@ -221,7 +220,7 @@ namespace Synthesizer
 		void SfxrParams::generateExplosion()
 		{
 			resetParams();
-			waveType.set( 3);
+			waveType = WaveType::Noise;
 			
 			if(random() < 0.5)
 			{
@@ -263,7 +262,7 @@ namespace Synthesizer
 		{
 			resetParams();
 			
-			if(random() < 0.5) waveType.set( 1);
+			if(random() < 0.5) waveType = WaveType::Saw;
 			else 					squareDuty.set( random() * 0.6);
 			
 			if(random() < 0.5)
@@ -295,10 +294,13 @@ namespace Synthesizer
 		{
 			resetParams();
 			
-			waveType.set( uint(random() * 3));
-			if(int(waveType.get()) == 2) 
-				waveType.set( 3);
-			else if(int(waveType.get()) == 0) 
+			const auto wt = static_cast<unsigned int>(random() * 3);
+			switch(wt) {
+        case 0: waveType = WaveType::Square; break;
+        case 1: waveType = WaveType::Saw; break;
+        case 2: waveType = WaveType::Noise; break;
+      }
+			if(waveType == WaveType::Square) 
 				squareDuty.set( random() * 0.6);
 			
 			startFrequency.set( 0.2 + random() * 0.6);
@@ -317,7 +319,7 @@ namespace Synthesizer
 		{
 			resetParams();
 			
-			waveType.set( 0);
+			waveType = WaveType::Square;
 			squareDuty.set( random() * 0.6);
 			startFrequency.set( 0.3 + random() * 0.3);
 			slide.set( 0.1 + random() * 0.2);
@@ -336,8 +338,8 @@ namespace Synthesizer
 		{
 			resetParams();
 			
-			waveType.set( uint(random() * 2));
-			if(int(waveType.get()) == 0) 
+      waveType = (random() < 0.5)? WaveType::Square : WaveType::Saw;
+			if(waveType == WaveType::Square) 
 				squareDuty.set( random() * 0.6);
 			
 			startFrequency.set(0.2 + random() * 0.4);
@@ -352,6 +354,7 @@ namespace Synthesizer
 		 */
 		void SfxrParams::resetParams()
 		{
+      waveType = WaveType::Square;
       auto params = GetParams();
       for(auto* p: params)
       {
@@ -372,6 +375,7 @@ namespace Synthesizer
 		 */
 		void SfxrParams::mutate(double mutation)
 		{			
+      // should waveType be mutated... I dont think so
       auto params = GetParams();
 			for (auto* param : params)
 			{
@@ -403,9 +407,9 @@ namespace Synthesizer
 				}
 			}
 			
-			if (!waveType.locked)
+			if (!waveType_locked)
 			{
-        waveType.set(random() * WAVETYPECOUNT);
+        waveType = static_cast<WaveType>(random() * static_cast<int>(WaveType::COUNT));
 			}
 			
 			if (!repeatSpeed.locked)

@@ -26,6 +26,21 @@ namespace Synthesizer
 	 * 
 	 * @author Thomas Vian
 	 */
+
+  enum class WaveType
+  {
+    Square,
+    Saw,
+    Sin,
+    Noise,
+    Triangle,
+    Pink,
+    Tan,
+    Whistle,
+    Breaker,
+    COUNT
+  };
+			
 	class SfxrParams 
 	{
     public:
@@ -38,20 +53,6 @@ namespace Synthesizer
 		//params to exclude from list
 		// public static const ExcludeParams:Array = ["waveType","masterVolume"];
 		
-    enum class WaveType
-    {
-      Square,
-      Saw,
-      Sin,
-      Noise,
-      Triangle,
-      Pink,
-      Tan,
-      Whistle,
-      Breaker,
-      COUNT
-    };
-			
     template<typename T>
     struct Param {
       // real name, decription, grouping, default, min, max, 
@@ -83,7 +84,8 @@ namespace Synthesizer
       T current_value = 0;
     };
 
-		Param<double> waveType;
+		WaveType waveType;
+    bool waveType_locked;
 		
 		Param<double> masterVolume;
 		Param<double> attackTime;

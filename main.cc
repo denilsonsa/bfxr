@@ -369,6 +369,20 @@ class App : public AppBase
         ImGui::PlotLines("Sample", &double_to_float, &samples, samples.size(), 0, nullptr, -1.0f, 1.0f, ImVec2{0, 120});
       }
       ImGui::Separator();
+      auto radio = [](const char* str, Synthesizer::WaveType* val, Synthesizer::WaveType wt) -> bool
+      { if(ImGui::RadioButton(str, *val == wt)) { *val = wt; return true; } else { return false; } };
+      
+
+      if(radio("Square", &param.waveType, Synthesizer::WaveType::Square)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Saw", &param.waveType, Synthesizer::WaveType::Saw)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Sin", &param.waveType, Synthesizer::WaveType::Sin)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Noise", &param.waveType, Synthesizer::WaveType::Noise)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Triangle", &param.waveType, Synthesizer::WaveType::Triangle)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Pink", &param.waveType, Synthesizer::WaveType::Pink)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Tan", &param.waveType, Synthesizer::WaveType::Tan)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Whistle", &param.waveType, Synthesizer::WaveType::Whistle)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Breaker", &param.waveType, Synthesizer::WaveType::Breaker)) { sound_changed = true; }
+
       auto params = param.GetParams();
       for(auto* p: params)
         {
