@@ -317,6 +317,14 @@ namespace {
   }
 }
 
+
+      bool radio(const char* str, Synthesizer::WaveType* val, Synthesizer::WaveType wt)
+      { if(ImGui::RadioButton(str, *val == wt)) { *val = wt; return true; } else { return false; } }
+
+      void Locked(bool* b) {
+        if(ImGui::Button(*b ? "Locked" : "Unlocked")) { *b = !*b; }
+      }
+
 class App : public AppBase
 {
  public:
@@ -369,8 +377,6 @@ class App : public AppBase
         ImGui::PlotLines("Sample", &double_to_float, &samples, samples.size(), 0, nullptr, -1.0f, 1.0f, ImVec2{0, 120});
       }
       ImGui::Separator();
-      auto radio = [](const char* str, Synthesizer::WaveType* val, Synthesizer::WaveType wt) -> bool
-      { if(ImGui::RadioButton(str, *val == wt)) { *val = wt; return true; } else { return false; } };
       
 
       if(radio("Square", &param.waveType, Synthesizer::WaveType::Square)) { sound_changed = true; } ImGui::SameLine();
@@ -384,13 +390,18 @@ class App : public AppBase
       if(radio("Breaker", &param.waveType, Synthesizer::WaveType::Breaker)) { sound_changed = true; }
 
       auto params = param.GetParams();
+      int id = 0;
       for(auto* p: params)
         {
+          ImGui::PushID(id++);
           float current_value = p->get();
           auto changed = ImGui::SliderFloat(p->real_name.c_str(), &current_value, p->min_value, p->max_value);
           if(changed) {p->set(current_value); sound_changed = true;}
           ImGui::SameLine();
+          Locked(&p->locked);
+          ImGui::SameLine();
           ShowHelpMarker(p->description.c_str());
+          ImGui::PopID();
         }
       if (sound_changed && play_on_change)
       {
