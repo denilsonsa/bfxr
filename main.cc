@@ -28,7 +28,8 @@ const float pi = 3.14159f;
 #undef max
 #endif
 
-#include "synth.h"
+#define BFXR_IMPLEMENTATION
+#include "bfxr.h"
 
 void ShowHelpMarker(const char* desc)
 {
