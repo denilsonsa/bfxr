@@ -88,6 +88,8 @@ namespace Synthesizer
     Tan,
     Whistle,
     Breaker,
+    OneBitNoise,
+    Buzz,
     COUNT
   };
 			
@@ -875,6 +877,24 @@ struct SfxrSynth
 						{
 							for(unsigned int n = 0; n < 32; n++) _loResNoiseBuffer[n] = ((n%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[n-1];							
 						}
+            else if (_waveType == WaveType::OneBitNoise)
+            {
+              // Based on SN76489 periodic "white" noise
+              // http://www.smspower.org/Development/SN76489?sid=ae16503f2fb18070f3f40f2af56807f1#NoiseChannel
+              // This one matches the behaviour of the SN76489 in the BBC Micro.
+              const int feedBit = (_oneBitNoiseState >> 1 & 1) ^ (_oneBitNoiseState & 1);
+              _oneBitNoiseState = _oneBitNoiseState >> 1 | (feedBit << 14);
+              _oneBitNoise = (~_oneBitNoiseState & 1) - 0.5;
+            }
+            else if (_waveType == WaveType::Buzz)
+            {
+              // Based on SN76489 periodic "white" noise
+              // http://www.smspower.org/Development/SN76489?sid=ae16503f2fb18070f3f40f2af56807f1#NoiseChannel
+              // This one doesn't match the behaviour of anything real, but it made a nice sound, so I kept it.
+              const int feedBit = (_buzzState >> 3 & 1) ^ (_buzzState & 1);
+              _buzzState = _buzzState >> 1 | (feedBit << 14);
+              _buzz = (~_buzzState & 1) - 0.5;
+            }
 					}
 					
 					_sample=0;
@@ -948,6 +968,14 @@ struct SfxrSynth
 								_sample += overtonestrength*(Abs(1-amp*amp*2)-1);
 								break;
 							}
+              case WaveType::OneBitNoise: // 1-bit periodic "white" noise
+              {
+                _sample += overtonestrength*_oneBitNoise;
+              }
+              case WaveType::Buzz: // 1-bit periodic "buzz" noise
+              {
+                _sample += overtonestrength*_buzz;
+              }
 						}
 						overtonestrength*=(1-_overtoneFalloff);
 						
@@ -1164,6 +1192,11 @@ struct SfxrSynth
         _noiseBuffer.reserve(32);
         _pinkNoiseBuffer.reserve(32);
         _loResNoiseBuffer.reserve(32);
+
+        _oneBitNoiseState = 1 << 14;
+        _oneBitNoise = 0;
+        _buzzState = 1 << 14;
+        _buzz = 0;
 				
 				for(unsigned int i= 0; i < 1024; i++) _flangerBuffer[i] = 0.0;
 				for(unsigned int i = 0; i < 32; i++) _noiseBuffer[i] = random() * 2.0 - 1.0;
@@ -1291,6 +1324,12 @@ struct SfxrSynth
     std::vector<double> _pinkNoiseBuffer;			// Buffer of random values used to generate noise
     std::vector<double> _loResNoiseBuffer;			// Buffer of random values used to generate noise
 		
+    int _oneBitNoiseState;					// Buffer containing one-bit periodic noise state.
+    double _oneBitNoise;					// Current sample of one-bit noise.
+
+    int _buzzState;							// Buffer containing 'buzz' periodic noise state.
+    double _buzz;							// Current sample of 'buzz' noise.
+
 		PinkNumber _pinkNumber;
 		
 		double _superSample;					// Actual sample writen to the wave

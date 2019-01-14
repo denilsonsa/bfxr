@@ -396,7 +396,6 @@ class App : public AppBase
         ImGui::PlotLines("Sample", &double_to_float, &samples, samples.size(), 0, nullptr, -1.0f, 1.0f, ImVec2{0, 120});
       }
       ImGui::Separator();
-      
 
       if(radio("Square", &param.waveType, Synthesizer::WaveType::Square)) { sound_changed = true; } ImGui::SameLine();
       if(radio("Saw", &param.waveType, Synthesizer::WaveType::Saw)) { sound_changed = true; } ImGui::SameLine();
@@ -406,7 +405,9 @@ class App : public AppBase
       if(radio("Pink", &param.waveType, Synthesizer::WaveType::Pink)) { sound_changed = true; } ImGui::SameLine();
       if(radio("Tan", &param.waveType, Synthesizer::WaveType::Tan)) { sound_changed = true; } ImGui::SameLine();
       if(radio("Whistle", &param.waveType, Synthesizer::WaveType::Whistle)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Breaker", &param.waveType, Synthesizer::WaveType::Breaker)) { sound_changed = true; }
+      if(radio("Breaker", &param.waveType, Synthesizer::WaveType::Breaker)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("1 bit noise", &param.waveType, Synthesizer::WaveType::OneBitNoise)) { sound_changed = true; } ImGui::SameLine();
+      if(radio("Buzz", &param.waveType, Synthesizer::WaveType::Buzz)) { sound_changed = true; }
 
       auto params = param.GetParams();
       int id = 0;
