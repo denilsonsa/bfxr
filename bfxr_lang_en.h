@@ -48,7 +48,7 @@
 #define TEXT_WT_SQUARE_DESCRIPTION "Square waves can be quite powerful.  They have two extra properties, Square Duty and Duty Sweep, that can further control the timbre of the wave"
 
 #define TEXT_WT_SAW "Saw"
-#define TEXT_WT_SAW_DESCRIPTION "Saw waves are raspy mother-fuckers."
+#define TEXT_WT_SAW_DESCRIPTION "Saw waves are raspy waves."
 
 #define TEXT_WT_BREAKER "Breaker"
 #define TEXT_WT_BREAKER_DESCRIPTION "These are defined by a quadratic equation (a=t*t%1, giving a toothed-shaped), making them a little more hi-fi than other wave-types on this list.  For the most part, like a smoother, slicker triangle wave."											
