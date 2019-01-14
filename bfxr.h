@@ -181,7 +181,6 @@ namespace Synthesizer
 		SfxrParams();
 
 		void setAllLocked(bool locked);
-    std::vector<Param*> GetParams();
 		void generatePickupCoin();
 		void generateLaserShoot();
 		void generateExplosion();
@@ -333,54 +332,46 @@ namespace Synthesizer
       bitCrushSweep.random_power = 5;
 		}
 
+#define ALLVALUES\
+      ONVAR(masterVolume);\
+      ONVAR(attackTime);\
+      ONVAR(sustainTime);\
+      ONVAR(sustainPunch);\
+      ONVAR(decayTime);\
+      ONVAR(compressionAmount);\
+      ONVAR(startFrequency);\
+      ONVAR(minFrequency);\
+      ONVAR(slide);\
+      ONVAR(deltaSlide);\
+      ONVAR(vibratoDepth);\
+      ONVAR(vibratoSpeed);\
+      ONVAR(overtones);\
+      ONVAR(overtoneFalloff);\
+      ONVAR(changeRepeat);\
+      ONVAR(changeAmount);\
+      ONVAR(changeSpeed);\
+      ONVAR(changeAmount2);\
+      ONVAR(changeSpeed2);\
+      ONVAR(squareDuty);\
+      ONVAR(dutySweep);\
+      ONVAR(repeatSpeed);\
+      ONVAR(flangerOffset);\
+      ONVAR(flangerSweep);\
+      ONVAR(lpFilterCutoff);\
+      ONVAR(lpFilterCutoffSweep);\
+      ONVAR(lpFilterResonance);\
+      ONVAR(hpFilterCutoff);\
+      ONVAR(hpFilterCutoffSweep);\
+      ONVAR(bitCrush);\
+      ONVAR(bitCrushSweep);
+
 		void SfxrParams::setAllLocked(bool locked)
     {
       waveType_locked = locked;
-      auto params = GetParams();
-      for(auto* p: params)
-      {
-        p->locked = locked;
-      }
+#define ONVAR(p) p.locked = locked
+      ALLVALUES
+#undef ONVAR
     }
-		
-    std::vector<SfxrParams::Param*> SfxrParams::GetParams()
-		{
-      std::vector<Param*> ret;
-
-      ret.push_back(&masterVolume);
-      ret.push_back(&attackTime);
-      ret.push_back(&sustainTime);
-      ret.push_back(&sustainPunch);
-      ret.push_back(&decayTime);
-      ret.push_back(&compressionAmount);
-      ret.push_back(&startFrequency);
-      ret.push_back(&minFrequency);
-      ret.push_back(&slide);
-      ret.push_back(&deltaSlide);
-      ret.push_back(&vibratoDepth);
-      ret.push_back(&vibratoSpeed);
-      ret.push_back(&overtones);
-      ret.push_back(&overtoneFalloff);
-      ret.push_back(&changeRepeat);
-      ret.push_back(&changeAmount);
-      ret.push_back(&changeSpeed);
-      ret.push_back(&changeAmount2);
-      ret.push_back(&changeSpeed2);
-      ret.push_back(&squareDuty);
-      ret.push_back(&dutySweep);
-      ret.push_back(&repeatSpeed);
-      ret.push_back(&flangerOffset);
-      ret.push_back(&flangerSweep);
-      ret.push_back(&lpFilterCutoff);
-      ret.push_back(&lpFilterCutoffSweep);
-      ret.push_back(&lpFilterResonance);
-      ret.push_back(&hpFilterCutoff);
-      ret.push_back(&hpFilterCutoffSweep);
-      ret.push_back(&bitCrush);
-      ret.push_back(&bitCrushSweep);
-
-      return ret;
-		}
 		
 		void SfxrParams::generatePickupCoin()
 		{
@@ -576,44 +567,43 @@ namespace Synthesizer
 		void SfxrParams::resetParams()
 		{
       waveType = WaveType::Square;
-      auto params = GetParams();
-      for(auto* p: params)
-      {
-        p->set( p->default_value);
-        p->locked = false;
-      }
+#define ONVAR(v) do { v.set(v.default_value); v.locked = false; } while(false)
+      ALLVALUES
+#undef ONVAR
 			masterVolume.locked = true;
 		}
 		
 		void SfxrParams::mutate(double mutation)
 		{			
       // should waveType be mutated... I dont think so
-      auto params = GetParams();
-			for (auto* param : params)
-			{
-				if (!param->locked)
-				{
-					if (random()<0.5)
-					{
-						param->set(param->get() + random()*mutation*2 - mutation);
-					}
-				}
-			}
+#define ONVAR(param) do \
+			{\
+				if (!param.locked)\
+				{\
+					if (random()<0.5)\
+					{\
+						param.set(param.get() + random()*mutation*2 - mutation);\
+					}\
+				}\
+			} while(false)
+      ALLVALUES
+#undef ONVAR
 		}
 		
 		void SfxrParams::randomize()
 		{
-			auto params = GetParams();
-			for (auto* param : params)
-			{
-				if (!param->locked)
-				{
-          const auto min = param->min_value;
-          const auto max = param->max_value;
-          const auto r = pow(random(), param->random_power);
-					param->set(min  + (max-min)*r);
-				}
-			}
+#define ONVAR(param) do \
+			{\
+				if (!param.locked)\
+				{\
+          const auto min = param.min_value;\
+          const auto max = param.max_value;\
+          const auto r = pow(random(), param.random_power);\
+					param.set(min  + (max-min)*r);\
+				}\
+			} while(false)
+      ALLVALUES
+#undef ONVAR
 			
 			if (!waveType_locked)
 			{

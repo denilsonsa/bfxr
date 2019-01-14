@@ -415,20 +415,21 @@ class App : public AppBase
       RAD(TEXT_WT_BUZZ, TEXT_WT_BUZZ_DESCRIPTION, Synthesizer::WaveType::Buzz);
 #undef RAD
 
-      auto params = param.GetParams();
       int id = 0;
-      for(auto* p: params)
-        {
-          ImGui::PushID(id++);
-          float current_value = p->get();
-          auto changed = ImGui::SliderFloat(p->real_name.c_str(), &current_value, p->min_value, p->max_value);
-          if(changed) {p->set(current_value); sound_changed = true;}
-          ImGui::SameLine();
-          Locked(&p->locked);
-          ImGui::SameLine();
-          ShowHelpMarker(p->description.c_str());
-          ImGui::PopID();
-        }
+#define ONVAR(p)\
+        do {\
+          ImGui::PushID(id++);\
+          float current_value = param.p.get();\
+          auto changed = ImGui::SliderFloat(param.p.real_name.c_str(), &current_value, param.p.min_value, param.p.max_value);\
+          if(changed) {param.p.set(current_value); sound_changed = true;}\
+          ImGui::SameLine();\
+          Locked(&param.p.locked);\
+          ImGui::SameLine();\
+          ShowHelpMarker(param.p.description.c_str());\
+          ImGui::PopID();\
+        }while(false)
+      ALLVALUES
+#undef ONVAR
       if (sound_changed && play_on_change)
       {
         SynthSound();
