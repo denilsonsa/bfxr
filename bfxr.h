@@ -11,6 +11,14 @@
 // Include section
 // ----------------------------------------------------------------------
 
+#ifdef min
+#undef min
+#endif
+
+#ifdef max
+#undef max
+#endif
+
 #include <vector>
 #include <cstdlib>
 #include <vector>
@@ -607,7 +615,7 @@ namespace Synthesizer
 			
 			if (!waveType_locked)
 			{
-        waveType = static_cast<WaveType>(random() * static_cast<int>(WaveType::COUNT));
+        waveType = static_cast<WaveType>(static_cast<unsigned int>(random() * static_cast<int>(WaveType::COUNT)));
 			}
 			
 			if (!repeatSpeed.locked)
@@ -852,7 +860,7 @@ struct SfxrSynth
 					_phase++;
 					if(_phase >= _periodTemp)
 					{
-						_phase = _phase - _periodTemp;
+						_phase = _phase - _periodTemp; // todo: int double operation stored in int hrm...
 						
 						// Generates new random noise for this period
 						if(_waveType == WaveType::Noise) 
@@ -897,7 +905,7 @@ struct SfxrSynth
 							}
               case WaveType::Noise:
 							{
-								_sample += overtonestrength*(_noiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
+								_sample += overtonestrength*(_noiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
               case WaveType::Triangle:
@@ -907,7 +915,7 @@ struct SfxrSynth
 							}
               case WaveType::Pink:
 							{						
-								_sample += overtonestrength*(_pinkNoiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
+								_sample += overtonestrength*(_pinkNoiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
               case WaveType::Tan:
