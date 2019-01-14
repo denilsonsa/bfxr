@@ -30,6 +30,7 @@ const float pi = 3.14159f;
 
 #define BFXR_IMPLEMENTATION
 #include "bfxr.h"
+#include "bfxr_lang_en.h"
 
 void ShowHelpMarker(const char* desc)
 {
@@ -375,16 +376,19 @@ class App : public AppBase
     if(ImGui::Begin("Sfxr"))
     {
       bool sound_changed = false;
-      if(ImGui::Button("Pickup/Coin")) { sound_changed = true; param.generatePickupCoin(); } ImGui::SameLine();
-      if(ImGui::Button("Laser/Shoot")) { sound_changed = true; param.generateLaserShoot(); } ImGui::SameLine();
-      if(ImGui::Button("Explosion")) { sound_changed = true; param.generateExplosion(); } ImGui::SameLine();
-      if(ImGui::Button("Powerup")) { sound_changed = true; param.generatePowerup(); } ImGui::SameLine();
-      if(ImGui::Button("Hit/Hurt")) { sound_changed = true; param.generateHitHurt(); } ImGui::SameLine();
-      if(ImGui::Button("Jump")) { sound_changed = true; param.generateJump(); } ImGui::SameLine();
-      if(ImGui::Button("Blip/Select")) { sound_changed = true; param.generateBlipSelect(); }
 
-      if(ImGui::Button("Mutate sound")) { sound_changed = true; param.mutate(); } ImGui::SameLine();
-      if(ImGui::Button("Randomzie")) { sound_changed = true; param.randomize(); }
+#define BTN(TEXT, DESC, CODE) if(ImGui::Button(TEXT)) { sound_changed = true; CODE; } ImGui::SameLine(); ShowHelpMarker(DESC);
+      BTN(TEXT_BTN_PICKUP_COIN, TEXT_BTN_PICKUP_COIN_DESCRIPTION, param.generatePickupCoin() ) ImGui::SameLine();
+      BTN(TEXT_BTN_LASER_SHOOT, TEXT_BTN_LASER_SHOOT_DESCRIPTION, param.generateLaserShoot() ) ImGui::SameLine();
+      BTN(TEXT_BTN_EXPLOSION, TEXT_BTN_EXPLOSION_DESCRIPTION, param.generateExplosion() ) ImGui::SameLine();
+      BTN(TEXT_BTN_POWERUP, TEXT_BTN_POWERUP_DESCRIPTION, param.generatePowerup() ) ImGui::SameLine();
+      BTN(TEXT_BTN_HIT_HURT, TEXT_BTN_HIT_HURT_DESCRIPTION, param.generateHitHurt() ) ImGui::SameLine();
+      BTN(TEXT_BTN_JUMP, TEXT_BTN_JUMP_DESCRIPTION, param.generateJump() ) ImGui::SameLine();
+      BTN(TEXT_BTN_BLIP_SELECT, TEXT_BTN_BLIP_SELECT_DESCRIPTION, param.generateBlipSelect() )
+
+      BTN(TEXT_BTN_MUTATE, TEXT_BTN_MUTATE_DESCRIPTION, param.mutate() ) ImGui::SameLine();
+      BTN(TEXT_BTN_RANDOMIZE, TEXT_BTN_RANDOMIZE_DESCRIPTION, param.randomize() )
+#undef BTN
 
       if(ImGui::Button("Synth sound")) { SynthSound(); } ImGui::SameLine();
       if(ImGui::Button("Play sound")) { SynthSound(); PlaySound(samples.size()); }
@@ -397,17 +401,19 @@ class App : public AppBase
       }
       ImGui::Separator();
 
-      if(radio("Square", &param.waveType, Synthesizer::WaveType::Square)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Saw", &param.waveType, Synthesizer::WaveType::Saw)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Sin", &param.waveType, Synthesizer::WaveType::Sin)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Noise", &param.waveType, Synthesizer::WaveType::Noise)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Triangle", &param.waveType, Synthesizer::WaveType::Triangle)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Pink", &param.waveType, Synthesizer::WaveType::Pink)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Tan", &param.waveType, Synthesizer::WaveType::Tan)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Whistle", &param.waveType, Synthesizer::WaveType::Whistle)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Breaker", &param.waveType, Synthesizer::WaveType::Breaker)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("1 bit noise", &param.waveType, Synthesizer::WaveType::OneBitNoise)) { sound_changed = true; } ImGui::SameLine();
-      if(radio("Buzz", &param.waveType, Synthesizer::WaveType::Buzz)) { sound_changed = true; }
+#define RAD(TEXT, DESC, WT) if(radio(TEXT, &param.waveType, WT)) { sound_changed = true; } ImGui::SameLine(); ShowHelpMarker(DESC)
+      RAD(TEXT_WT_SQUARE, TEXT_WT_SQUARE_DESCRIPTION, Synthesizer::WaveType::Square); ImGui::SameLine();
+      RAD(TEXT_WT_SAW, TEXT_WT_SAW_DESCRIPTION, Synthesizer::WaveType::Saw); ImGui::SameLine();
+      RAD(TEXT_WT_SIN, TEXT_WT_SIN_DESCRIPTION, Synthesizer::WaveType::Sin); ImGui::SameLine();
+      RAD(TEXT_WT_WHITE, TEXT_WT_WHITE_DESCRIPTION, Synthesizer::WaveType::Noise); ImGui::SameLine();
+      RAD(TEXT_WT_TRIANGLE, TEXT_WT_TRIANGLE_DESCRIPTION, Synthesizer::WaveType::Triangle); ImGui::SameLine();
+      RAD(TEXT_WT_PINK, TEXT_WT_PINK_DESCRIPTION, Synthesizer::WaveType::Pink); ImGui::SameLine();
+      RAD(TEXT_WT_TAN, TEXT_WT_TAN_DESCRIPTION, Synthesizer::WaveType::Tan); ImGui::SameLine();
+      RAD(TEXT_WT_WHISTLE, TEXT_WT_WHISTLE_DESCRIPTION, Synthesizer::WaveType::Whistle); ImGui::SameLine();
+      RAD(TEXT_WT_BREAKER, TEXT_WT_BREAKER_DESCRIPTION, Synthesizer::WaveType::Breaker); ImGui::SameLine();
+      RAD(TEXT_WT_ONEBIT, TEXT_WT_ONEBIT_DESCRIPTION, Synthesizer::WaveType::OneBitNoise); ImGui::SameLine();
+      RAD(TEXT_WT_BUZZ, TEXT_WT_BUZZ_DESCRIPTION, Synthesizer::WaveType::Buzz);
+#undef RAD
 
       auto params = param.GetParams();
       int id = 0;
