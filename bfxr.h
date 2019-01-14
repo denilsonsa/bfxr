@@ -877,17 +877,17 @@ struct SfxrSynth
 						// Gets the sample from the oscillator
 						switch(_waveType)
 						{
-              case WaveType::Square: // Square wave
+              case WaveType::Square:
 							{
 								_sample += overtonestrength*(((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
 								break;
 							}
-              case WaveType::Saw: // Saw wave
+              case WaveType::Saw:
 							{
 								_sample += overtonestrength*(1.0 - (tempphase / _periodTemp) * 2.0);
 								break;
 							}
-              case WaveType::Sin: // Sine wave (fast and accurate approx)
+              case WaveType::Sin:
 							{								
 								 _pos = tempphase / _periodTemp;
 								 _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
@@ -895,28 +895,28 @@ struct SfxrSynth
 								_sample += overtonestrength*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);								
 								break;
 							}
-              case WaveType::Noise: // Noise
+              case WaveType::Noise:
 							{
 								_sample += overtonestrength*(_noiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
-              case WaveType::Triangle: // Triangle Wave
+              case WaveType::Triangle:
 							{						
 								_sample += overtonestrength*(Abs(1-(tempphase / _periodTemp)*2)-1);
 								break;
 							}
-              case WaveType::Pink: // Pink Noise
+              case WaveType::Pink:
 							{						
 								_sample += overtonestrength*(_pinkNoiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
 								break;
 							}
-              case WaveType::Tan: // tan
+              case WaveType::Tan:
 							{
 								//detuned
 								_sample += tan(PI*tempphase/_periodTemp)*overtonestrength;
 								break;
 							}
-              case WaveType::Whistle: // Whistle 
+              case WaveType::Whistle:
 							{				
 								// Sin wave code
 								_pos = tempphase / _periodTemp;
@@ -934,7 +934,7 @@ struct SfxrSynth
 								
 								break;
 							}
-              case WaveType::Breaker: // Breaker
+              case WaveType::Breaker:
 							{	
 								double amp= tempphase/_periodTemp;								
 								_sample += overtonestrength*(Abs(1-amp*amp*2)-1);
@@ -1193,37 +1193,6 @@ struct SfxrSynth
 		SfxrParams _params;	// Params instance
     
 		static constexpr double MIN_LENGTH = 0.18;
-    /*
-		public static const version:int = 104;
-		public static const CACHED:String = "cached";		// triggered when the synth stored in this is fully cached (either via a cache command, or play()).
-		public static const PLAY_COMPLETE:String = "playcomplete";		// triggered when the synth stored in this is fully cached (either via a cache command, or play()).		
-		//should be <32
-		
-		
-		private var _sound:Sound;							// Sound instance used to play the sound
-		private var _channel:SoundChannel;					// SoundChannel instance of playing Sound
-		
-		private var _mutation:Boolean;						// If the cmeurrent sound playing or caching is a mutation
-		
-		private var _cachedWave:ByteArray;					// Cached wave data from a cacheSound() call
-		
-		private var _cachingMutation:int;					// Current caching ID
-		private var _cachedMutation:ByteArray;				// Current caching wave data for mutation
-		private var _cachedMutations:Vector.<ByteArray>;	// Cached mutated wave data
-		private var _cachedMutationsNum:uint;				// Number of cached mutations
-		private var _cachedMutationAmount:Number;			// Amount to mutate during cache
-		
-		private var _cacheTimePerFrame:uint;				// Maximum time allowed per frame to cache sound asynchronously
-		private var _cachedCallback:Function;				// Function to call when finished caching asynchronously
-		private var _cacheTicker:Shape;						// Shape used for enterFrame event
-		
-		private var _waveData:ByteArray;					// Full wave, read out in chuncks by the onSampleData method
-		private var _waveDataPos:uint;						// Current position in the waveData
-		private var _waveDataLength:uint;					// Number of bytes in the waveData
-		private var _waveDataBytes:uint;					// Number of bytes to write to the soundcard
-		
-		private var _original:SfxrParams;					// Copied properties for mutation base
-    */
 		
 		//--------------------------------------------------------------------------
 		//
@@ -1234,9 +1203,9 @@ struct SfxrSynth
 		bool _finished;						// If the sound has finished
 
 		double _masterVolume;					// masterVolume * masterVolume (for quick calculations)
-//		
+		
 		WaveType _waveType;							// The type of wave to generate
-//		
+		
 		double _envelopeVolume;					// Current volume of the envelope
 		int _envelopeStage;						// Current stage of the envelope (attack, sustain, decay, end)
 		double _envelopeTime;					// Current time through current enelope stage
@@ -1248,31 +1217,31 @@ struct SfxrSynth
 		double _envelopeOverLength1;			// 1 / _envelopeLength1 (for quick calculations)
 		double _envelopeOverLength2;			// 1 / _envelopeLength2 (for quick calculations)
 		double _envelopeFullLength;				// Full length of the volume envelop (and therefore sound)
-//		
+		
 		double _sustainPunch;					// The punch factor (louder at begining of sustain)
-//		
+		
 		int _phase;								// Phase through the wave
 		double _pos;							// Phase expresed as a Number from 0-1, used for fast sin approx
 		double _period;							// Period of the wave
 		double _periodTemp;						// Period modified by vibrato
 		double _maxPeriod;						// Maximum period before sound stops (from minFrequency)
-//		
+		
 		double _slide;							// Note slide
 		double _deltaSlide;						// Change in slide
 		double _minFreqency;					// Minimum frequency before stopping
 		bool _muted;							// Whether or not min frequency has been attained
-//		
-//		
+		
+		
 		int _overtones;					// Minimum frequency before stopping
 		double _overtoneFalloff;					// Minimum frequency before stopping
-//		
+		
 		double _vibratoPhase;					// Phase through the vibrato sine wave
 		double _vibratoSpeed;					// Speed at which the vibrato phase moves
 		double _vibratoAmplitude;				// Amount to change the period of the wave by at the peak of the vibrato wave
-//		
+		
 		double _changePeriod;
 		int _changePeriodTime;
-//		
+		
 		double _changeAmount;					// Amount to change the note by
 		int _changeTime;						// Counter for the note change
 		int _changeLimit;						// Once the time reaches this limit, the note changes
@@ -1282,21 +1251,21 @@ struct SfxrSynth
 		int _changeTime2;						// Counter for the note change
 		int _changeLimit2;						// Once the time reaches this limit, the note changes
 		bool _changeReached2;
-//		
-//		
+		
+		
 		double _squareDuty;						// Offset of center switching point in the square wave
 		double _dutySweep;						// Amount to change the duty by
-//		
+		
 		int _repeatTime;						// Counter for the repeats
 		int _repeatLimit;						// Once the time reaches this limit, some of the variables are reset
-//		
+		
 		bool _flanger;						// If the flanger is active
 		double _flangerOffset;					// Phase offset for flanger effect
 		double _flangerDeltaOffset;				// Change in phase offset
 		int _flangerInt;							// Integer flanger offset, for bit maths
 		int _flangerPos;							// Position through the flanger buffer
     std::vector<double> _flangerBuffer;			// Buffer of wave values used to create the out of phase second wave
-//		
+		
 		bool _filters;						// If the filters are active
 		double _lpFilterPos;					// Adjusted wave position after low-pass filter
 		double _lpFilterOldPos;					// Previous low-pass wave position
@@ -1305,27 +1274,27 @@ struct SfxrSynth
 		double _lpFilterDeltaCutoff;			// Speed of the low-pass cutoff multiplier
 		double _lpFilterDamping;				// Damping muliplier which restricts how fast the wave position can move
 		bool _lpFilterOn;					// If the low pass filter is active
-//		
+		
 		double _hpFilterPos;					// Adjusted wave position after high-pass filter
 		double _hpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
 		double _hpFilterDeltaCutoff;			// Speed of the high-pass cutoff multiplier
-//		
+		
     std::vector<double> _noiseBuffer;			// Buffer of random values used to generate noise
     std::vector<double> _pinkNoiseBuffer;			// Buffer of random values used to generate noise
     std::vector<double> _loResNoiseBuffer;			// Buffer of random values used to generate noise
-//		
+		
 		PinkNumber _pinkNumber;
-//		
+		
 		double _superSample;					// Actual sample writen to the wave
 		double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
 		unsigned int _sampleCount;						// Number of samples added to the buffer sample
 		double _bufferSample;					// Another supersample used to create a 22050Hz wave
-//		
+		
 		double _bitcrush_freq;					// inversely proportional to the number of samples to skip 
 		double _bitcrush_freq_sweep;			// change of the above
 		double _bitcrush_phase;					// samples when this > 1
 		double _bitcrush_last;					// last sample value
-//		
+		
 		double _compression_factor;
 	};
 
