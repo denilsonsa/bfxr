@@ -961,10 +961,12 @@ namespace Synthesizer
               case WaveType::OneBitNoise: // 1-bit periodic "white" noise
                 {
                   _sample += overtonestrength*_oneBitNoise;
+                  break;
                 }
               case WaveType::Buzz: // 1-bit periodic "buzz" noise
                 {
                   _sample += overtonestrength*_buzz;
+                  break;
                 }
             }
             overtonestrength*=(1-_overtoneFalloff);
