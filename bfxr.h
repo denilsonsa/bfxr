@@ -35,47 +35,47 @@
 namespace Synthesizer
 {
   double random();
-  
-/*
-class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
-*/
-	class PinkNumber
-	{
+
+  /*
+     class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
+   */
+  class PinkNumber
+  {
     private:
-		int max_key;
-		int key;
-    std::vector<int> white_values;
-		unsigned int range;
+      int max_key;
+      int key;
+      std::vector<int> white_values;
+      unsigned int range;
 
     public:
-		PinkNumber();
+      PinkNumber();
 
-		//returns number between -1 and 1		
-		float GetNextValue();
-	}; 
+      //returns number between -1 and 1		
+      float GetNextValue();
+  }; 
 }
 
 namespace Synthesizer   
 {
-	/**
-	 * SfxrParams
-	 * 
-	 * Copyright 2010 Thomas Vian
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * 	http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 * 
-	 * @author Thomas Vian
-	 */
+  /**
+   * SfxrParams
+   * 
+   * Copyright 2010 Thomas Vian
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * 	http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   * 
+   * @author Thomas Vian
+   */
 
   enum class WaveType
   {
@@ -92,112 +92,112 @@ namespace Synthesizer
     Buzz,
     COUNT
   };
-			
-	class SfxrParams 
-	{
+
+  class SfxrParams 
+  {
     public:
 
-    struct Param {
-      // real name, decription, grouping, default, min, max, 
-      Param(const std::string& name, const std::string& desc, int grouping, double def, double min, double max)
-        : real_name(name)
-          , description(desc)
-          , default_value(def)
-          , min_value(min)
-          , max_value(max)
-      {
-      }
+      struct Param {
+        // real name, decription, grouping, default, min, max, 
+        Param(const std::string& name, const std::string& desc, int grouping, double def, double min, double max)
+          : real_name(name)
+            , description(desc)
+            , default_value(def)
+            , min_value(min)
+            , max_value(max)
+        {
+        }
 
-      std::string real_name;
-      std::string description;
-      double default_value;
-      double min_value;
-      double max_value;
+        std::string real_name;
+        std::string description;
+        double default_value;
+        double min_value;
+        double max_value;
 
-      double random_power = 1.0;
+        double random_power = 1.0;
 
-      double get() const { return current_value; }
-      void set(double t)
-      {
-        if(t > max_value) { current_value = max_value; }
-        else if(t < min_value) { current_value = min_value; }
-        else  { current_value = t; }
-      }
-      bool locked = false;
-      double current_value = 0;
-    };
+        double get() const { return current_value; }
+        void set(double t)
+        {
+          if(t > max_value) { current_value = max_value; }
+          else if(t < min_value) { current_value = min_value; }
+          else  { current_value = t; }
+        }
+        bool locked = false;
+        double current_value = 0;
+      };
 
-		WaveType waveType;
-    bool waveType_locked;
-		
-		Param masterVolume;
-		Param attackTime;
-		Param sustainTime;
-		Param sustainPunch;
-		Param decayTime;
-		
-		Param compressionAmount;
-		
-		Param startFrequency;
-		Param minFrequency;
-		
-		Param slide;
-		Param deltaSlide;
-		
-		Param vibratoDepth;
-		Param vibratoSpeed;
-		
-		Param overtones;
-		Param overtoneFalloff;
-		
-		Param changeRepeat;
-		
-		Param changeAmount;
-		Param changeSpeed;
-		
-		Param changeAmount2;
-		Param changeSpeed2;
-		
-		Param squareDuty;
-		Param dutySweep;
-		
-		Param repeatSpeed;
-		
-		Param flangerOffset;
-		Param flangerSweep;
-		
-		Param lpFilterCutoff;
-		Param lpFilterCutoffSweep;
-		Param lpFilterResonance;
-		
-		Param hpFilterCutoff;
-		Param hpFilterCutoffSweep;
-						
-		Param bitCrush;
-		Param bitCrushSweep;
-		
-		static constexpr int WAVETYPECOUNT = static_cast<int>(WaveType::COUNT);
-		
-		SfxrParams();
+      WaveType waveType;
+      bool waveType_locked;
 
-		void setAllLocked(bool locked);
-		void generatePickupCoin();
-		void generateLaserShoot();
-		void generateExplosion();
-		void generatePowerup();
-		void generateHitHurt();
-		void generateJump();
-		void generateBlipSelect();
-		void resetParams();
-		void mutate(double mutation = 0.05);
-		void randomize();
+      Param masterVolume;
+      Param attackTime;
+      Param sustainTime;
+      Param sustainPunch;
+      Param decayTime;
+
+      Param compressionAmount;
+
+      Param startFrequency;
+      Param minFrequency;
+
+      Param slide;
+      Param deltaSlide;
+
+      Param vibratoDepth;
+      Param vibratoSpeed;
+
+      Param overtones;
+      Param overtoneFalloff;
+
+      Param changeRepeat;
+
+      Param changeAmount;
+      Param changeSpeed;
+
+      Param changeAmount2;
+      Param changeSpeed2;
+
+      Param squareDuty;
+      Param dutySweep;
+
+      Param repeatSpeed;
+
+      Param flangerOffset;
+      Param flangerSweep;
+
+      Param lpFilterCutoff;
+      Param lpFilterCutoffSweep;
+      Param lpFilterResonance;
+
+      Param hpFilterCutoff;
+      Param hpFilterCutoffSweep;
+
+      Param bitCrush;
+      Param bitCrushSweep;
+
+      static constexpr int WAVETYPECOUNT = static_cast<int>(WaveType::COUNT);
+
+      SfxrParams();
+
+      void setAllLocked(bool locked);
+      void generatePickupCoin();
+      void generateLaserShoot();
+      void generateExplosion();
+      void generatePowerup();
+      void generateHitHurt();
+      void generateJump();
+      void generateBlipSelect();
+      void resetParams();
+      void mutate(double mutation = 0.05);
+      void randomize();
   };
 }
 
 
 namespace Synthesizer 
 {
-		unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data);
+  unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data);
 }
 
 // ----------------------------------------------------------------------
@@ -218,40 +218,40 @@ namespace Synthesizer
 
 namespace Synthesizer
 {
-    double random()
+  double random()
+  {
+    return rand() / static_cast<double>(RAND_MAX);
+  }
+
+  PinkNumber::PinkNumber()
+  {
+    max_key = 0x1f; // Five bits set
+    range = 128;
+    key = 0;
+    for (int i = 0; i < 5; i++)
+      white_values.push_back(random() * (range/5.0f));
+  }
+
+  float PinkNumber::GetNextValue()
+  {
+    int last_key = key;
+
+    key++;
+    if (key > max_key)
+      key = 0;
+    // Exclusive-Or previous value with current value. This gives
+    // a list of bits that have changed.
+    int diff = last_key ^ key;
+    unsigned int sum = 0;
+    for (int i = 0; i < 5; i++)
     {
-      return rand() / static_cast<double>(RAND_MAX);
+      // If bit changed get new random number for corresponding white_value
+      if (diff & (1 << i))
+        white_values[i] = random() * (range/5.0f);
+      sum += white_values[i];
     }
-		
-    PinkNumber::PinkNumber()
-		{
-			max_key = 0x1f; // Five bits set
-			range = 128;
-			key = 0;
-			for (int i = 0; i < 5; i++)
-				white_values.push_back(random() * (range/5.0f));
-		}
-		
-		float PinkNumber::GetNextValue()
-		{
-			int last_key = key;
-			
-			key++;
-			if (key > max_key)
-				key = 0;
-			// Exclusive-Or previous value with current value. This gives
-			// a list of bits that have changed.
-			int diff = last_key ^ key;
-			unsigned int sum = 0;
-			for (int i = 0; i < 5; i++)
-			{
-				// If bit changed get new random number for corresponding white_value
-				if (diff & (1 << i))
-					white_values[i] = random() * (range/5.0f);
-				sum += white_values[i];
-			}
-			return sum/64.0f-1.0f;
-		}
+    return sum/64.0f-1.0f;
+  }
 }
 
 
@@ -259,29 +259,29 @@ namespace Synthesizer
 {
   double random();
 
-	/**
-	 * SfxrParams
-	 * 
-	 * Copyright 2010 Thomas Vian
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * 	http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 * 
-	 * @author Thomas Vian
-	 */
-		
+  /**
+   * SfxrParams
+   * 
+   * Copyright 2010 Thomas Vian
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * 	http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   * 
+   * @author Thomas Vian
+   */
+
   SfxrParams::SfxrParams()
-      // real name, decription, grouping, default, min, max, 
-      : masterVolume ( "Master Volume","Overall volume of the sound.", 1,0.5,0,1) 	
+    // real name, decription, grouping, default, min, max, 
+    : masterVolume ( "Master Volume","Overall volume of the sound.", 1,0.5,0,1) 	
       , attackTime ( "Attack Time","Length of the volume envelope attack.", 1,0,0,1)		
       , sustainTime ( "Sustain Time","Length of the volume envelope sustain.", 1,0.3,0,1) 	
       , sustainPunch ( "Punch","Tilts the sustain envelope for more 'pop'.", 1,0,0,1) 		
@@ -312,354 +312,354 @@ namespace Synthesizer
       , hpFilterCutoffSweep ( "High-pass Filter Cutoff Sweep","Sweeps the high-pass cutoff up or down.", 12,0,-1,1) 	
       , bitCrush ( "Bit Crush","Resamples the audio at a lower frequency.", 14,0,0,1)
       , bitCrushSweep ( "Bit Crush Sweep","Sweeps the Bit Crush filter up or down.", 14,0,-1,1) 
-		{
-			resetParams();
+  {
+    resetParams();
 
-      attackTime.random_power = 4;
-      sustainTime.random_power = 2;
-      sustainPunch.random_power = 2;
-      overtones.random_power = 3;
-      overtoneFalloff.random_power = 0.25;
-      vibratoDepth.random_power = 3;
-      dutySweep.random_power = 3;
-      flangerOffset.random_power = 3;
-      flangerSweep.random_power = 3;
-      lpFilterCutoff.random_power = 0.3;
-      // lpFilterCutoffSweep.random_power = 3;
-      hpFilterCutoff.random_power = 5;
-      // hpFilterCutoffSweep.random_power = 5;
-      bitCrush.random_power = 4;
-      bitCrushSweep.random_power = 5;
-		}
+    attackTime.random_power = 4;
+    sustainTime.random_power = 2;
+    sustainPunch.random_power = 2;
+    overtones.random_power = 3;
+    overtoneFalloff.random_power = 0.25;
+    vibratoDepth.random_power = 3;
+    dutySweep.random_power = 3;
+    flangerOffset.random_power = 3;
+    flangerSweep.random_power = 3;
+    lpFilterCutoff.random_power = 0.3;
+    // lpFilterCutoffSweep.random_power = 3;
+    hpFilterCutoff.random_power = 5;
+    // hpFilterCutoffSweep.random_power = 5;
+    bitCrush.random_power = 4;
+    bitCrushSweep.random_power = 5;
+  }
 
 #define ALLVALUES\
-      ONVAR(masterVolume);\
-      ONVAR(attackTime);\
-      ONVAR(sustainTime);\
-      ONVAR(sustainPunch);\
-      ONVAR(decayTime);\
-      ONVAR(compressionAmount);\
-      ONVAR(startFrequency);\
-      ONVAR(minFrequency);\
-      ONVAR(slide);\
-      ONVAR(deltaSlide);\
-      ONVAR(vibratoDepth);\
-      ONVAR(vibratoSpeed);\
-      ONVAR(overtones);\
-      ONVAR(overtoneFalloff);\
-      ONVAR(changeRepeat);\
-      ONVAR(changeAmount);\
-      ONVAR(changeSpeed);\
-      ONVAR(changeAmount2);\
-      ONVAR(changeSpeed2);\
-      ONVAR(squareDuty);\
-      ONVAR(dutySweep);\
-      ONVAR(repeatSpeed);\
-      ONVAR(flangerOffset);\
-      ONVAR(flangerSweep);\
-      ONVAR(lpFilterCutoff);\
-      ONVAR(lpFilterCutoffSweep);\
-      ONVAR(lpFilterResonance);\
-      ONVAR(hpFilterCutoff);\
-      ONVAR(hpFilterCutoffSweep);\
-      ONVAR(bitCrush);\
-      ONVAR(bitCrushSweep);
+  ONVAR(masterVolume);\
+  ONVAR(attackTime);\
+  ONVAR(sustainTime);\
+  ONVAR(sustainPunch);\
+  ONVAR(decayTime);\
+  ONVAR(compressionAmount);\
+  ONVAR(startFrequency);\
+  ONVAR(minFrequency);\
+  ONVAR(slide);\
+  ONVAR(deltaSlide);\
+  ONVAR(vibratoDepth);\
+  ONVAR(vibratoSpeed);\
+  ONVAR(overtones);\
+  ONVAR(overtoneFalloff);\
+  ONVAR(changeRepeat);\
+  ONVAR(changeAmount);\
+  ONVAR(changeSpeed);\
+  ONVAR(changeAmount2);\
+  ONVAR(changeSpeed2);\
+  ONVAR(squareDuty);\
+  ONVAR(dutySweep);\
+  ONVAR(repeatSpeed);\
+  ONVAR(flangerOffset);\
+  ONVAR(flangerSweep);\
+  ONVAR(lpFilterCutoff);\
+  ONVAR(lpFilterCutoffSweep);\
+  ONVAR(lpFilterResonance);\
+  ONVAR(hpFilterCutoff);\
+  ONVAR(hpFilterCutoffSweep);\
+  ONVAR(bitCrush);\
+  ONVAR(bitCrushSweep);
 
-		void SfxrParams::setAllLocked(bool locked)
-    {
-      waveType_locked = locked;
+  void SfxrParams::setAllLocked(bool locked)
+  {
+    waveType_locked = locked;
 #define ONVAR(p) p.locked = locked
-      ALLVALUES
+    ALLVALUES
 #undef ONVAR
+  }
+
+  void SfxrParams::generatePickupCoin()
+  {
+    resetParams();
+
+    startFrequency.set(0.4+random()*0.5);
+
+    sustainTime.set( random() * 0.1);
+    decayTime.set( 0.1 + random() * 0.4);
+    sustainPunch.set( 0.3 + random() * 0.3);
+
+    if(random() < 0.5) 
+    {
+      changeSpeed.set( 0.5 + random() * 0.2);
+      auto cnum = int(random()*7)+1;
+      auto cden = cnum+int(random()*7)+2;
+
+      changeAmount.set(static_cast<double>(cnum)/cden);
     }
-		
-		void SfxrParams::generatePickupCoin()
-		{
-			resetParams();
-			
-			startFrequency.set(0.4+random()*0.5);
-			
-			sustainTime.set( random() * 0.1);
-			decayTime.set( 0.1 + random() * 0.4);
-			sustainPunch.set( 0.3 + random() * 0.3);
-			
-			if(random() < 0.5) 
-			{
-				changeSpeed.set( 0.5 + random() * 0.2);
-				auto cnum = int(random()*7)+1;
-				auto cden = cnum+int(random()*7)+2;
-				
-				changeAmount.set(static_cast<double>(cnum)/cden);
-			}
-			
-		}
-		
-		void SfxrParams::generateLaserShoot()
-		{
-			resetParams();
-			
-			auto wt = static_cast<unsigned int>(random() * 3);
-			if( wt == 2 && random() < 0.5) 
-			{
-				wt = static_cast<unsigned int>(random() * 2);
-			}
-      waveType = static_cast<WaveType>(wt);
-			
-			startFrequency.set(0.5 + random() * 0.5);
-			minFrequency.set(startFrequency.get() - 0.2 - random() * 0.6);
-			
-			if(minFrequency.get() < 0.2) 
-				minFrequency.set(0.2);
-			
-			slide.set( -0.15 - random() * 0.2);			
-			 
-			if(random() < 0.33)
-			{
-				startFrequency.set( random() * 0.6);
-				minFrequency.set( random() * 0.1);
-				slide.set( -0.35 - random() * 0.3);
-			}
-			
-			if(random() < 0.5) 
-			{
-				squareDuty.set( random() * 0.5);
-				dutySweep.set( random() * 0.2);
-			}
-			else
-			{
-				squareDuty.set( 0.4 + random() * 0.5);
-				dutySweep.set(- random() * 0.7);	
-			}
-			
-			sustainTime.set( 0.1 + random() * 0.2);
-			decayTime.set( random() * 0.4);
-			if(random() < 0.5) sustainPunch.set( random() * 0.3);
-			
-			if(random() < 0.33)
-			{
-				flangerOffset.set( random() * 0.2);
-				flangerSweep.set( -random() * 0.2);
-			}
-			
-			if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
-		}
-		
-		void SfxrParams::generateExplosion()
-		{
-			resetParams();
-			waveType = WaveType::Noise;
-			
-			if(random() < 0.5)
-			{
-				startFrequency.set( 0.1 + random() * 0.4);
-				slide.set( -0.1 + random() * 0.4);
-			}
-			else
-			{
-				startFrequency.set( 0.2 + random() * 0.7);
-				slide.set( -0.2 - random() * 0.2);
-			}
-			
-			startFrequency.set( startFrequency.get() * startFrequency.get());
-			
-			if(random() < 0.2) slide.set( 0.0);
-			if(random() < 0.33) repeatSpeed.set( 0.3 + random() * 0.5);
-			
-			sustainTime.set( 0.1 + random() * 0.3);
-			decayTime.set( random() * 0.5);
-			sustainPunch.set( 0.2 + random() * 0.6);
-			
-			if(random() < 0.5)
-			{
-				flangerOffset.set( -0.3 + random() * 0.9);
-				flangerSweep.set( -random() * 0.3);
-			}
-			
-			if(random() < 0.33)
-			{
-				changeSpeed.set( 0.6 + random() * 0.3);
-				changeAmount.set( 0.8 - random() * 1.6);
-			}
-		}
-		
-		void SfxrParams::generatePowerup()
-		{
-			resetParams();
-			
-			if(random() < 0.5) waveType = WaveType::Saw;
-			else 					squareDuty.set( random() * 0.6);
-			
-			if(random() < 0.5)
-			{
-				startFrequency.set( 0.2 + random() * 0.3);
-				slide.set( 0.1 + random() * 0.4);
-				repeatSpeed.set( 0.4 + random() * 0.4);
-			}
-			else
-			{
-				startFrequency.set( 0.2 + random() * 0.3);
-				slide.set( 0.05 + random() * 0.2);
-				
-				if(random() < 0.5)
-				{
-					vibratoDepth.set( random() * 0.7);
-					vibratoSpeed.set( random() * 0.6);
-				}
-			}
-			
-			sustainTime.set( random() * 0.4);
-			decayTime.set( 0.1 + random() * 0.4);
-		}
-		
-		void SfxrParams::generateHitHurt()
-		{
-			resetParams();
-			
-			const auto wt = static_cast<unsigned int>(random() * 3);
-			switch(wt) {
-        case 0: waveType = WaveType::Square; break;
-        case 1: waveType = WaveType::Saw; break;
-        case 2: waveType = WaveType::Noise; break;
+
+  }
+
+  void SfxrParams::generateLaserShoot()
+  {
+    resetParams();
+
+    auto wt = static_cast<unsigned int>(random() * 3);
+    if( wt == 2 && random() < 0.5) 
+    {
+      wt = static_cast<unsigned int>(random() * 2);
+    }
+    waveType = static_cast<WaveType>(wt);
+
+    startFrequency.set(0.5 + random() * 0.5);
+    minFrequency.set(startFrequency.get() - 0.2 - random() * 0.6);
+
+    if(minFrequency.get() < 0.2) 
+      minFrequency.set(0.2);
+
+    slide.set( -0.15 - random() * 0.2);			
+
+    if(random() < 0.33)
+    {
+      startFrequency.set( random() * 0.6);
+      minFrequency.set( random() * 0.1);
+      slide.set( -0.35 - random() * 0.3);
+    }
+
+    if(random() < 0.5) 
+    {
+      squareDuty.set( random() * 0.5);
+      dutySweep.set( random() * 0.2);
+    }
+    else
+    {
+      squareDuty.set( 0.4 + random() * 0.5);
+      dutySweep.set(- random() * 0.7);	
+    }
+
+    sustainTime.set( 0.1 + random() * 0.2);
+    decayTime.set( random() * 0.4);
+    if(random() < 0.5) sustainPunch.set( random() * 0.3);
+
+    if(random() < 0.33)
+    {
+      flangerOffset.set( random() * 0.2);
+      flangerSweep.set( -random() * 0.2);
+    }
+
+    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
+  }
+
+  void SfxrParams::generateExplosion()
+  {
+    resetParams();
+    waveType = WaveType::Noise;
+
+    if(random() < 0.5)
+    {
+      startFrequency.set( 0.1 + random() * 0.4);
+      slide.set( -0.1 + random() * 0.4);
+    }
+    else
+    {
+      startFrequency.set( 0.2 + random() * 0.7);
+      slide.set( -0.2 - random() * 0.2);
+    }
+
+    startFrequency.set( startFrequency.get() * startFrequency.get());
+
+    if(random() < 0.2) slide.set( 0.0);
+    if(random() < 0.33) repeatSpeed.set( 0.3 + random() * 0.5);
+
+    sustainTime.set( 0.1 + random() * 0.3);
+    decayTime.set( random() * 0.5);
+    sustainPunch.set( 0.2 + random() * 0.6);
+
+    if(random() < 0.5)
+    {
+      flangerOffset.set( -0.3 + random() * 0.9);
+      flangerSweep.set( -random() * 0.3);
+    }
+
+    if(random() < 0.33)
+    {
+      changeSpeed.set( 0.6 + random() * 0.3);
+      changeAmount.set( 0.8 - random() * 1.6);
+    }
+  }
+
+  void SfxrParams::generatePowerup()
+  {
+    resetParams();
+
+    if(random() < 0.5) waveType = WaveType::Saw;
+    else 					squareDuty.set( random() * 0.6);
+
+    if(random() < 0.5)
+    {
+      startFrequency.set( 0.2 + random() * 0.3);
+      slide.set( 0.1 + random() * 0.4);
+      repeatSpeed.set( 0.4 + random() * 0.4);
+    }
+    else
+    {
+      startFrequency.set( 0.2 + random() * 0.3);
+      slide.set( 0.05 + random() * 0.2);
+
+      if(random() < 0.5)
+      {
+        vibratoDepth.set( random() * 0.7);
+        vibratoSpeed.set( random() * 0.6);
       }
-			if(waveType == WaveType::Square) 
-				squareDuty.set( random() * 0.6);
-			
-			startFrequency.set( 0.2 + random() * 0.6);
-			slide.set( -0.3 - random() * 0.4);
-			
-			sustainTime.set( random() * 0.1);
-			decayTime.set( 0.1 + random() * 0.2);
-			
-			if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
-		}
-		
-		void SfxrParams::generateJump()
-		{
-			resetParams();
-			
-			waveType = WaveType::Square;
-			squareDuty.set( random() * 0.6);
-			startFrequency.set( 0.3 + random() * 0.3);
-			slide.set( 0.1 + random() * 0.2);
-			
-			sustainTime.set( 0.1 + random() * 0.3);
-			decayTime.set( 0.1 + random() * 0.2);
-			
-			if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
-			if(random() < 0.5) lpFilterCutoff.set( 1.0 - random() * 0.6);
-		}
-		
-		void SfxrParams::generateBlipSelect()
-		{
-			resetParams();
-			
-      waveType = (random() < 0.5)? WaveType::Square : WaveType::Saw;
-			if(waveType == WaveType::Square) 
-				squareDuty.set( random() * 0.6);
-			
-			startFrequency.set(0.2 + random() * 0.4);
-			
-			sustainTime.set( 0.1 + random() * 0.1);
-			decayTime.set( random() * 0.2);
-			hpFilterCutoff.set( 0.1);
-		}
-		
-		void SfxrParams::resetParams()
-		{
-      waveType = WaveType::Square;
+    }
+
+    sustainTime.set( random() * 0.4);
+    decayTime.set( 0.1 + random() * 0.4);
+  }
+
+  void SfxrParams::generateHitHurt()
+  {
+    resetParams();
+
+    const auto wt = static_cast<unsigned int>(random() * 3);
+    switch(wt) {
+      case 0: waveType = WaveType::Square; break;
+      case 1: waveType = WaveType::Saw; break;
+      case 2: waveType = WaveType::Noise; break;
+    }
+    if(waveType == WaveType::Square) 
+      squareDuty.set( random() * 0.6);
+
+    startFrequency.set( 0.2 + random() * 0.6);
+    slide.set( -0.3 - random() * 0.4);
+
+    sustainTime.set( random() * 0.1);
+    decayTime.set( 0.1 + random() * 0.2);
+
+    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
+  }
+
+  void SfxrParams::generateJump()
+  {
+    resetParams();
+
+    waveType = WaveType::Square;
+    squareDuty.set( random() * 0.6);
+    startFrequency.set( 0.3 + random() * 0.3);
+    slide.set( 0.1 + random() * 0.2);
+
+    sustainTime.set( 0.1 + random() * 0.3);
+    decayTime.set( 0.1 + random() * 0.2);
+
+    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
+    if(random() < 0.5) lpFilterCutoff.set( 1.0 - random() * 0.6);
+  }
+
+  void SfxrParams::generateBlipSelect()
+  {
+    resetParams();
+
+    waveType = (random() < 0.5)? WaveType::Square : WaveType::Saw;
+    if(waveType == WaveType::Square) 
+      squareDuty.set( random() * 0.6);
+
+    startFrequency.set(0.2 + random() * 0.4);
+
+    sustainTime.set( 0.1 + random() * 0.1);
+    decayTime.set( random() * 0.2);
+    hpFilterCutoff.set( 0.1);
+  }
+
+  void SfxrParams::resetParams()
+  {
+    waveType = WaveType::Square;
 #define ONVAR(v) do { v.set(v.default_value); v.locked = false; } while(false)
-      ALLVALUES
+    ALLVALUES
 #undef ONVAR
-			masterVolume.locked = true;
-		}
-		
-		void SfxrParams::mutate(double mutation)
-		{			
-      // should waveType be mutated... I dont think so
+      masterVolume.locked = true;
+  }
+
+  void SfxrParams::mutate(double mutation)
+  {			
+    // should waveType be mutated... I dont think so
 #define ONVAR(param) do \
-			{\
-				if (!param.locked)\
-				{\
-					if (random()<0.5)\
-					{\
-						param.set(param.get() + random()*mutation*2 - mutation);\
-					}\
-				}\
-			} while(false)
-      ALLVALUES
+    {\
+      if (!param.locked)\
+      {\
+        if (random()<0.5)\
+        {\
+          param.set(param.get() + random()*mutation*2 - mutation);\
+        }\
+      }\
+    } while(false)
+    ALLVALUES
 #undef ONVAR
-		}
-		
-		void SfxrParams::randomize()
-		{
+  }
+
+  void SfxrParams::randomize()
+  {
 #define ONVAR(param) do \
-			{\
-				if (!param.locked)\
-				{\
-          const auto min = param.min_value;\
-          const auto max = param.max_value;\
-          const auto r = pow(random(), param.random_power);\
-					param.set(min  + (max-min)*r);\
-				}\
-			} while(false)
-      ALLVALUES
+    {\
+      if (!param.locked)\
+      {\
+        const auto min = param.min_value;\
+        const auto max = param.max_value;\
+        const auto r = pow(random(), param.random_power);\
+        param.set(min  + (max-min)*r);\
+      }\
+    } while(false)
+    ALLVALUES
 #undef ONVAR
-			
-			if (!waveType_locked)
-			{
+
+      if (!waveType_locked)
+      {
         waveType = static_cast<WaveType>(static_cast<unsigned int>(random() * static_cast<int>(WaveType::COUNT)));
-			}
-			
-			if (!repeatSpeed.locked)
-			{
-				if (random()<0.5)
-					repeatSpeed.set(0);
-			}
-						
-			if (!slide.locked)
-			{
-				auto r=random()*2-1;
-				r=pow(r,5);
-				slide.set(r);
-			}
-			if (!deltaSlide.locked)
-			{
-				auto r=random()*2-1;
-				r=pow(r,3);
-				deltaSlide.set(r);
-			}
-			
-			if (!minFrequency.locked)
-				minFrequency.set(0);
-			
-			if (!startFrequency.locked)
-				startFrequency.set(  	(random() < 0.5) ? pow(random()*2-1, 2) : (pow(random() * 0.5, 3) + 0.5));
-			
-			if ((!sustainTime.locked) && (!decayTime.locked))
-			{
-				if(attackTime.get() + sustainTime.get() + decayTime.get() < 0.2)
-				{
-					sustainTime.set( 0.2 + random() * 0.3);
-					decayTime.set( 0.2 + random() * 0.3);
-				}
-			}
-			
-			if (!slide.locked)
-			{
-				if((startFrequency.get() > 0.7 && slide.get() > 0.2) || (startFrequency.get() < 0.2 && slide.get() < -0.05)) 
-				{
-					slide.set( -slide.get());
-				}
-			}
-			
-			if (!lpFilterCutoffSweep.locked)
-			{
-				if(lpFilterCutoff.get() < 0.1 && lpFilterCutoffSweep.get() < -0.05) 
-				{
-					lpFilterCutoffSweep.set( -lpFilterCutoffSweep.get());
-				}
-			}
-		}
+      }
+
+    if (!repeatSpeed.locked)
+    {
+      if (random()<0.5)
+        repeatSpeed.set(0);
+    }
+
+    if (!slide.locked)
+    {
+      auto r=random()*2-1;
+      r=pow(r,5);
+      slide.set(r);
+    }
+    if (!deltaSlide.locked)
+    {
+      auto r=random()*2-1;
+      r=pow(r,3);
+      deltaSlide.set(r);
+    }
+
+    if (!minFrequency.locked)
+      minFrequency.set(0);
+
+    if (!startFrequency.locked)
+      startFrequency.set(  	(random() < 0.5) ? pow(random()*2-1, 2) : (pow(random() * 0.5, 3) + 0.5));
+
+    if ((!sustainTime.locked) && (!decayTime.locked))
+    {
+      if(attackTime.get() + sustainTime.get() + decayTime.get() < 0.2)
+      {
+        sustainTime.set( 0.2 + random() * 0.3);
+        decayTime.set( 0.2 + random() * 0.3);
+      }
+    }
+
+    if (!slide.locked)
+    {
+      if((startFrequency.get() > 0.7 && slide.get() > 0.2) || (startFrequency.get() < 0.2 && slide.get() < -0.05)) 
+      {
+        slide.set( -slide.get());
+      }
+    }
+
+    if (!lpFilterCutoffSweep.locked)
+    {
+      if(lpFilterCutoff.get() < 0.1 && lpFilterCutoffSweep.get() < -0.05) 
+      {
+        lpFilterCutoffSweep.set( -lpFilterCutoffSweep.get());
+      }
+    }
+  }
 } // end of sfxr param
 
 
@@ -673,25 +673,25 @@ namespace Synthesizer
     else return -d;
   }
 
-	/**
-	 * SfxrSynth
-	 * 
-	 * Copyright 2010 Thomas Vian
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * 	http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 * 
-	 * @author Thomas Vian
-	 */
+  /**
+   * SfxrSynth
+   * 
+   * Copyright 2010 Thomas Vian
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * 	http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   * 
+   * @author Thomas Vian
+   */
   struct ByteArray{
     std::vector<double>* data = nullptr;
     void writeFloat(double d)
@@ -704,169 +704,169 @@ namespace Synthesizer
     unsigned int length = 0;
   };
 
-struct SfxrSynth 
-	{
-		/**
-		 * Writes the wave to the supplied buffer ByteArray
-		 * @param	buffer		A ByteArray to write the wave to
-		 * @param	waveData	If the wave should be written for the waveData
-		 * @return				If the wave is finished
-		 */
-		bool synthWave(ByteArray& buffer, unsigned int length)
-		{
-			_finished = false;
-			
-			_sampleCount = 0;
-			_bufferSample = 0.0;
-			
-			for(unsigned int i= 0; i < length; i++)
-			{
-				if (_finished) 
-				{
-					return true;					
-				}
-				
-				// Repeats every _repeatLimit times, partially resetting the sound parameters
-				if(_repeatLimit != 0)
-				{
-					if(++_repeatTime >= _repeatLimit)
-					{
-						_repeatTime = 0;
-						reset(false);
-					}
-				}
-				
-				_changePeriodTime++;
-				if (_changePeriodTime>=_changePeriod)
-				{				
-					_changeTime=0;
-					_changeTime2=0;
-					_changePeriodTime=0;
-					if (_changeReached)
-					{
-						_period /= _changeAmount;
-						_changeReached=false;
-					}
-					if (_changeReached2)
-					{
-						_period /= _changeAmount2;
-						_changeReached2=false;
-					}
-				}
-				
-				// If _changeLimit is reached, shifts the pitch
-				if(!_changeReached)
-				{
-					if(++_changeTime >= _changeLimit)
-					{
-						_changeReached = true;
-						_period *= _changeAmount;
-					}
-				}
-				
-				// If _changeLimit is reached, shifts the pitch
-				if(!_changeReached2)
-				{
-					if(++_changeTime2 >= _changeLimit2)
-					{
-						_period *= _changeAmount2;
-						_changeReached2=true;
-					}
-				}
-				
-				// Acccelerate and apply slide
-				_slide += _deltaSlide;
-				_period *= _slide;
-				
-				// Checks for frequency getting too low, and stops the sound if a minFrequency was set
-				if(_period > _maxPeriod)
-				{
-					_period = _maxPeriod;
-					if(_minFreqency > 0.0) {
-							_muted = true;
-					}										
-				}
-				
-				_periodTemp = _period;
-				
-				// Applies the vibrato effect
-				if(_vibratoAmplitude > 0.0)
-				{
-					_vibratoPhase += _vibratoSpeed;
-					_periodTemp = _period * (1.0 + std::sin(_vibratoPhase) * _vibratoAmplitude);
-				}
-				
-				_periodTemp = int(_periodTemp);
-				if(_periodTemp < 8) _periodTemp = 8;
-				
-				// Sweeps the square duty
-				if (_waveType == WaveType::Square)
-				{
-					_squareDuty += _dutySweep;
-						 if(_squareDuty < 0.0) _squareDuty = 0.0;
-					else if (_squareDuty > 0.5) _squareDuty = 0.5;
-				}
-				
-				// Moves through the different stages of the volume envelope
-				if(++_envelopeTime > _envelopeLength)
-				{
-					_envelopeTime = 0;
-					
-					switch(++_envelopeStage)
-					{
-						case 1: _envelopeLength = _envelopeLength1; break;
-						case 2: _envelopeLength = _envelopeLength2; break;
-					}
-				}
-				
-				// Sets the volume based on the position in the envelope
-				switch(_envelopeStage)
-				{
-					case 0: _envelopeVolume = _envelopeTime * _envelopeOverLength0; 									break;
-					case 1: _envelopeVolume = 1.0 + (1.0 - _envelopeTime * _envelopeOverLength1) * 2.0 * _sustainPunch; break;
-					case 2: _envelopeVolume = 1.0 - _envelopeTime * _envelopeOverLength2; 								break;
-					case 3: _envelopeVolume = 0.0; _finished = true; 													break;
-				}
-				
-				// Moves the flanger offset
-				if (_flanger)
-				{
-					_flangerOffset += _flangerDeltaOffset;
-					_flangerInt = int(_flangerOffset);
-						 if(_flangerInt < 0) 	_flangerInt = -_flangerInt;
-					else if (_flangerInt > 1023) _flangerInt = 1023;
-				}
-				
-				// Moves the high-pass filter cutoff
-				if(_filters && _hpFilterDeltaCutoff != 0.0)
-				{
-					_hpFilterCutoff *= _hpFilterDeltaCutoff;
-						 if(_hpFilterCutoff < 0.00001) 	_hpFilterCutoff = 0.00001;
-					else if(_hpFilterCutoff > 0.1) 		_hpFilterCutoff = 0.1;
-				}
-				
-				_superSample = 0.0;
-				for(int j= 0; j < 8; j++)
-				{
-					// Cycles through the period
-					_phase++;
-					if(_phase >= _periodTemp)
-					{
-						_phase = _phase - _periodTemp; // todo: int double operation stored in int hrm...
-						
-						// Generates new random noise for this period
-						if(_waveType == WaveType::Noise) 
-						{ 
-							for(unsigned int n= 0; n < 32; n++) _noiseBuffer[n] = random() * 2.0 - 1.0;
-						}
-						else if (_waveType == WaveType::Pink)
-						{
-							for(unsigned int n = 0; n < 32; n++) _pinkNoiseBuffer[n] = _pinkNumber.GetNextValue();							
-						}
-						else if (_waveType == WaveType::Tan)
-						{
-							for(unsigned int n = 0; n < 32; n++) _loResNoiseBuffer[n] = ((n%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[n-1];							
-						}
+  struct SfxrSynth 
+  {
+    /**
+     * Writes the wave to the supplied buffer ByteArray
+     * @param	buffer		A ByteArray to write the wave to
+     * @param	waveData	If the wave should be written for the waveData
+     * @return				If the wave is finished
+     */
+    bool synthWave(ByteArray& buffer, unsigned int length)
+    {
+      _finished = false;
+
+      _sampleCount = 0;
+      _bufferSample = 0.0;
+
+      for(unsigned int i= 0; i < length; i++)
+      {
+        if (_finished) 
+        {
+          return true;					
+        }
+
+        // Repeats every _repeatLimit times, partially resetting the sound parameters
+        if(_repeatLimit != 0)
+        {
+          if(++_repeatTime >= _repeatLimit)
+          {
+            _repeatTime = 0;
+            reset(false);
+          }
+        }
+
+        _changePeriodTime++;
+        if (_changePeriodTime>=_changePeriod)
+        {				
+          _changeTime=0;
+          _changeTime2=0;
+          _changePeriodTime=0;
+          if (_changeReached)
+          {
+            _period /= _changeAmount;
+            _changeReached=false;
+          }
+          if (_changeReached2)
+          {
+            _period /= _changeAmount2;
+            _changeReached2=false;
+          }
+        }
+
+        // If _changeLimit is reached, shifts the pitch
+        if(!_changeReached)
+        {
+          if(++_changeTime >= _changeLimit)
+          {
+            _changeReached = true;
+            _period *= _changeAmount;
+          }
+        }
+
+        // If _changeLimit is reached, shifts the pitch
+        if(!_changeReached2)
+        {
+          if(++_changeTime2 >= _changeLimit2)
+          {
+            _period *= _changeAmount2;
+            _changeReached2=true;
+          }
+        }
+
+        // Acccelerate and apply slide
+        _slide += _deltaSlide;
+        _period *= _slide;
+
+        // Checks for frequency getting too low, and stops the sound if a minFrequency was set
+        if(_period > _maxPeriod)
+        {
+          _period = _maxPeriod;
+          if(_minFreqency > 0.0) {
+            _muted = true;
+          }										
+        }
+
+        _periodTemp = _period;
+
+        // Applies the vibrato effect
+        if(_vibratoAmplitude > 0.0)
+        {
+          _vibratoPhase += _vibratoSpeed;
+          _periodTemp = _period * (1.0 + std::sin(_vibratoPhase) * _vibratoAmplitude);
+        }
+
+        _periodTemp = int(_periodTemp);
+        if(_periodTemp < 8) _periodTemp = 8;
+
+        // Sweeps the square duty
+        if (_waveType == WaveType::Square)
+        {
+          _squareDuty += _dutySweep;
+          if(_squareDuty < 0.0) _squareDuty = 0.0;
+          else if (_squareDuty > 0.5) _squareDuty = 0.5;
+        }
+
+        // Moves through the different stages of the volume envelope
+        if(++_envelopeTime > _envelopeLength)
+        {
+          _envelopeTime = 0;
+
+          switch(++_envelopeStage)
+          {
+            case 1: _envelopeLength = _envelopeLength1; break;
+            case 2: _envelopeLength = _envelopeLength2; break;
+          }
+        }
+
+        // Sets the volume based on the position in the envelope
+        switch(_envelopeStage)
+        {
+          case 0: _envelopeVolume = _envelopeTime * _envelopeOverLength0; 									break;
+          case 1: _envelopeVolume = 1.0 + (1.0 - _envelopeTime * _envelopeOverLength1) * 2.0 * _sustainPunch; break;
+          case 2: _envelopeVolume = 1.0 - _envelopeTime * _envelopeOverLength2; 								break;
+          case 3: _envelopeVolume = 0.0; _finished = true; 													break;
+        }
+
+        // Moves the flanger offset
+        if (_flanger)
+        {
+          _flangerOffset += _flangerDeltaOffset;
+          _flangerInt = int(_flangerOffset);
+          if(_flangerInt < 0) 	_flangerInt = -_flangerInt;
+          else if (_flangerInt > 1023) _flangerInt = 1023;
+        }
+
+        // Moves the high-pass filter cutoff
+        if(_filters && _hpFilterDeltaCutoff != 0.0)
+        {
+          _hpFilterCutoff *= _hpFilterDeltaCutoff;
+          if(_hpFilterCutoff < 0.00001) 	_hpFilterCutoff = 0.00001;
+          else if(_hpFilterCutoff > 0.1) 		_hpFilterCutoff = 0.1;
+        }
+
+        _superSample = 0.0;
+        for(int j= 0; j < 8; j++)
+        {
+          // Cycles through the period
+          _phase++;
+          if(_phase >= _periodTemp)
+          {
+            _phase = _phase - _periodTemp; // todo: int double operation stored in int hrm...
+
+            // Generates new random noise for this period
+            if(_waveType == WaveType::Noise) 
+            { 
+              for(unsigned int n= 0; n < 32; n++) _noiseBuffer[n] = random() * 2.0 - 1.0;
+            }
+            else if (_waveType == WaveType::Pink)
+            {
+              for(unsigned int n = 0; n < 32; n++) _pinkNoiseBuffer[n] = _pinkNumber.GetNextValue();							
+            }
+            else if (_waveType == WaveType::Tan)
+            {
+              for(unsigned int n = 0; n < 32; n++) _loResNoiseBuffer[n] = ((n%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[n-1];							
+            }
             else if (_waveType == WaveType::OneBitNoise)
             {
               // Based on SN76489 periodic "white" noise
@@ -885,300 +885,300 @@ struct SfxrSynth
               _buzzState = _buzzState >> 1 | (feedBit << 14);
               _buzz = (~_buzzState & 1) - 0.5;
             }
-					}
-					
-					_sample=0;
-					double overtonestrength=1;
-					for (int k=0;k<=_overtones;k++)
-					{
-						double tempphase= fmod((_phase*(k+1)),_periodTemp);
-						// Gets the sample from the oscillator
-						switch(_waveType)
-						{
+          }
+
+          _sample=0;
+          double overtonestrength=1;
+          for (int k=0;k<=_overtones;k++)
+          {
+            double tempphase= fmod((_phase*(k+1)),_periodTemp);
+            // Gets the sample from the oscillator
+            switch(_waveType)
+            {
               case WaveType::Square:
-							{
-								_sample += overtonestrength*(((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
-								break;
-							}
+                {
+                  _sample += overtonestrength*(((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
+                  break;
+                }
               case WaveType::Saw:
-							{
-								_sample += overtonestrength*(1.0 - (tempphase / _periodTemp) * 2.0);
-								break;
-							}
+                {
+                  _sample += overtonestrength*(1.0 - (tempphase / _periodTemp) * 2.0);
+                  break;
+                }
               case WaveType::Sin:
-							{								
-								 _pos = tempphase / _periodTemp;
-								 _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
-								double _tempsample= _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-								_sample += overtonestrength*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);								
-								break;
-							}
+                {								
+                  _pos = tempphase / _periodTemp;
+                  _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
+                  double _tempsample= _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
+                  _sample += overtonestrength*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);								
+                  break;
+                }
               case WaveType::Noise:
-							{
-								_sample += overtonestrength*(_noiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
-								break;
-							}
+                {
+                  _sample += overtonestrength*(_noiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
+                  break;
+                }
               case WaveType::Triangle:
-							{						
-								_sample += overtonestrength*(Abs(1-(tempphase / _periodTemp)*2)-1);
-								break;
-							}
+                {						
+                  _sample += overtonestrength*(Abs(1-(tempphase / _periodTemp)*2)-1);
+                  break;
+                }
               case WaveType::Pink:
-							{						
-								_sample += overtonestrength*(_pinkNoiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
-								break;
-							}
+                {						
+                  _sample += overtonestrength*(_pinkNoiseBuffer[static_cast<unsigned int>(tempphase * 32 / int(_periodTemp))%32]);
+                  break;
+                }
               case WaveType::Tan:
-							{
-								//detuned
-								_sample += tan(PI*tempphase/_periodTemp)*overtonestrength;
-								break;
-							}
+                {
+                  //detuned
+                  _sample += tan(PI*tempphase/_periodTemp)*overtonestrength;
+                  break;
+                }
               case WaveType::Whistle:
-							{				
-								// Sin wave code
-								_pos = tempphase / _periodTemp;
-								_pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
-								double _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-								double value= 0.75*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
-								//then whistle (essentially an overtone with frequencyx20 and amplitude0.25
-								
-                _pos = fmod((tempphase*20) , _periodTemp) / _periodTemp;
-								_pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
-								_tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-								value += 0.25*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
-								
-								_sample += overtonestrength*value;//main wave
-								
-								break;
-							}
+                {				
+                  // Sin wave code
+                  _pos = tempphase / _periodTemp;
+                  _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
+                  double _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
+                  double value= 0.75*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
+                  //then whistle (essentially an overtone with frequencyx20 and amplitude0.25
+
+                  _pos = fmod((tempphase*20) , _periodTemp) / _periodTemp;
+                  _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
+                  _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
+                  value += 0.25*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
+
+                  _sample += overtonestrength*value;//main wave
+
+                  break;
+                }
               case WaveType::Breaker:
-							{	
-								double amp= tempphase/_periodTemp;								
-								_sample += overtonestrength*(Abs(1-amp*amp*2)-1);
-								break;
-							}
+                {	
+                  double amp= tempphase/_periodTemp;								
+                  _sample += overtonestrength*(Abs(1-amp*amp*2)-1);
+                  break;
+                }
               case WaveType::OneBitNoise: // 1-bit periodic "white" noise
-              {
-                _sample += overtonestrength*_oneBitNoise;
-              }
+                {
+                  _sample += overtonestrength*_oneBitNoise;
+                }
               case WaveType::Buzz: // 1-bit periodic "buzz" noise
-              {
-                _sample += overtonestrength*_buzz;
-              }
-						}
-						overtonestrength*=(1-_overtoneFalloff);
-						
-					}					
-					
-					// Applies the low and high pass filters
-					if (_filters)
-					{
-						_lpFilterOldPos = _lpFilterPos;
-						_lpFilterCutoff *= _lpFilterDeltaCutoff;
-							 if(_lpFilterCutoff < 0.0) _lpFilterCutoff = 0.0;
-						else if(_lpFilterCutoff > 0.1) _lpFilterCutoff = 0.1;
-						
-						if(_lpFilterOn)
-						{
-							_lpFilterDeltaPos += (_sample - _lpFilterPos) * _lpFilterCutoff;
-							_lpFilterDeltaPos *= _lpFilterDamping;
-						}
-						else
-						{
-							_lpFilterPos = _sample;
-							_lpFilterDeltaPos = 0.0;
-						}
-						
-						_lpFilterPos += _lpFilterDeltaPos;
-						
-						_hpFilterPos += _lpFilterPos - _lpFilterOldPos;
-						_hpFilterPos *= 1.0 - _hpFilterCutoff;
-						_sample = _hpFilterPos;
-					}
-					
-					// Applies the flanger effect
-					if (_flanger)
-					{
-						_flangerBuffer[_flangerPos&1023] = _sample;
-						_sample += _flangerBuffer[(_flangerPos - _flangerInt + 1024) & 1023];
-						_flangerPos = (_flangerPos + 1) & 1023;
-					}
-					
-					_superSample += _sample;
-				}
-				
-				// Clipping if too loud
-				if(_superSample > 8.0) 	_superSample = 8.0;
-				else if(_superSample < -8.0) 	_superSample = -8.0;					 				 				
-				
-				// Averages out the super samples and applies volumes
-				_superSample = _masterVolume * _envelopeVolume * _superSample * 0.125;				
-				
-				
-				//BIT CRUSH				
-				_bitcrush_phase+=_bitcrush_freq;
-				if (_bitcrush_phase>1)
-				{
-					_bitcrush_phase=0;
-					_bitcrush_last=_superSample;	 
-				}
-				_bitcrush_freq = std::max(std::min(_bitcrush_freq+_bitcrush_freq_sweep,1.0),0.0);
-				
-				_superSample=_bitcrush_last; 				
-			
-					 
-					 
-				 //compressor
-					 
-				 if (_superSample>0)
-				 {
-					 _superSample = pow(_superSample,_compression_factor);
-				 }
-				 else
-				 {
-					 _superSample = -pow(-_superSample,_compression_factor);
-				 }
-				 
-				 if (_muted)
-				 {
-					 _superSample = 0;
-				 }
-				 
+                {
+                  _sample += overtonestrength*_buzz;
+                }
+            }
+            overtonestrength*=(1-_overtoneFalloff);
+
+          }					
+
+          // Applies the low and high pass filters
+          if (_filters)
+          {
+            _lpFilterOldPos = _lpFilterPos;
+            _lpFilterCutoff *= _lpFilterDeltaCutoff;
+            if(_lpFilterCutoff < 0.0) _lpFilterCutoff = 0.0;
+            else if(_lpFilterCutoff > 0.1) _lpFilterCutoff = 0.1;
+
+            if(_lpFilterOn)
+            {
+              _lpFilterDeltaPos += (_sample - _lpFilterPos) * _lpFilterCutoff;
+              _lpFilterDeltaPos *= _lpFilterDamping;
+            }
+            else
+            {
+              _lpFilterPos = _sample;
+              _lpFilterDeltaPos = 0.0;
+            }
+
+            _lpFilterPos += _lpFilterDeltaPos;
+
+            _hpFilterPos += _lpFilterPos - _lpFilterOldPos;
+            _hpFilterPos *= 1.0 - _hpFilterCutoff;
+            _sample = _hpFilterPos;
+          }
+
+          // Applies the flanger effect
+          if (_flanger)
+          {
+            _flangerBuffer[_flangerPos&1023] = _sample;
+            _sample += _flangerBuffer[(_flangerPos - _flangerInt + 1024) & 1023];
+            _flangerPos = (_flangerPos + 1) & 1023;
+          }
+
+          _superSample += _sample;
+        }
+
+        // Clipping if too loud
+        if(_superSample > 8.0) 	_superSample = 8.0;
+        else if(_superSample < -8.0) 	_superSample = -8.0;					 				 				
+
+        // Averages out the super samples and applies volumes
+        _superSample = _masterVolume * _envelopeVolume * _superSample * 0.125;				
+
+
+        //BIT CRUSH				
+        _bitcrush_phase+=_bitcrush_freq;
+        if (_bitcrush_phase>1)
+        {
+          _bitcrush_phase=0;
+          _bitcrush_last=_superSample;	 
+        }
+        _bitcrush_freq = std::max(std::min(_bitcrush_freq+_bitcrush_freq_sweep,1.0),0.0);
+
+        _superSample=_bitcrush_last; 				
+
+
+
+        //compressor
+
+        if (_superSample>0)
+        {
+          _superSample = pow(_superSample,_compression_factor);
+        }
+        else
+        {
+          _superSample = -pow(-_superSample,_compression_factor);
+        }
+
+        if (_muted)
+        {
+          _superSample = 0;
+        }
+
         buffer.writeFloat(_superSample);
-			}
-			
-			return false;
-		}
+      }
+
+      return false;
+    }
 
     void clampTotalLength()
-		{
-			auto& p = _params;
-			const auto totalTime = p.attackTime.get() + p.sustainTime.get() + p.decayTime.get();
-			if (totalTime < MIN_LENGTH ) 
-			{
-				const auto multiplier = MIN_LENGTH / totalTime;
-				p.attackTime.set(p.attackTime.get() * multiplier);
-				p.sustainTime.set(p.sustainTime.get() * multiplier);
-				p.decayTime.set(p.decayTime.get() * multiplier);
-			}
-		}
-		
-		/**
-		 * Resets the runing variables from the params
-		 * Used once at the start (total reset) and for the repeat effect (partial reset)
-		 * @param	totalReset	If the reset is total
-		 */
-		void reset(bool totalReset)
-		{
-			auto& p = _params;
-			
-			_period = 100.0 / (p.startFrequency.get() * p.startFrequency.get() + 0.001);
-			_maxPeriod = 100.0 / (p.minFrequency.get() * p.minFrequency.get() + 0.001);
-			
-			
-			_slide = 1.0 - p.slide.get() * p.slide.get() * p.slide.get() * 0.01;
-			_deltaSlide = -p.deltaSlide.get() * p.deltaSlide.get() * p.deltaSlide.get() * 0.000001;
-			
-			if (p.waveType == WaveType::Square)
-			{
-				_squareDuty = 0.5 - p.squareDuty.get() * 0.5;
-				_dutySweep = -p.dutySweep.get() * 0.00005;
-			}
-			
+    {
+      auto& p = _params;
+      const auto totalTime = p.attackTime.get() + p.sustainTime.get() + p.decayTime.get();
+      if (totalTime < MIN_LENGTH ) 
+      {
+        const auto multiplier = MIN_LENGTH / totalTime;
+        p.attackTime.set(p.attackTime.get() * multiplier);
+        p.sustainTime.set(p.sustainTime.get() * multiplier);
+        p.decayTime.set(p.decayTime.get() * multiplier);
+      }
+    }
+
+    /**
+     * Resets the runing variables from the params
+     * Used once at the start (total reset) and for the repeat effect (partial reset)
+     * @param	totalReset	If the reset is total
+     */
+    void reset(bool totalReset)
+    {
+      auto& p = _params;
+
+      _period = 100.0 / (p.startFrequency.get() * p.startFrequency.get() + 0.001);
+      _maxPeriod = 100.0 / (p.minFrequency.get() * p.minFrequency.get() + 0.001);
+
+
+      _slide = 1.0 - p.slide.get() * p.slide.get() * p.slide.get() * 0.01;
+      _deltaSlide = -p.deltaSlide.get() * p.deltaSlide.get() * p.deltaSlide.get() * 0.000001;
+
+      if (p.waveType == WaveType::Square)
+      {
+        _squareDuty = 0.5 - p.squareDuty.get() * 0.5;
+        _dutySweep = -p.dutySweep.get() * 0.00005;
+      }
+
       // removed a call to max(x) with a single arg
-			_changePeriod = (((1-p.changeRepeat.get())+0.1)/1.1) * 20000 + 32;
-			_changePeriodTime = 0;
-			
-			if (p.changeAmount.get() > 0.0) 	_changeAmount = 1.0 - p.changeAmount.get() * p.changeAmount.get() * 0.9;
-			else 						_changeAmount = 1.0 + p.changeAmount.get() * p.changeAmount.get() * 10.0;
-			
-			_changeTime = 0;
-			_changeReached=false;
-			
-			if(p.changeSpeed.get() == 1.0) 	_changeLimit = 0;
-			else 						_changeLimit = (1.0 - p.changeSpeed.get()) * (1.0 - p.changeSpeed.get()) * 20000 + 32;
-			
-			
-			if (p.changeAmount2.get() > 0.0) 	_changeAmount2 = 1.0 - p.changeAmount2.get() * p.changeAmount2.get() * 0.9;
-			else 						_changeAmount2 = 1.0 + p.changeAmount2.get() * p.changeAmount2.get() * 10.0;
-			
-			
-			_changeTime2 = 0;			
-			_changeReached2=false;
-			
-			if(p.changeSpeed2.get() == 1.0) 	_changeLimit2 = 0;
-			else 						_changeLimit2 = (1.0 - p.changeSpeed2.get()) * (1.0 - p.changeSpeed2.get()) * 20000 + 32;
-			
-			_changeLimit*=(1-p.changeRepeat.get()+0.1)/1.1;
-			_changeLimit2*=(1-p.changeRepeat.get()+0.1)/1.1;
-			
-			if(totalReset)
-			{
-				_masterVolume = p.masterVolume.get() * p.masterVolume.get();
-				
-				_waveType = p.waveType;
-				
-				if (p.sustainTime.get() < 0.01) p.sustainTime.set( 0.01);
-				
-				clampTotalLength();
-				
-				_sustainPunch = p.sustainPunch.get();
-				
-				_phase = 0;
-				
-				_minFreqency = p.minFrequency.get();
-				_muted=false;
-				_overtones = p.overtones.get()*10;
-				_overtoneFalloff = p.overtoneFalloff.get();
-								
-				_bitcrush_freq = 1 - pow(p.bitCrush.get(),1.0/3.0);				
-				_bitcrush_freq_sweep = -p.bitCrushSweep.get()* 0.000015;
-				_bitcrush_phase=0;
-				_bitcrush_last=0;				
-				
-				_compression_factor = 1/(1+4*p.compressionAmount.get());
-				
-				_filters = p.lpFilterCutoff.get() != 1.0 || p.hpFilterCutoff.get() != 0.0;				
-				
-				_lpFilterPos = 0.0;
-				_lpFilterDeltaPos = 0.0;
-				_lpFilterCutoff = p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * 0.1;
-				_lpFilterDeltaCutoff = 1.0 + p.lpFilterCutoffSweep.get() * 0.0001;
-				_lpFilterDamping = 5.0 / (1.0 + p.lpFilterResonance.get() * p.lpFilterResonance.get() * 20.0) * (0.01 + _lpFilterCutoff);
-				if (_lpFilterDamping > 0.8) _lpFilterDamping = 0.8;
-				_lpFilterDamping = 1.0 - _lpFilterDamping;
-				_lpFilterOn = p.lpFilterCutoff.get() != 1.0;
-				
-				_hpFilterPos = 0.0;
-				_hpFilterCutoff = p.hpFilterCutoff.get() * p.hpFilterCutoff.get() * 0.1;
-				_hpFilterDeltaCutoff = 1.0 + p.hpFilterCutoffSweep.get() * 0.0003;
-				
-				_vibratoPhase = 0.0;
-				_vibratoSpeed = p.vibratoSpeed.get() * p.vibratoSpeed.get() * 0.01;
-				_vibratoAmplitude = p.vibratoDepth.get() * 0.5;
-				
-				_envelopeVolume = 0.0;
-				_envelopeStage = 0;
-				_envelopeTime = 0;
-				_envelopeLength0 = p.attackTime.get() * p.attackTime.get() * 100000.0;
-				_envelopeLength1 = p.sustainTime.get() * p.sustainTime.get() * 100000.0;
-				_envelopeLength2 = p.decayTime.get() * p.decayTime.get() * 100000.0 + 10;
-				_envelopeLength = _envelopeLength0;
-				_envelopeFullLength = _envelopeLength0 + _envelopeLength1 + _envelopeLength2;
-				
-				_envelopeOverLength0 = 1.0 / _envelopeLength0;
-				_envelopeOverLength1 = 1.0 / _envelopeLength1;
-				_envelopeOverLength2 = 1.0 / _envelopeLength2;
-				
-				_flanger = p.flangerOffset.get() != 0.0 || p.flangerSweep.get() != 0.0;
-				
-				_flangerOffset = p.flangerOffset.get() * p.flangerOffset.get() * 1020.0;
-				if(p.flangerOffset.get() < 0.0) _flangerOffset = -_flangerOffset;
-				_flangerDeltaOffset = p.flangerSweep.get() * p.flangerSweep.get() * p.flangerSweep.get() * 0.2;
-				_flangerPos = 0;
-				
-				_flangerBuffer.reserve(1024);
+      _changePeriod = (((1-p.changeRepeat.get())+0.1)/1.1) * 20000 + 32;
+      _changePeriodTime = 0;
+
+      if (p.changeAmount.get() > 0.0) 	_changeAmount = 1.0 - p.changeAmount.get() * p.changeAmount.get() * 0.9;
+      else 						_changeAmount = 1.0 + p.changeAmount.get() * p.changeAmount.get() * 10.0;
+
+      _changeTime = 0;
+      _changeReached=false;
+
+      if(p.changeSpeed.get() == 1.0) 	_changeLimit = 0;
+      else 						_changeLimit = (1.0 - p.changeSpeed.get()) * (1.0 - p.changeSpeed.get()) * 20000 + 32;
+
+
+      if (p.changeAmount2.get() > 0.0) 	_changeAmount2 = 1.0 - p.changeAmount2.get() * p.changeAmount2.get() * 0.9;
+      else 						_changeAmount2 = 1.0 + p.changeAmount2.get() * p.changeAmount2.get() * 10.0;
+
+
+      _changeTime2 = 0;			
+      _changeReached2=false;
+
+      if(p.changeSpeed2.get() == 1.0) 	_changeLimit2 = 0;
+      else 						_changeLimit2 = (1.0 - p.changeSpeed2.get()) * (1.0 - p.changeSpeed2.get()) * 20000 + 32;
+
+      _changeLimit*=(1-p.changeRepeat.get()+0.1)/1.1;
+      _changeLimit2*=(1-p.changeRepeat.get()+0.1)/1.1;
+
+      if(totalReset)
+      {
+        _masterVolume = p.masterVolume.get() * p.masterVolume.get();
+
+        _waveType = p.waveType;
+
+        if (p.sustainTime.get() < 0.01) p.sustainTime.set( 0.01);
+
+        clampTotalLength();
+
+        _sustainPunch = p.sustainPunch.get();
+
+        _phase = 0;
+
+        _minFreqency = p.minFrequency.get();
+        _muted=false;
+        _overtones = p.overtones.get()*10;
+        _overtoneFalloff = p.overtoneFalloff.get();
+
+        _bitcrush_freq = 1 - pow(p.bitCrush.get(),1.0/3.0);				
+        _bitcrush_freq_sweep = -p.bitCrushSweep.get()* 0.000015;
+        _bitcrush_phase=0;
+        _bitcrush_last=0;				
+
+        _compression_factor = 1/(1+4*p.compressionAmount.get());
+
+        _filters = p.lpFilterCutoff.get() != 1.0 || p.hpFilterCutoff.get() != 0.0;				
+
+        _lpFilterPos = 0.0;
+        _lpFilterDeltaPos = 0.0;
+        _lpFilterCutoff = p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * 0.1;
+        _lpFilterDeltaCutoff = 1.0 + p.lpFilterCutoffSweep.get() * 0.0001;
+        _lpFilterDamping = 5.0 / (1.0 + p.lpFilterResonance.get() * p.lpFilterResonance.get() * 20.0) * (0.01 + _lpFilterCutoff);
+        if (_lpFilterDamping > 0.8) _lpFilterDamping = 0.8;
+        _lpFilterDamping = 1.0 - _lpFilterDamping;
+        _lpFilterOn = p.lpFilterCutoff.get() != 1.0;
+
+        _hpFilterPos = 0.0;
+        _hpFilterCutoff = p.hpFilterCutoff.get() * p.hpFilterCutoff.get() * 0.1;
+        _hpFilterDeltaCutoff = 1.0 + p.hpFilterCutoffSweep.get() * 0.0003;
+
+        _vibratoPhase = 0.0;
+        _vibratoSpeed = p.vibratoSpeed.get() * p.vibratoSpeed.get() * 0.01;
+        _vibratoAmplitude = p.vibratoDepth.get() * 0.5;
+
+        _envelopeVolume = 0.0;
+        _envelopeStage = 0;
+        _envelopeTime = 0;
+        _envelopeLength0 = p.attackTime.get() * p.attackTime.get() * 100000.0;
+        _envelopeLength1 = p.sustainTime.get() * p.sustainTime.get() * 100000.0;
+        _envelopeLength2 = p.decayTime.get() * p.decayTime.get() * 100000.0 + 10;
+        _envelopeLength = _envelopeLength0;
+        _envelopeFullLength = _envelopeLength0 + _envelopeLength1 + _envelopeLength2;
+
+        _envelopeOverLength0 = 1.0 / _envelopeLength0;
+        _envelopeOverLength1 = 1.0 / _envelopeLength1;
+        _envelopeOverLength2 = 1.0 / _envelopeLength2;
+
+        _flanger = p.flangerOffset.get() != 0.0 || p.flangerSweep.get() != 0.0;
+
+        _flangerOffset = p.flangerOffset.get() * p.flangerOffset.get() * 1020.0;
+        if(p.flangerOffset.get() < 0.0) _flangerOffset = -_flangerOffset;
+        _flangerDeltaOffset = p.flangerSweep.get() * p.flangerSweep.get() * p.flangerSweep.get() * 0.2;
+        _flangerPos = 0;
+
+        _flangerBuffer.reserve(1024);
         _noiseBuffer.reserve(32);
         _pinkNoiseBuffer.reserve(32);
         _loResNoiseBuffer.reserve(32);
@@ -1187,168 +1187,161 @@ struct SfxrSynth
         _oneBitNoise = 0;
         _buzzState = 1 << 14;
         _buzz = 0;
-				
-				for(unsigned int i= 0; i < 1024; i++) _flangerBuffer[i] = 0.0;
-				for(unsigned int i = 0; i < 32; i++) _noiseBuffer[i] = random() * 2.0 - 1.0;
-				for(unsigned int i = 0; i < 32; i++) _pinkNoiseBuffer[i] = _pinkNumber.GetNextValue();
-				for(unsigned int i = 0; i < 32; i++) _loResNoiseBuffer[i] = ((i%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[i-1];							
-			
-				_repeatTime = 0;
-				
-				if (p.repeatSpeed.get() == 0.0) 	_repeatLimit = 0;
-				else 						_repeatLimit = int((1.0-p.repeatSpeed.get()) * (1.0-p.repeatSpeed.get()) * 20000) + 32;
-			}
-		}
-		
-		unsigned int GenerateSound(std::vector<double>* data)
-		{
-			reset(true);
-			
-			ByteArray _cachedWave;
+
+        for(unsigned int i= 0; i < 1024; i++) _flangerBuffer[i] = 0.0;
+        for(unsigned int i = 0; i < 32; i++) _noiseBuffer[i] = random() * 2.0 - 1.0;
+        for(unsigned int i = 0; i < 32; i++) _pinkNoiseBuffer[i] = _pinkNumber.GetNextValue();
+        for(unsigned int i = 0; i < 32; i++) _loResNoiseBuffer[i] = ((i%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[i-1];							
+
+        _repeatTime = 0;
+
+        if (p.repeatSpeed.get() == 0.0) 	_repeatLimit = 0;
+        else 						_repeatLimit = int((1.0-p.repeatSpeed.get()) * (1.0-p.repeatSpeed.get()) * 20000) + 32;
+      }
+    }
+
+    unsigned int GenerateSound(std::vector<double>* data)
+    {
+      reset(true);
+
+      ByteArray _cachedWave;
       _cachedWave.data = data;
-			
-				synthWave(_cachedWave, _envelopeFullLength);
-				
-				auto length= _cachedWave.length;
-				if(length < 1536)
-				{
-					// If the sound is smaller than the buffer length, add silence to allow it to play
-					while (_cachedWave.length<1536) _cachedWave.writeFloat(0.0);
-				}
 
-        return _cachedWave.length;
-		}
+      synthWave(_cachedWave, _envelopeFullLength);
 
-		static constexpr int LoResNoisePeriod= 8;
-    
-		SfxrParams _params;	// Params instance
-    
-		static constexpr double MIN_LENGTH = 0.18;
-		
-		//--------------------------------------------------------------------------
-		//
-		//  Synth Variables
-		//
-		//--------------------------------------------------------------------------
-		
-		bool _finished;						// If the sound has finished
+      auto length= _cachedWave.length;
+      if(length < 1536)
+      {
+        // If the sound is smaller than the buffer length, add silence to allow it to play
+        while (_cachedWave.length<1536) _cachedWave.writeFloat(0.0);
+      }
 
-		double _masterVolume;					// masterVolume * masterVolume (for quick calculations)
-		
-		WaveType _waveType;							// The type of wave to generate
-		
-		double _envelopeVolume;					// Current volume of the envelope
-		int _envelopeStage;						// Current stage of the envelope (attack, sustain, decay, end)
-		double _envelopeTime;					// Current time through current enelope stage
-		double _envelopeLength;					// Length of the current envelope stage
-		double _envelopeLength0;				// Length of the attack stage
-		double _envelopeLength1;				// Length of the sustain stage
-		double _envelopeLength2;				// Length of the decay stage
-		double _envelopeOverLength0;			// 1 / _envelopeLength0 (for quick calculations)
-		double _envelopeOverLength1;			// 1 / _envelopeLength1 (for quick calculations)
-		double _envelopeOverLength2;			// 1 / _envelopeLength2 (for quick calculations)
-		double _envelopeFullLength;				// Full length of the volume envelop (and therefore sound)
-		
-		double _sustainPunch;					// The punch factor (louder at begining of sustain)
-		
-		int _phase;								// Phase through the wave
-		double _pos;							// Phase expresed as a Number from 0-1, used for fast sin approx
-		double _period;							// Period of the wave
-		double _periodTemp;						// Period modified by vibrato
-		double _maxPeriod;						// Maximum period before sound stops (from minFrequency)
-		
-		double _slide;							// Note slide
-		double _deltaSlide;						// Change in slide
-		double _minFreqency;					// Minimum frequency before stopping
-		bool _muted;							// Whether or not min frequency has been attained
-		
-		
-		int _overtones;					// Minimum frequency before stopping
-		double _overtoneFalloff;					// Minimum frequency before stopping
-		
-		double _vibratoPhase;					// Phase through the vibrato sine wave
-		double _vibratoSpeed;					// Speed at which the vibrato phase moves
-		double _vibratoAmplitude;				// Amount to change the period of the wave by at the peak of the vibrato wave
-		
-		double _changePeriod;
-		int _changePeriodTime;
-		
-		double _changeAmount;					// Amount to change the note by
-		int _changeTime;						// Counter for the note change
-		int _changeLimit;						// Once the time reaches this limit, the note changes
-		bool _changeReached;
-		
-		double _changeAmount2;					// Amount to change the note by
-		int _changeTime2;						// Counter for the note change
-		int _changeLimit2;						// Once the time reaches this limit, the note changes
-		bool _changeReached2;
-		
-		
-		double _squareDuty;						// Offset of center switching point in the square wave
-		double _dutySweep;						// Amount to change the duty by
-		
-		int _repeatTime;						// Counter for the repeats
-		int _repeatLimit;						// Once the time reaches this limit, some of the variables are reset
-		
-		bool _flanger;						// If the flanger is active
-		double _flangerOffset;					// Phase offset for flanger effect
-		double _flangerDeltaOffset;				// Change in phase offset
-		int _flangerInt;							// Integer flanger offset, for bit maths
-		int _flangerPos;							// Position through the flanger buffer
+      return _cachedWave.length;
+    }
+
+    static constexpr int LoResNoisePeriod= 8;
+
+    SfxrParams _params;	// Params instance
+
+    static constexpr double MIN_LENGTH = 0.18;
+
+    //--------------------------------------------------------------------------
+    //
+    //  Synth Variables
+    //
+    //--------------------------------------------------------------------------
+
+    bool _finished;						// If the sound has finished
+
+    double _masterVolume;					// masterVolume * masterVolume (for quick calculations)
+
+    WaveType _waveType;							// The type of wave to generate
+
+    double _envelopeVolume;					// Current volume of the envelope
+    int _envelopeStage;						// Current stage of the envelope (attack, sustain, decay, end)
+    double _envelopeTime;					// Current time through current enelope stage
+    double _envelopeLength;					// Length of the current envelope stage
+    double _envelopeLength0;				// Length of the attack stage
+    double _envelopeLength1;				// Length of the sustain stage
+    double _envelopeLength2;				// Length of the decay stage
+    double _envelopeOverLength0;			// 1 / _envelopeLength0 (for quick calculations)
+    double _envelopeOverLength1;			// 1 / _envelopeLength1 (for quick calculations)
+    double _envelopeOverLength2;			// 1 / _envelopeLength2 (for quick calculations)
+    double _envelopeFullLength;				// Full length of the volume envelop (and therefore sound)
+
+    double _sustainPunch;					// The punch factor (louder at begining of sustain)
+
+    int _phase;								// Phase through the wave
+    double _pos;							// Phase expresed as a Number from 0-1, used for fast sin approx
+    double _period;							// Period of the wave
+    double _periodTemp;						// Period modified by vibrato
+    double _maxPeriod;						// Maximum period before sound stops (from minFrequency)
+
+    double _slide;							// Note slide
+    double _deltaSlide;						// Change in slide
+    double _minFreqency;					// Minimum frequency before stopping
+    bool _muted;							// Whether or not min frequency has been attained
+
+
+    int _overtones;					// Minimum frequency before stopping
+    double _overtoneFalloff;					// Minimum frequency before stopping
+
+    double _vibratoPhase;					// Phase through the vibrato sine wave
+    double _vibratoSpeed;					// Speed at which the vibrato phase moves
+    double _vibratoAmplitude;				// Amount to change the period of the wave by at the peak of the vibrato wave
+
+    double _changePeriod;
+    int _changePeriodTime;
+
+    double _changeAmount;					// Amount to change the note by
+    int _changeTime;						// Counter for the note change
+    int _changeLimit;						// Once the time reaches this limit, the note changes
+    bool _changeReached;
+
+    double _changeAmount2;					// Amount to change the note by
+    int _changeTime2;						// Counter for the note change
+    int _changeLimit2;						// Once the time reaches this limit, the note changes
+    bool _changeReached2;
+
+
+    double _squareDuty;						// Offset of center switching point in the square wave
+    double _dutySweep;						// Amount to change the duty by
+
+    int _repeatTime;						// Counter for the repeats
+    int _repeatLimit;						// Once the time reaches this limit, some of the variables are reset
+
+    bool _flanger;						// If the flanger is active
+    double _flangerOffset;					// Phase offset for flanger effect
+    double _flangerDeltaOffset;				// Change in phase offset
+    int _flangerInt;							// Integer flanger offset, for bit maths
+    int _flangerPos;							// Position through the flanger buffer
     std::vector<double> _flangerBuffer;			// Buffer of wave values used to create the out of phase second wave
-		
-		bool _filters;						// If the filters are active
-		double _lpFilterPos;					// Adjusted wave position after low-pass filter
-		double _lpFilterOldPos;					// Previous low-pass wave position
-		double _lpFilterDeltaPos;				// Change in low-pass wave position, as allowed by the cutoff and damping
-		double _lpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
-		double _lpFilterDeltaCutoff;			// Speed of the low-pass cutoff multiplier
-		double _lpFilterDamping;				// Damping muliplier which restricts how fast the wave position can move
-		bool _lpFilterOn;					// If the low pass filter is active
-		
-		double _hpFilterPos;					// Adjusted wave position after high-pass filter
-		double _hpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
-		double _hpFilterDeltaCutoff;			// Speed of the high-pass cutoff multiplier
-		
+
+    bool _filters;						// If the filters are active
+    double _lpFilterPos;					// Adjusted wave position after low-pass filter
+    double _lpFilterOldPos;					// Previous low-pass wave position
+    double _lpFilterDeltaPos;				// Change in low-pass wave position, as allowed by the cutoff and damping
+    double _lpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
+    double _lpFilterDeltaCutoff;			// Speed of the low-pass cutoff multiplier
+    double _lpFilterDamping;				// Damping muliplier which restricts how fast the wave position can move
+    bool _lpFilterOn;					// If the low pass filter is active
+
+    double _hpFilterPos;					// Adjusted wave position after high-pass filter
+    double _hpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
+    double _hpFilterDeltaCutoff;			// Speed of the high-pass cutoff multiplier
+
     std::vector<double> _noiseBuffer;			// Buffer of random values used to generate noise
     std::vector<double> _pinkNoiseBuffer;			// Buffer of random values used to generate noise
     std::vector<double> _loResNoiseBuffer;			// Buffer of random values used to generate noise
-		
+
     int _oneBitNoiseState;					// Buffer containing one-bit periodic noise state.
     double _oneBitNoise;					// Current sample of one-bit noise.
 
     int _buzzState;							// Buffer containing 'buzz' periodic noise state.
     double _buzz;							// Current sample of 'buzz' noise.
 
-		PinkNumber _pinkNumber;
-		
-		double _superSample;					// Actual sample writen to the wave
-		double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
-		unsigned int _sampleCount;						// Number of samples added to the buffer sample
-		double _bufferSample;					// Another supersample used to create a 22050Hz wave
-		
-		double _bitcrush_freq;					// inversely proportional to the number of samples to skip 
-		double _bitcrush_freq_sweep;			// change of the above
-		double _bitcrush_phase;					// samples when this > 1
-		double _bitcrush_last;					// last sample value
-		
-		double _compression_factor;
-	};
+    PinkNumber _pinkNumber;
 
-		unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data)
-    {
-      SfxrSynth synth;
-      synth._params = params;
-      return synth.GenerateSound(data);
-    }
+    double _superSample;					// Actual sample writen to the wave
+    double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
+    unsigned int _sampleCount;						// Number of samples added to the buffer sample
+    double _bufferSample;					// Another supersample used to create a 22050Hz wave
+
+    double _bitcrush_freq;					// inversely proportional to the number of samples to skip 
+    double _bitcrush_freq_sweep;			// change of the above
+    double _bitcrush_phase;					// samples when this > 1
+    double _bitcrush_last;					// last sample value
+
+    double _compression_factor;
+  };
+
+  unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data)
+  {
+    SfxrSynth synth;
+    synth._params = params;
+    return synth.GenerateSound(data);
+  }
 }
-
-
-
-
-
-
-
 
 #endif // BFXR_IMPLEMENTATION
 
