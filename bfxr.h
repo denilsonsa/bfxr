@@ -36,22 +36,36 @@ namespace Synthesizer
 {
   double random();
 
+  // Exposes AllOnes<N>::Value where N is a positive integer and Value is the number
+  // of 1s in the binary value 0b11 (in this case N=2)
+  template<int f> struct AllOnes { enum {Value = (1 << (f-1) ) | AllOnes<f-1>::Value}; };
+  template<> struct AllOnes<0> { enum {Value=0}; };
+
   /*
-     class taken from http://www.firstpr.com.au/dsp/pink-noise/#Filtering
+     Implementes the 1/f noise algorithm discovered by Richard F. Voss
+     of the Thomas J. Watson Research Instritute of IBM as described in
+      White and brown music, fractal curves and one-over-f fluctuations
+      by: M. Gardner
+      Scientific American, Vol. 238, No. 4. (April 1978), pp. 16-27
+
+    Implmentation inspired by the class by Thomas Hudson found at
+    http://www.firstpr.com.au/dsp/pink-noise/#Filtering
+
+    License: zlib
    */
-  class PinkNumber
+  class PinkNoise
   {
     private:
-      int max_key;
-      int key;
-      std::vector<int> white_values;
-      unsigned int range;
+      enum { NUMBER_OF_VALUES = 5 };
+
+      int index;
+      double white_values[NUMBER_OF_VALUES];
 
     public:
-      PinkNumber();
+      PinkNoise();
 
-      //returns number between -1 and 1		
-      float GetNextValue();
+      //returns number between 0 and 1
+      double GetNextValue();
   }; 
 }
 
@@ -223,34 +237,41 @@ namespace Synthesizer
     return rand() / static_cast<double>(RAND_MAX);
   }
 
-  PinkNumber::PinkNumber()
+  PinkNoise::PinkNoise()
+    : index(0)
   {
-    max_key = 0x1f; // Five bits set
-    range = 128;
-    key = 0;
-    for (int i = 0; i < 5; i++)
-      white_values.push_back(random() * (range/5.0f));
+    for (int i = 0; i < NUMBER_OF_VALUES; i++)
+    {
+      white_values[i] = random();
+    }
   }
 
-  float PinkNumber::GetNextValue()
+  double PinkNoise::GetNextValue()
   {
-    int last_key = key;
+    const int last_index = index;
 
-    key++;
-    if (key > max_key)
-      key = 0;
+    index++;
+    if (index > AllOnes<NUMBER_OF_VALUES>::Value)
+    {
+      index = 0;
+    }
+
     // Exclusive-Or previous value with current value. This gives
     // a list of bits that have changed.
-    int diff = last_key ^ key;
-    unsigned int sum = 0;
-    for (int i = 0; i < 5; i++)
+    const int diff = last_index ^ index;
+
+    float sum = 0;
+    for (int i = 0; i < NUMBER_OF_VALUES; i++)
     {
       // If bit changed get new random number for corresponding white_value
       if (diff & (1 << i))
-        white_values[i] = random() * (range/5.0f);
+        white_values[i] = random();
       sum += white_values[i];
     }
-    return sum/64.0f-1.0f;
+
+    // the gardner article uses the dice sum but since we care about keeping
+    // the 0-1 range we divide by the ammount of stored randoms
+    return sum/NUMBER_OF_VALUES;
   }
 }
 
@@ -861,7 +882,7 @@ namespace Synthesizer
             }
             else if (_waveType == WaveType::Pink)
             {
-              for(unsigned int n = 0; n < 32; n++) _pinkNoiseBuffer[n] = _pinkNumber.GetNextValue();							
+              for(unsigned int n = 0; n < 32; n++) _pinkNoiseBuffer[n] = _pinkNumber.GetNextValue() * 2.0 - 1.0;
             }
             else if (_waveType == WaveType::Tan)
             {
@@ -1192,7 +1213,7 @@ namespace Synthesizer
 
         for(unsigned int i= 0; i < 1024; i++) _flangerBuffer[i] = 0.0;
         for(unsigned int i = 0; i < 32; i++) _noiseBuffer[i] = random() * 2.0 - 1.0;
-        for(unsigned int i = 0; i < 32; i++) _pinkNoiseBuffer[i] = _pinkNumber.GetNextValue();
+        for(unsigned int i = 0; i < 32; i++) _pinkNoiseBuffer[i] = _pinkNumber.GetNextValue() * 2.0 - 1.0;
         for(unsigned int i = 0; i < 32; i++) _loResNoiseBuffer[i] = ((i%LoResNoisePeriod)==0) ? random()*2.0-1.0 : _loResNoiseBuffer[i-1];							
 
         _repeatTime = 0;
@@ -1322,7 +1343,7 @@ namespace Synthesizer
     int _buzzState;							// Buffer containing 'buzz' periodic noise state.
     double _buzz;							// Current sample of 'buzz' noise.
 
-    PinkNumber _pinkNumber;
+    PinkNoise _pinkNumber;
 
     double _superSample;					// Actual sample writen to the wave
     double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
