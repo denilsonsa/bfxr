@@ -26,7 +26,6 @@
 #include <cmath>
 
 
-
 // ----------------------------------------------------------------------
 // Header section
 // ----------------------------------------------------------------------
@@ -207,7 +206,7 @@ namespace Synthesizer
 
 namespace Synthesizer 
 {
-  unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data);
+  void GenerateSound(const SfxrParams& params, std::vector<double>* data);
 }
 
 // ----------------------------------------------------------------------
@@ -707,38 +706,21 @@ namespace Synthesizer
    * 
    * @author Thomas Vian
    */
-  struct ByteArray{
-    std::vector<double>* data = nullptr;
-    void writeFloat(double d)
-    {
-      if(data) {
-        data->emplace_back(d);
-      }
-      length += 1;
-    }
-    unsigned int length = 0;
-  };
-
   struct SfxrSynth 
   {
-    /**
-     * Writes the wave to the supplied buffer ByteArray
-     * @param	buffer		A ByteArray to write the wave to
-     * @param	waveData	If the wave should be written for the waveData
-     * @return				If the wave is finished
-     */
-    bool synthWave(ByteArray& buffer, unsigned int length)
+    void startSynth()
     {
       _finished = false;
 
       _sampleCount = 0;
       _bufferSample = 0.0;
+    }
 
-      for(unsigned int i= 0; i < length; i++)
+    double synthOneSample() {
       {
         if (_finished) 
         {
-          return true;					
+          return 0.0;
         }
 
         // Repeats every _repeatLimit times, partially resetting the sound parameters
@@ -1062,10 +1044,8 @@ namespace Synthesizer
           _superSample = 0;
         }
 
-        buffer.writeFloat(_superSample);
+        return _superSample;
       }
-
-      return false;
     }
 
     void clampTotalLength()
@@ -1217,23 +1197,21 @@ namespace Synthesizer
       }
     }
 
-    unsigned int GenerateSound(std::vector<double>* data)
+    unsigned int GetNumberOfSamples()
+    {
+      // If the sound is smaller than the buffer length, add silence to allow it to play
+      return std::max<unsigned int>(1536, _envelopeFullLength);
+    }
+
+    void GenerateSound(std::vector<double>* data)
     {
       reset(true);
 
-      ByteArray _cachedWave;
-      _cachedWave.data = data;
-
-      synthWave(_cachedWave, _envelopeFullLength);
-
-      auto length= _cachedWave.length;
-      if(length < 1536)
-      {
-        // If the sound is smaller than the buffer length, add silence to allow it to play
-        while (_cachedWave.length<1536) _cachedWave.writeFloat(0.0);
+      startSynth();
+      const auto samples = GetNumberOfSamples();
+      for(unsigned int i=0; i< samples; i+=1) {
+        data->push_back(synthOneSample());
       }
-
-      return _cachedWave.length;
     }
 
     static constexpr int LoResNoisePeriod= 8;
@@ -1352,11 +1330,11 @@ namespace Synthesizer
     double _compression_factor;
   };
 
-  unsigned int GenerateSound(const SfxrParams& params, std::vector<double>* data)
+  void GenerateSound(const SfxrParams& params, std::vector<double>* data)
   {
     SfxrSynth synth;
     synth._params = params;
-    return synth.GenerateSound(data);
+    synth.GenerateSound(data);
   }
 }
 
