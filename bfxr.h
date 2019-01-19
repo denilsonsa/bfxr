@@ -190,8 +190,6 @@ namespace Synthesizer
       Param bitCrush;
       Param bitCrushSweep;
 
-      static constexpr int WAVETYPECOUNT = static_cast<int>(WaveType::COUNT);
-
       SfxrParams();
 
       void setAllLocked(bool locked);
