@@ -34,8 +34,6 @@
 
 namespace Synthesizer
 {
-  double random();
-
   // Exposes AllOnes<N>::Value where N is a positive integer and Value is the number
   // of 1s in the binary value 0b11 (in this case N=2)
   template<int f> struct AllOnes { enum {Value = (1 << (f-1) ) | AllOnes<f-1>::Value}; };
@@ -258,7 +256,7 @@ namespace Synthesizer
     // a list of bits that have changed.
     const int diff = last_index ^ index;
 
-    float sum = 0;
+    double sum = 0;
     for (int i = 0; i < NUMBER_OF_VALUES; i++)
     {
       // If bit changed get new random number for corresponding white_value
@@ -276,8 +274,6 @@ namespace Synthesizer
 
 namespace Synthesizer   
 {
-  double random();
-
   /**
    * SfxrParams
    * 
