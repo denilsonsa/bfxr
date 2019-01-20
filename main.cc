@@ -419,11 +419,11 @@ class App : public AppBase
 #define ONVAR(p)\
         do {\
           ImGui::PushID(id++);\
-          float current_value = param.p.get();\
+          float current_value = param.p;\
           auto changed = ImGui::SliderFloat(TEXT_PARAM_##p, &current_value, BFXR_PARAM_##p##_MIN, BFXR_PARAM_##p##_MAX);\
-          if(changed) {param.p.set(current_value); sound_changed = true;}\
+          if(changed) {param.p =current_value; sound_changed = true;}\
           ImGui::SameLine();\
-          Locked(&param.p.locked);\
+          Locked(&param.p##_locked);\
           ImGui::SameLine();\
           ShowHelpMarker(TEXT_PARAM_D_##p);\
           ImGui::PopID();\

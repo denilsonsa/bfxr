@@ -107,65 +107,73 @@ namespace Synthesizer
   class SfxrParams 
   {
     public:
-
-      struct Param {
-        double get() const { return current_value; }
-        void set(double t)
-        {
-          current_value = t;
-        }
-        bool locked = false;
-        double current_value = 0;
-      };
-
       WaveType waveType;
-      bool waveType_locked;
 
-      Param masterVolume;
-      Param attackTime;
-      Param sustainTime;
-      Param sustainPunch;
-      Param decayTime;
+      double masterVolume = 0.0;
+      double attackTime = 0.0;
+      double sustainTime = 0.0;
+      double sustainPunch = 0.0;
+      double decayTime = 0.0;
+      double compressionAmount = 0.0;
+      double startFrequency = 0.0;
+      double minFrequency = 0.0;
+      double slide = 0.0;
+      double deltaSlide = 0.0;
+      double vibratoDepth = 0.0;
+      double vibratoSpeed = 0.0;
+      double overtones = 0.0;
+      double overtoneFalloff = 0.0;
+      double changeRepeat = 0.0;
+      double changeAmount = 0.0;
+      double changeSpeed = 0.0;
+      double changeAmount2 = 0.0;
+      double changeSpeed2 = 0.0;
+      double squareDuty = 0.0;
+      double dutySweep = 0.0;
+      double repeatSpeed = 0.0;
+      double flangerOffset = 0.0;
+      double flangerSweep = 0.0;
+      double lpFilterCutoff = 0.0;
+      double lpFilterCutoffSweep = 0.0;
+      double lpFilterResonance = 0.0;
+      double hpFilterCutoff = 0.0;
+      double hpFilterCutoffSweep = 0.0;
+      double bitCrush = 0.0;
+      double bitCrushSweep = 0.0;
 
-      Param compressionAmount;
+      bool waveType_locked = false;
 
-      Param startFrequency;
-      Param minFrequency;
-
-      Param slide;
-      Param deltaSlide;
-
-      Param vibratoDepth;
-      Param vibratoSpeed;
-
-      Param overtones;
-      Param overtoneFalloff;
-
-      Param changeRepeat;
-
-      Param changeAmount;
-      Param changeSpeed;
-
-      Param changeAmount2;
-      Param changeSpeed2;
-
-      Param squareDuty;
-      Param dutySweep;
-
-      Param repeatSpeed;
-
-      Param flangerOffset;
-      Param flangerSweep;
-
-      Param lpFilterCutoff;
-      Param lpFilterCutoffSweep;
-      Param lpFilterResonance;
-
-      Param hpFilterCutoff;
-      Param hpFilterCutoffSweep;
-
-      Param bitCrush;
-      Param bitCrushSweep;
+      bool masterVolume_locked = false;
+      bool attackTime_locked = false;
+      bool sustainTime_locked = false;
+      bool sustainPunch_locked = false;
+      bool decayTime_locked = false;
+      bool compressionAmount_locked = false;
+      bool startFrequency_locked = false;
+      bool minFrequency_locked = false;
+      bool slide_locked = false;
+      bool deltaSlide_locked = false;
+      bool vibratoDepth_locked = false;
+      bool vibratoSpeed_locked = false;
+      bool overtones_locked = false;
+      bool overtoneFalloff_locked = false;
+      bool changeRepeat_locked = false;
+      bool changeAmount_locked = false;
+      bool changeSpeed_locked = false;
+      bool changeAmount2_locked = false;
+      bool changeSpeed2_locked = false;
+      bool squareDuty_locked = false;
+      bool dutySweep_locked = false;
+      bool repeatSpeed_locked = false;
+      bool flangerOffset_locked = false;
+      bool flangerSweep_locked = false;
+      bool lpFilterCutoff_locked = false;
+      bool lpFilterCutoffSweep_locked = false;
+      bool lpFilterResonance_locked = false;
+      bool hpFilterCutoff_locked = false;
+      bool hpFilterCutoffSweep_locked = false;
+      bool bitCrush_locked = false;
+      bool bitCrushSweep_locked = false;
 
       SfxrParams();
 
@@ -477,7 +485,7 @@ namespace Synthesizer
 
   void SfxrParams::makeValid()
   {
-#define ONVAR(n) do { n.set( BFXR_PARAM_##n##_DEF); } while(false)
+#define ONVAR(n) do { n = BFXR_PARAM_##n##_DEF; } while(false)
     ALLVALUES
 #undef ONVAR
   }
@@ -485,7 +493,7 @@ namespace Synthesizer
   void SfxrParams::setAllLocked(bool locked)
   {
     waveType_locked = locked;
-#define ONVAR(p) p.locked = locked
+#define ONVAR(p) p##_locked = locked
     ALLVALUES
 #undef ONVAR
   }
@@ -494,19 +502,19 @@ namespace Synthesizer
   {
     resetParams();
 
-    startFrequency.set(0.4+random()*0.5);
+    startFrequency =0.4+random()*0.5;
 
-    sustainTime.set( random() * 0.1);
-    decayTime.set( 0.1 + random() * 0.4);
-    sustainPunch.set( 0.3 + random() * 0.3);
+    sustainTime = random() * 0.1;
+    decayTime = 0.1 + random() * 0.4;
+    sustainPunch = 0.3 + random() * 0.3;
 
     if(random() < 0.5) 
     {
-      changeSpeed.set( 0.5 + random() * 0.2);
+      changeSpeed = 0.5 + random() * 0.2;
       auto cnum = int(random()*7)+1;
       auto cden = cnum+int(random()*7)+2;
 
-      changeAmount.set(static_cast<double>(cnum)/cden);
+      changeAmount =static_cast<double>(cnum)/cden;
     }
 
   }
@@ -522,43 +530,43 @@ namespace Synthesizer
     }
     waveType = static_cast<WaveType>(wt);
 
-    startFrequency.set(0.5 + random() * 0.5);
-    minFrequency.set(startFrequency.get() - 0.2 - random() * 0.6);
+    startFrequency =0.5 + random() * 0.5;
+    minFrequency =startFrequency - 0.2 - random() * 0.6;
 
-    if(minFrequency.get() < 0.2) 
-      minFrequency.set(0.2);
+    if(minFrequency < 0.2) 
+      minFrequency =0.2;
 
-    slide.set( -0.15 - random() * 0.2);			
+    slide = -0.15 - random() * 0.2;			
 
     if(random() < 0.33)
     {
-      startFrequency.set( random() * 0.6);
-      minFrequency.set( random() * 0.1);
-      slide.set( -0.35 - random() * 0.3);
+      startFrequency = random() * 0.6;
+      minFrequency = random() * 0.1;
+      slide = -0.35 - random() * 0.3;
     }
 
     if(random() < 0.5) 
     {
-      squareDuty.set( random() * 0.5);
-      dutySweep.set( random() * 0.2);
+      squareDuty = random() * 0.5;
+      dutySweep = random() * 0.2;
     }
     else
     {
-      squareDuty.set( 0.4 + random() * 0.5);
-      dutySweep.set(- random() * 0.7);	
+      squareDuty = 0.4 + random() * 0.5;
+      dutySweep =- random() * 0.7;	
     }
 
-    sustainTime.set( 0.1 + random() * 0.2);
-    decayTime.set( random() * 0.4);
-    if(random() < 0.5) sustainPunch.set( random() * 0.3);
+    sustainTime = 0.1 + random() * 0.2;
+    decayTime = random() * 0.4;
+    if(random() < 0.5) sustainPunch = random() * 0.3;
 
     if(random() < 0.33)
     {
-      flangerOffset.set( random() * 0.2);
-      flangerSweep.set( -random() * 0.2);
+      flangerOffset = random() * 0.2;
+      flangerSweep = -random() * 0.2;
     }
 
-    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
+    if(random() < 0.5) hpFilterCutoff = random() * 0.3;
   }
 
   void SfxrParams::generateExplosion()
@@ -568,34 +576,34 @@ namespace Synthesizer
 
     if(random() < 0.5)
     {
-      startFrequency.set( 0.1 + random() * 0.4);
-      slide.set( -0.1 + random() * 0.4);
+      startFrequency = 0.1 + random() * 0.4;
+      slide = -0.1 + random() * 0.4;
     }
     else
     {
-      startFrequency.set( 0.2 + random() * 0.7);
-      slide.set( -0.2 - random() * 0.2);
+      startFrequency = 0.2 + random() * 0.7;
+      slide = -0.2 - random() * 0.2;
     }
 
-    startFrequency.set( startFrequency.get() * startFrequency.get());
+    startFrequency = startFrequency * startFrequency;
 
-    if(random() < 0.2) slide.set( 0.0);
-    if(random() < 0.33) repeatSpeed.set( 0.3 + random() * 0.5);
+    if(random() < 0.2) slide = 0.0;
+    if(random() < 0.33) repeatSpeed = 0.3 + random() * 0.5;
 
-    sustainTime.set( 0.1 + random() * 0.3);
-    decayTime.set( random() * 0.5);
-    sustainPunch.set( 0.2 + random() * 0.6);
+    sustainTime = 0.1 + random() * 0.3;
+    decayTime = random() * 0.5;
+    sustainPunch = 0.2 + random() * 0.6;
 
     if(random() < 0.5)
     {
-      flangerOffset.set( -0.3 + random() * 0.9);
-      flangerSweep.set( -random() * 0.3);
+      flangerOffset = -0.3 + random() * 0.9;
+      flangerSweep = -random() * 0.3;
     }
 
     if(random() < 0.33)
     {
-      changeSpeed.set( 0.6 + random() * 0.3);
-      changeAmount.set( 0.8 - random() * 1.6);
+      changeSpeed = 0.6 + random() * 0.3;
+      changeAmount = 0.8 - random() * 1.6;
     }
   }
 
@@ -604,28 +612,28 @@ namespace Synthesizer
     resetParams();
 
     if(random() < 0.5) waveType = WaveType::Saw;
-    else 					squareDuty.set( random() * 0.6);
+    else 					squareDuty = random() * 0.6;
 
     if(random() < 0.5)
     {
-      startFrequency.set( 0.2 + random() * 0.3);
-      slide.set( 0.1 + random() * 0.4);
-      repeatSpeed.set( 0.4 + random() * 0.4);
+      startFrequency = 0.2 + random() * 0.3;
+      slide = 0.1 + random() * 0.4;
+      repeatSpeed = 0.4 + random() * 0.4;
     }
     else
     {
-      startFrequency.set( 0.2 + random() * 0.3);
-      slide.set( 0.05 + random() * 0.2);
+      startFrequency = 0.2 + random() * 0.3;
+      slide = 0.05 + random() * 0.2;
 
       if(random() < 0.5)
       {
-        vibratoDepth.set( random() * 0.7);
-        vibratoSpeed.set( random() * 0.6);
+        vibratoDepth = random() * 0.7;
+        vibratoSpeed = random() * 0.6;
       }
     }
 
-    sustainTime.set( random() * 0.4);
-    decayTime.set( 0.1 + random() * 0.4);
+    sustainTime = random() * 0.4;
+    decayTime = 0.1 + random() * 0.4;
   }
 
   void SfxrParams::generateHitHurt()
@@ -639,15 +647,15 @@ namespace Synthesizer
       case 2: waveType = WaveType::Noise; break;
     }
     if(waveType == WaveType::Square) 
-      squareDuty.set( random() * 0.6);
+      squareDuty = random() * 0.6;
 
-    startFrequency.set( 0.2 + random() * 0.6);
-    slide.set( -0.3 - random() * 0.4);
+    startFrequency = 0.2 + random() * 0.6;
+    slide = -0.3 - random() * 0.4;
 
-    sustainTime.set( random() * 0.1);
-    decayTime.set( 0.1 + random() * 0.2);
+    sustainTime = random() * 0.1;
+    decayTime = 0.1 + random() * 0.2;
 
-    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
+    if(random() < 0.5) hpFilterCutoff = random() * 0.3;
   }
 
   void SfxrParams::generateJump()
@@ -655,15 +663,15 @@ namespace Synthesizer
     resetParams();
 
     waveType = WaveType::Square;
-    squareDuty.set( random() * 0.6);
-    startFrequency.set( 0.3 + random() * 0.3);
-    slide.set( 0.1 + random() * 0.2);
+    squareDuty = random() * 0.6;
+    startFrequency = 0.3 + random() * 0.3;
+    slide = 0.1 + random() * 0.2;
 
-    sustainTime.set( 0.1 + random() * 0.3);
-    decayTime.set( 0.1 + random() * 0.2);
+    sustainTime = 0.1 + random() * 0.3;
+    decayTime = 0.1 + random() * 0.2;
 
-    if(random() < 0.5) hpFilterCutoff.set( random() * 0.3);
-    if(random() < 0.5) lpFilterCutoff.set( 1.0 - random() * 0.6);
+    if(random() < 0.5) hpFilterCutoff = random() * 0.3;
+    if(random() < 0.5) lpFilterCutoff = 1.0 - random() * 0.6;
   }
 
   void SfxrParams::generateBlipSelect()
@@ -672,22 +680,22 @@ namespace Synthesizer
 
     waveType = (random() < 0.5)? WaveType::Square : WaveType::Saw;
     if(waveType == WaveType::Square) 
-      squareDuty.set( random() * 0.6);
+      squareDuty = random() * 0.6;
 
-    startFrequency.set(0.2 + random() * 0.4);
+    startFrequency =0.2 + random() * 0.4;
 
-    sustainTime.set( 0.1 + random() * 0.1);
-    decayTime.set( random() * 0.2);
-    hpFilterCutoff.set( 0.1);
+    sustainTime = 0.1 + random() * 0.1;
+    decayTime = random() * 0.2;
+    hpFilterCutoff = 0.1;
   }
 
   void SfxrParams::resetParams()
   {
     waveType = WaveType::Square;
-#define ONVAR(v) do { v.set(BFXR_PARAM_##v##_DEF); v.locked = false; } while(false)
+#define ONVAR(v) do { v =BFXR_PARAM_##v##_DEF; v##_locked = false; } while(false)
     ALLVALUES
 #undef ONVAR
-      masterVolume.locked = true;
+      masterVolume_locked = true;
   }
 
   void SfxrParams::mutate(double mutation)
@@ -695,11 +703,11 @@ namespace Synthesizer
     // should waveType be mutated... I dont think so
 #define ONVAR(param) do \
     {\
-      if (!param.locked)\
+      if (!param##_locked)\
       {\
         if (random()<0.5)\
         {\
-          param.set(param.get() + random()*mutation*2 - mutation);\
+          param =param + random()*mutation*2 - mutation;\
         }\
       }\
     } while(false)
@@ -711,12 +719,12 @@ namespace Synthesizer
   {
 #define ONVAR(param) do \
     {\
-      if (!param.locked)\
+      if (!param##_locked)\
       {\
         const auto min = BFXR_PARAM_##param##_MIN;\
         const auto max = BFXR_PARAM_##param##_MAX;\
         const auto r = pow(random(), BFXR_PARAM_##param##_RANDOM_POWER);\
-        param.set(min  + (max-min)*r);\
+        param =min  + (max-min)*r;\
       }\
     } while(false)
     ALLVALUES
@@ -727,53 +735,53 @@ namespace Synthesizer
         waveType = static_cast<WaveType>(static_cast<unsigned int>(random() * static_cast<int>(WaveType::COUNT)));
       }
 
-    if (!repeatSpeed.locked)
+    if (!repeatSpeed_locked)
     {
       if (random()<0.5)
-        repeatSpeed.set(0);
+        repeatSpeed =0;
     }
 
-    if (!slide.locked)
+    if (!slide_locked)
     {
       auto r=random()*2-1;
       r=pow(r,5);
-      slide.set(r);
+      slide =r;
     }
-    if (!deltaSlide.locked)
+    if (!deltaSlide_locked)
     {
       auto r=random()*2-1;
       r=pow(r,3);
-      deltaSlide.set(r);
+      deltaSlide =r;
     }
 
-    if (!minFrequency.locked)
-      minFrequency.set(0);
+    if (!minFrequency_locked)
+      minFrequency =0;
 
-    if (!startFrequency.locked)
-      startFrequency.set(  	(random() < 0.5) ? pow(random()*2-1, 2) : (pow(random() * 0.5, 3) + 0.5));
+    if (!startFrequency_locked)
+      startFrequency =  	(random() < 0.5) ? pow(random()*2-1, 2) : (pow(random() * 0.5, 3) + 0.5);
 
-    if ((!sustainTime.locked) && (!decayTime.locked))
+    if ((!sustainTime_locked) && (!decayTime_locked))
     {
-      if(attackTime.get() + sustainTime.get() + decayTime.get() < 0.2)
+      if(attackTime + sustainTime + decayTime < 0.2)
       {
-        sustainTime.set( 0.2 + random() * 0.3);
-        decayTime.set( 0.2 + random() * 0.3);
+        sustainTime = 0.2 + random() * 0.3;
+        decayTime = 0.2 + random() * 0.3;
       }
     }
 
-    if (!slide.locked)
+    if (!slide_locked)
     {
-      if((startFrequency.get() > 0.7 && slide.get() > 0.2) || (startFrequency.get() < 0.2 && slide.get() < -0.05)) 
+      if((startFrequency > 0.7 && slide > 0.2) || (startFrequency < 0.2 && slide < -0.05)) 
       {
-        slide.set( -slide.get());
+        slide = -slide;
       }
     }
 
-    if (!lpFilterCutoffSweep.locked)
+    if (!lpFilterCutoffSweep_locked)
     {
-      if(lpFilterCutoff.get() < 0.1 && lpFilterCutoffSweep.get() < -0.05) 
+      if(lpFilterCutoff < 0.1 && lpFilterCutoffSweep < -0.05) 
       {
-        lpFilterCutoffSweep.set( -lpFilterCutoffSweep.get());
+        lpFilterCutoffSweep = -lpFilterCutoffSweep;
       }
     }
   }
@@ -1157,13 +1165,13 @@ namespace Synthesizer
     void clampTotalLength()
     {
       auto& p = _params;
-      const auto totalTime = p.attackTime.get() + p.sustainTime.get() + p.decayTime.get();
+      const auto totalTime = p.attackTime + p.sustainTime + p.decayTime;
       if (totalTime < MIN_LENGTH ) 
       {
         const auto multiplier = MIN_LENGTH / totalTime;
-        p.attackTime.set(p.attackTime.get() * multiplier);
-        p.sustainTime.set(p.sustainTime.get() * multiplier);
-        p.decayTime.set(p.decayTime.get() * multiplier);
+        p.attackTime =p.attackTime * multiplier;
+        p.sustainTime =p.sustainTime * multiplier;
+        p.decayTime =p.decayTime * multiplier;
       }
     }
 
@@ -1176,97 +1184,97 @@ namespace Synthesizer
     {
       auto& p = _params;
 
-      _period = 100.0 / (p.startFrequency.get() * p.startFrequency.get() + 0.001);
-      _maxPeriod = 100.0 / (p.minFrequency.get() * p.minFrequency.get() + 0.001);
+      _period = 100.0 / (p.startFrequency * p.startFrequency + 0.001);
+      _maxPeriod = 100.0 / (p.minFrequency * p.minFrequency + 0.001);
 
 
-      _slide = 1.0 - p.slide.get() * p.slide.get() * p.slide.get() * 0.01;
-      _deltaSlide = -p.deltaSlide.get() * p.deltaSlide.get() * p.deltaSlide.get() * 0.000001;
+      _slide = 1.0 - p.slide * p.slide * p.slide * 0.01;
+      _deltaSlide = -p.deltaSlide * p.deltaSlide * p.deltaSlide * 0.000001;
 
       if (p.waveType == WaveType::Square)
       {
-        _squareDuty = 0.5 - p.squareDuty.get() * 0.5;
-        _dutySweep = -p.dutySweep.get() * 0.00005;
+        _squareDuty = 0.5 - p.squareDuty * 0.5;
+        _dutySweep = -p.dutySweep * 0.00005;
       }
 
       // removed a call to max(x) with a single arg
-      _changePeriod = (((1-p.changeRepeat.get())+0.1)/1.1) * 20000 + 32;
+      _changePeriod = (((1-p.changeRepeat)+0.1)/1.1) * 20000 + 32;
       _changePeriodTime = 0;
 
-      if (p.changeAmount.get() > 0.0) 	_changeAmount = 1.0 - p.changeAmount.get() * p.changeAmount.get() * 0.9;
-      else 						_changeAmount = 1.0 + p.changeAmount.get() * p.changeAmount.get() * 10.0;
+      if (p.changeAmount > 0.0) 	_changeAmount = 1.0 - p.changeAmount * p.changeAmount * 0.9;
+      else 						_changeAmount = 1.0 + p.changeAmount * p.changeAmount * 10.0;
 
       _changeTime = 0;
       _changeReached=false;
 
-      if(p.changeSpeed.get() == 1.0) 	_changeLimit = 0;
-      else 						_changeLimit = (1.0 - p.changeSpeed.get()) * (1.0 - p.changeSpeed.get()) * 20000 + 32;
+      if(p.changeSpeed == 1.0) 	_changeLimit = 0;
+      else 						_changeLimit = (1.0 - p.changeSpeed) * (1.0 - p.changeSpeed) * 20000 + 32;
 
 
-      if (p.changeAmount2.get() > 0.0) 	_changeAmount2 = 1.0 - p.changeAmount2.get() * p.changeAmount2.get() * 0.9;
-      else 						_changeAmount2 = 1.0 + p.changeAmount2.get() * p.changeAmount2.get() * 10.0;
+      if (p.changeAmount2 > 0.0) 	_changeAmount2 = 1.0 - p.changeAmount2 * p.changeAmount2 * 0.9;
+      else 						_changeAmount2 = 1.0 + p.changeAmount2 * p.changeAmount2 * 10.0;
 
 
       _changeTime2 = 0;			
       _changeReached2=false;
 
-      if(p.changeSpeed2.get() == 1.0) 	_changeLimit2 = 0;
-      else 						_changeLimit2 = (1.0 - p.changeSpeed2.get()) * (1.0 - p.changeSpeed2.get()) * 20000 + 32;
+      if(p.changeSpeed2 == 1.0) 	_changeLimit2 = 0;
+      else 						_changeLimit2 = (1.0 - p.changeSpeed2) * (1.0 - p.changeSpeed2) * 20000 + 32;
 
-      _changeLimit*=(1-p.changeRepeat.get()+0.1)/1.1;
-      _changeLimit2*=(1-p.changeRepeat.get()+0.1)/1.1;
+      _changeLimit*=(1-p.changeRepeat+0.1)/1.1;
+      _changeLimit2*=(1-p.changeRepeat+0.1)/1.1;
 
       if(totalReset)
       {
-        _masterVolume = p.masterVolume.get() * p.masterVolume.get();
+        _masterVolume = p.masterVolume * p.masterVolume;
 
         _waveType = p.waveType;
 
-        if (p.sustainTime.get() < 0.01) p.sustainTime.set( 0.01);
+        if (p.sustainTime < 0.01) p.sustainTime = 0.01;
 
         clampTotalLength();
 
-        _sustainPunch = p.sustainPunch.get();
+        _sustainPunch = p.sustainPunch;
 
         _phase = 0;
 
-        _minFreqency = p.minFrequency.get();
+        _minFreqency = p.minFrequency;
         _muted=false;
-        _overtones = p.overtones.get()*10;
-        _overtoneFalloff = p.overtoneFalloff.get();
+        _overtones = p.overtones*10;
+        _overtoneFalloff = p.overtoneFalloff;
 
-        _bitcrush_freq = 1 - pow(p.bitCrush.get(),1.0/3.0);				
-        _bitcrush_freq_sweep = -p.bitCrushSweep.get()* 0.000015;
+        _bitcrush_freq = 1 - pow(p.bitCrush,1.0/3.0);				
+        _bitcrush_freq_sweep = -p.bitCrushSweep* 0.000015;
         _bitcrush_phase=0;
         _bitcrush_last=0;				
 
-        _compression_factor = 1/(1+4*p.compressionAmount.get());
+        _compression_factor = 1/(1+4*p.compressionAmount);
 
-        _filters = p.lpFilterCutoff.get() != 1.0 || p.hpFilterCutoff.get() != 0.0;				
+        _filters = p.lpFilterCutoff != 1.0 || p.hpFilterCutoff != 0.0;				
 
         _lpFilterPos = 0.0;
         _lpFilterDeltaPos = 0.0;
-        _lpFilterCutoff = p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * p.lpFilterCutoff.get() * 0.1;
-        _lpFilterDeltaCutoff = 1.0 + p.lpFilterCutoffSweep.get() * 0.0001;
-        _lpFilterDamping = 5.0 / (1.0 + p.lpFilterResonance.get() * p.lpFilterResonance.get() * 20.0) * (0.01 + _lpFilterCutoff);
+        _lpFilterCutoff = p.lpFilterCutoff * p.lpFilterCutoff * p.lpFilterCutoff * 0.1;
+        _lpFilterDeltaCutoff = 1.0 + p.lpFilterCutoffSweep * 0.0001;
+        _lpFilterDamping = 5.0 / (1.0 + p.lpFilterResonance * p.lpFilterResonance * 20.0) * (0.01 + _lpFilterCutoff);
         if (_lpFilterDamping > 0.8) _lpFilterDamping = 0.8;
         _lpFilterDamping = 1.0 - _lpFilterDamping;
-        _lpFilterOn = p.lpFilterCutoff.get() != 1.0;
+        _lpFilterOn = p.lpFilterCutoff != 1.0;
 
         _hpFilterPos = 0.0;
-        _hpFilterCutoff = p.hpFilterCutoff.get() * p.hpFilterCutoff.get() * 0.1;
-        _hpFilterDeltaCutoff = 1.0 + p.hpFilterCutoffSweep.get() * 0.0003;
+        _hpFilterCutoff = p.hpFilterCutoff * p.hpFilterCutoff * 0.1;
+        _hpFilterDeltaCutoff = 1.0 + p.hpFilterCutoffSweep * 0.0003;
 
         _vibratoPhase = 0.0;
-        _vibratoSpeed = p.vibratoSpeed.get() * p.vibratoSpeed.get() * 0.01;
-        _vibratoAmplitude = p.vibratoDepth.get() * 0.5;
+        _vibratoSpeed = p.vibratoSpeed * p.vibratoSpeed * 0.01;
+        _vibratoAmplitude = p.vibratoDepth * 0.5;
 
         _envelopeVolume = 0.0;
         _envelopeStage = 0;
         _envelopeTime = 0;
-        _envelopeLength0 = p.attackTime.get() * p.attackTime.get() * 100000.0;
-        _envelopeLength1 = p.sustainTime.get() * p.sustainTime.get() * 100000.0;
-        _envelopeLength2 = p.decayTime.get() * p.decayTime.get() * 100000.0 + 10;
+        _envelopeLength0 = p.attackTime * p.attackTime * 100000.0;
+        _envelopeLength1 = p.sustainTime * p.sustainTime * 100000.0;
+        _envelopeLength2 = p.decayTime * p.decayTime * 100000.0 + 10;
         _envelopeLength = _envelopeLength0;
         _envelopeFullLength = _envelopeLength0 + _envelopeLength1 + _envelopeLength2;
 
@@ -1274,11 +1282,11 @@ namespace Synthesizer
         _envelopeOverLength1 = 1.0 / _envelopeLength1;
         _envelopeOverLength2 = 1.0 / _envelopeLength2;
 
-        _flanger = p.flangerOffset.get() != 0.0 || p.flangerSweep.get() != 0.0;
+        _flanger = p.flangerOffset != 0.0 || p.flangerSweep != 0.0;
 
-        _flangerOffset = p.flangerOffset.get() * p.flangerOffset.get() * 1020.0;
-        if(p.flangerOffset.get() < 0.0) _flangerOffset = -_flangerOffset;
-        _flangerDeltaOffset = p.flangerSweep.get() * p.flangerSweep.get() * p.flangerSweep.get() * 0.2;
+        _flangerOffset = p.flangerOffset * p.flangerOffset * 1020.0;
+        if(p.flangerOffset < 0.0) _flangerOffset = -_flangerOffset;
+        _flangerDeltaOffset = p.flangerSweep * p.flangerSweep * p.flangerSweep * 0.2;
         _flangerPos = 0;
 
         _flangerBuffer.reserve(1024);
@@ -1298,8 +1306,8 @@ namespace Synthesizer
 
         _repeatTime = 0;
 
-        if (p.repeatSpeed.get() == 0.0) 	_repeatLimit = 0;
-        else 						_repeatLimit = int((1.0-p.repeatSpeed.get()) * (1.0-p.repeatSpeed.get()) * 20000) + 32;
+        if (p.repeatSpeed == 0.0) 	_repeatLimit = 0;
+        else 						_repeatLimit = int((1.0-p.repeatSpeed) * (1.0-p.repeatSpeed) * 20000) + 32;
       }
     }
 
