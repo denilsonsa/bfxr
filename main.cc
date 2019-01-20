@@ -451,20 +451,10 @@ class App : public AppBase
     if(samples.empty()) { return 0.0f; }
     else return samples[time];
   }
-
-  void
-  Update(float dt, float current_time)
-  {
-  }
-
-  void
-  OnKey(SDL_Keycode key, Uint16 mod, bool down, float time)
-  {
-  }
 };
 
 int
-main(int argc, char* argv[])
+main(int, char**)
 {
 
   App app;
@@ -494,8 +484,6 @@ main(int argc, char* argv[])
 
     time += dt;
 
-    app.Update(dt, time);
-
     while(SDL_PollEvent(&event))
     {
       ImGui_ImplSDL2_ProcessEvent(&event);
@@ -503,22 +491,6 @@ main(int argc, char* argv[])
       {
         case SDL_QUIT:
           run = false;
-          break;
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-          if(!ImGui::GetIO().WantCaptureKeyboard)
-          {
-            if(event.key.repeat == 0)
-            {
-              app.OnKey(
-                  event.key.keysym.sym,
-                  event.key.keysym.mod,
-                  event.type == SDL_KEYDOWN,
-                  time);
-            }
-          }
-          break;
-        default:
           break;
       }
 

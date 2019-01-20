@@ -110,7 +110,7 @@ namespace Synthesizer
 
       struct Param {
         // real name, decription, grouping, default, min, max, 
-        Param(int grouping, double def, double min, double max)
+        Param(int, double def, double min, double max)
           :   default_value(def)
             , min_value(min)
             , max_value(max)
@@ -962,6 +962,9 @@ namespace Synthesizer
                   _sample += overtonestrength*_buzz;
                   break;
                 }
+              case WaveType::COUNT:
+                assert(0 && "invalid case");
+                break;
             }
             overtonestrength*=(1-_overtoneFalloff);
 
