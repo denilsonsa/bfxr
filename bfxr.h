@@ -357,6 +357,11 @@ namespace Synthesizer
 namespace Synthesizer 
 {
   void GenerateSound(const SfxrParams& params, std::vector<double>* data);
+
+
+  // Copied straight out of sfxr source
+  // license: MIT
+  bool SaveWav(const char* filename, const std::vector<double>& data);
 }
 
 // ----------------------------------------------------------------------
@@ -1444,6 +1449,81 @@ namespace Synthesizer
     SfxrSynth synth{params};
     synth.GenerateSound(data);
   }
+
+
+
+
+  bool SaveWav(const char* filename, const std::vector<double>& data)
+  {
+    const int wav_bits=16;
+    const int wav_freq=44100;
+
+    FILE* foutput=fopen(filename, "wb");
+    if(!foutput)
+      return false;
+    // write wav header
+    unsigned int dword=0;
+    unsigned short word=0;
+    fwrite("RIFF", 4, 1, foutput); // "RIFF"
+    dword=0;
+    fwrite(&dword, 1, 4, foutput); // remaining file size
+    fwrite("WAVE", 4, 1, foutput); // "WAVE"
+
+    fwrite("fmt ", 4, 1, foutput); // "fmt "
+    dword=16;
+    fwrite(&dword, 1, 4, foutput); // chunk size
+    word=1;
+    fwrite(&word, 1, 2, foutput); // compression code
+    word=1;
+    fwrite(&word, 1, 2, foutput); // channels
+    dword=wav_freq;
+    fwrite(&dword, 1, 4, foutput); // sample rate
+    dword=wav_freq*wav_bits/8;
+    fwrite(&dword, 1, 4, foutput); // bytes/sec
+    word=wav_bits/8;
+    fwrite(&word, 1, 2, foutput); // block align
+    word=wav_bits;
+    fwrite(&word, 1, 2, foutput); // bits per sample
+
+    fwrite("data", 4, 1, foutput); // "data"
+    dword=0;
+    int foutstream_datasize=ftell(foutput);
+    fwrite(&dword, 1, 4, foutput); // chunk size
+
+    // write sample data
+    for(auto sample: data)
+    {
+      auto ssample = sample;
+			if(ssample>1.0) ssample=1.0;
+			if(ssample<-1.0) ssample=-1.0;
+			assert(wav_freq==44100);
+      const auto filesample = ssample;
+      if(wav_bits==16)
+      {
+        short isample=(short)(filesample*32000);
+        fwrite(&isample, 1, 2, foutput);
+      }
+      else
+      {
+        unsigned char isample=(unsigned char)(filesample*127+128);
+        fwrite(&isample, 1, 1, foutput);
+      }
+    }
+    const auto file_sampleswritten = data.size();
+
+    // seek back to header and write size info
+    fseek(foutput, 4, SEEK_SET);
+    dword=0;
+    dword=foutstream_datasize-4+file_sampleswritten*wav_bits/8;
+    fwrite(&dword, 1, 4, foutput); // remaining file size
+    fseek(foutput, foutstream_datasize, SEEK_SET);
+    dword=file_sampleswritten*wav_bits/8;
+    fwrite(&dword, 1, 4, foutput); // chunk size (data)
+    fclose(foutput);
+    
+    return true;
+  }
+
 }
 
 #endif // BFXR_IMPLEMENTATION

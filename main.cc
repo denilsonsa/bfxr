@@ -399,6 +399,10 @@ class App : public AppBase
       {
         ImGui::PlotLines("Sample", &double_to_float, &samples, samples.size(), 0, nullptr, -1.0f, 1.0f, ImVec2{0, 120});
       }
+      if(!samples.empty() && ImGui::Button("Save wav"))
+      {
+        Synthesizer::SaveWav("sample.wav", samples);
+      }
       ImGui::Separator();
 
 #define RAD(TEXT, DESC, WT) if(radio(TEXT, &param.waveType, WT)) { sound_changed = true; } ImGui::SameLine(); ShowHelpMarker(DESC)
