@@ -719,7 +719,6 @@ namespace Synthesizer
     }
 
     double synthOneSample() {
-      {
         if (_finished) 
         {
           return 0.0;
@@ -1047,7 +1046,6 @@ namespace Synthesizer
         }
 
         return _superSample;
-      }
     }
 
     void clampTotalLength()
