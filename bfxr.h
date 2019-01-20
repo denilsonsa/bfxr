@@ -708,12 +708,14 @@ namespace Synthesizer
    */
   struct SfxrSynth 
   {
-    void startSynth()
+    SfxrSynth(const SfxrParams& p)
+      : _params(p)
     {
       _finished = false;
-
       _sampleCount = 0;
       _bufferSample = 0.0;
+
+      reset(true);
     }
 
     double synthOneSample() {
@@ -1205,9 +1207,6 @@ namespace Synthesizer
 
     void GenerateSound(std::vector<double>* data)
     {
-      reset(true);
-
-      startSynth();
       const auto samples = GetNumberOfSamples();
       for(unsigned int i=0; i< samples; i+=1) {
         data->push_back(synthOneSample());
@@ -1332,8 +1331,7 @@ namespace Synthesizer
 
   void GenerateSound(const SfxrParams& params, std::vector<double>* data)
   {
-    SfxrSynth synth;
-    synth._params = params;
+    SfxrSynth synth{params};
     synth.GenerateSound(data);
   }
 }
