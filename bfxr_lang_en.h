@@ -76,5 +76,98 @@
 // ------------------------------------------------------------
 
 
+#define TEXT_PARAM_masterVolume  "Master Volume"
+#define TEXT_PARAM_D_masterVolume  "Overall volume of the sound."
+
+#define TEXT_PARAM_attackTime  "Attack Time"
+#define TEXT_PARAM_D_attackTime  "Length of the volume envelope attack."
+
+#define TEXT_PARAM_sustainTime  "Sustain Time"
+#define TEXT_PARAM_D_sustainTime  "Length of the volume envelope sustain."
+
+#define TEXT_PARAM_sustainPunch  "Punch"
+#define TEXT_PARAM_D_sustainPunch  "Tilts the sustain envelope for more 'pop'."
+
+#define TEXT_PARAM_decayTime  "Decay Time"
+#define TEXT_PARAM_D_decayTime  "Length of the volume envelope decay (yes, I know it's called release)."
+
+#define TEXT_PARAM_compressionAmount  "Compression"
+#define TEXT_PARAM_D_compressionAmount  "Pushes amplitudes together into a narrower range to make them stand out more.  Very good for sound effects, where you want them to stick out against background music."
+
+#define TEXT_PARAM_startFrequency  "Frequency"
+#define TEXT_PARAM_D_startFrequency  "Base note of the sound."
+
+#define TEXT_PARAM_minFrequency  "Frequency Cutoff"
+#define TEXT_PARAM_D_minFrequency  "If sliding, the sound will stop at this frequency, to prevent really low notes.  If unlocked, this is set to zero during randomization."
+
+#define TEXT_PARAM_slide  "Frequency Slide"
+#define TEXT_PARAM_D_slide  "Slides the frequency up or down."
+
+#define TEXT_PARAM_deltaSlide  "Delta Slide"
+#define TEXT_PARAM_D_deltaSlide  "Accelerates the frequency slide.  Can be used to get the frequency to change direction."
+
+#define TEXT_PARAM_vibratoDepth  "Vibrato Depth"
+#define TEXT_PARAM_D_vibratoDepth  "Strength of the vibrato effect."
+
+#define TEXT_PARAM_vibratoSpeed  "Vibrato Speed"
+#define TEXT_PARAM_D_vibratoSpeed  "Speed of the vibrato effect (i.e. frequency)."
+
+#define TEXT_PARAM_overtones  "Harmonics"
+#define TEXT_PARAM_D_overtones  "Overlays copies of the waveform with copies and multiples of its frequency.  Good for bulking out or otherwise enriching the texture of the sounds (warning: this is the number 1 cause of bfxr slowdown!)."
+
+#define TEXT_PARAM_overtoneFalloff  "Harmonics Falloff"
+#define TEXT_PARAM_D_overtoneFalloff  "The rate at which higher overtones should decay."
+
+#define TEXT_PARAM_changeRepeat  "Pitch Jump Repeat Speed"
+#define TEXT_PARAM_D_changeRepeat  "Larger Values means more pitch jumps, which can be useful for arpeggiation."
+
+#define TEXT_PARAM_changeAmount  "Pitch Jump Amount 1"
+#define TEXT_PARAM_D_changeAmount  "Jump in pitch, either up or down."
+
+#define TEXT_PARAM_changeSpeed  "Pitch Jump Onset 1"
+#define TEXT_PARAM_D_changeSpeed  "How quickly the note shift happens."
+
+#define TEXT_PARAM_changeAmount2  "Pitch Jump Amount 2"
+#define TEXT_PARAM_D_changeAmount2  "Jump in pitch, either up or down."
+
+#define TEXT_PARAM_changeSpeed2  "Pitch Jump Onset 2"
+#define TEXT_PARAM_D_changeSpeed2  "How quickly the note shift happens."
+
+#define TEXT_PARAM_squareDuty  "Square Duty"
+#define TEXT_PARAM_D_squareDuty  "Square waveform only : Controls the ratio between the up and down states of the square wave, changing the tibre."
+
+#define TEXT_PARAM_dutySweep  "Duty Sweep"
+#define TEXT_PARAM_D_dutySweep  "Square waveform only : Sweeps the duty up or down."
+
+#define TEXT_PARAM_repeatSpeed  "Repeat Speed"
+#define TEXT_PARAM_D_repeatSpeed  "Speed of the note repeating - certain variables are reset each time."
+
+#define TEXT_PARAM_flangerOffset  "Flanger Offset"
+#define TEXT_PARAM_D_flangerOffset  "Offsets a second copy of the wave by a small phase, changing the tibre."
+
+#define TEXT_PARAM_flangerSweep  "Flanger Sweep"
+#define TEXT_PARAM_D_flangerSweep  "Sweeps the phase up or down."
+
+#define TEXT_PARAM_lpFilterCutoff  "Low-pass Filter Cutoff"
+#define TEXT_PARAM_D_lpFilterCutoff  "Frequency at which the low-pass filter starts attenuating higher frequencies.  Named most likely to result in 'Huh why can't I hear anything?' at her high-school grad. "
+
+#define TEXT_PARAM_lpFilterCutoffSweep  "Low-pass Filter Cutoff Sweep"
+#define TEXT_PARAM_D_lpFilterCutoffSweep  "Sweeps the low-pass cutoff up or down."
+
+#define TEXT_PARAM_lpFilterResonance  "Low-pass Filter Resonance"
+#define TEXT_PARAM_D_lpFilterResonance  "Changes the attenuation rate for the low-pass filter, changing the timbre."
+
+#define TEXT_PARAM_hpFilterCutoff  "High-pass Filter Cutoff"
+#define TEXT_PARAM_D_hpFilterCutoff  "Frequency at which the high-pass filter starts attenuating lower frequencies."
+
+#define TEXT_PARAM_hpFilterCutoffSweep  "High-pass Filter Cutoff Sweep"
+#define TEXT_PARAM_D_hpFilterCutoffSweep  "Sweeps the high-pass cutoff up or down."
+
+#define TEXT_PARAM_bitCrush  "Bit Crush"
+#define TEXT_PARAM_D_bitCrush  "Resamples the audio at a lower frequency."
+
+#define TEXT_PARAM_bitCrushSweep  "Bit Crush Sweep"
+#define TEXT_PARAM_D_bitCrushSweep  "Sweeps the Bit Crush filter up or down."
+
 
 #endif  // BFXR_LANG_EN_H

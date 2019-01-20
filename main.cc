@@ -420,12 +420,12 @@ class App : public AppBase
         do {\
           ImGui::PushID(id++);\
           float current_value = param.p.get();\
-          auto changed = ImGui::SliderFloat(param.p.real_name.c_str(), &current_value, param.p.min_value, param.p.max_value);\
+          auto changed = ImGui::SliderFloat(TEXT_PARAM_##p, &current_value, param.p.min_value, param.p.max_value);\
           if(changed) {param.p.set(current_value); sound_changed = true;}\
           ImGui::SameLine();\
           Locked(&param.p.locked);\
           ImGui::SameLine();\
-          ShowHelpMarker(param.p.description.c_str());\
+          ShowHelpMarker(TEXT_PARAM_D_##p);\
           ImGui::PopID();\
         }while(false)
       ALLVALUES

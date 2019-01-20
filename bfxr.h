@@ -110,17 +110,13 @@ namespace Synthesizer
 
       struct Param {
         // real name, decription, grouping, default, min, max, 
-        Param(const std::string& name, const std::string& desc, int grouping, double def, double min, double max)
-          : real_name(name)
-            , description(desc)
-            , default_value(def)
+        Param(int grouping, double def, double min, double max)
+          :   default_value(def)
             , min_value(min)
             , max_value(max)
         {
         }
 
-        std::string real_name;
-        std::string description;
         double default_value;
         double min_value;
         double max_value;
@@ -295,37 +291,37 @@ namespace Synthesizer
 
   SfxrParams::SfxrParams()
     // real name, decription, grouping, default, min, max, 
-    : masterVolume ( "Master Volume","Overall volume of the sound.", 1,0.5,0,1) 	
-      , attackTime ( "Attack Time","Length of the volume envelope attack.", 1,0,0,1)		
-      , sustainTime ( "Sustain Time","Length of the volume envelope sustain.", 1,0.3,0,1) 	
-      , sustainPunch ( "Punch","Tilts the sustain envelope for more 'pop'.", 1,0,0,1) 		
-      , decayTime ( "Decay Time","Length of the volume envelope decay (yes, I know it's called release).", 1,0.4,0,1) 	
-      , compressionAmount ( "Compression","Pushes amplitudes together into a narrower range to make them stand out more.  Very good for sound effects, where you want them to stick out against background music.", 15,0.3,0,1)
-      , startFrequency ( "Frequency","Base note of the sound.", 2,0.3,0,1) 		
-      , minFrequency ( "Frequency Cutoff","If sliding, the sound will stop at this frequency, to prevent really low notes.  If unlocked, this is set to zero during randomization.", 2,0.0,0,1) 		
-      , slide ( "Frequency Slide","Slides the frequency up or down.", 3,0.0,-1,1) 	
-      , deltaSlide ( "Delta Slide","Accelerates the frequency slide.  Can be used to get the frequency to change direction.", 3,0.0,-1,1) 		
-      , vibratoDepth ( "Vibrato Depth","Strength of the vibrato effect.", 4,0,0,1) 		
-      , vibratoSpeed ( "Vibrato Speed","Speed of the vibrato effect (i.e. frequency).", 4,0,0,1) 		
-      , overtones ( "Harmonics","Overlays copies of the waveform with copies and multiples of its frequency.  Good for bulking out or otherwise enriching the texture of the sounds (warning: this is the number 1 cause of bfxr slowdown!).", 13,0,0,1) 		
-      , overtoneFalloff ( "Harmonics Falloff","The rate at which higher overtones should decay.", 13,0,0,1) 
-      , changeRepeat ( "Pitch Jump Repeat Speed","Larger Values means more pitch jumps, which can be useful for arpeggiation.", 5,0,0,1) 		
-      , changeAmount ( "Pitch Jump Amount 1","Jump in pitch, either up or down.", 5,0,-1,1) 		
-      , changeSpeed ( "Pitch Jump Onset 1","How quickly the note shift happens.", 5,0,0,1) 		
-      , changeAmount2 ( "Pitch Jump Amount 2","Jump in pitch, either up or down.", 5,0,-1,1) 	
-      , changeSpeed2 ( "Pitch Jump Onset 2","How quickly the note shift happens.", 5,0,0,1) 		
-      , squareDuty ( "Square Duty","Square waveform only : Controls the ratio between the up and down states of the square wave, changing the tibre.", 8,0,0,1) 		
-      , dutySweep ( "Duty Sweep","Square waveform only : Sweeps the duty up or down.", 8,0,-1,1) 		
-      , repeatSpeed ( "Repeat Speed","Speed of the note repeating - certain variables are reset each time.", 9,0,0,1) 	
-      , flangerOffset ( "Flanger Offset","Offsets a second copy of the wave by a small phase, changing the tibre.", 10,0,-1,1) 		
-      , flangerSweep ( "Flanger Sweep","Sweeps the phase up or down.", 10,0,-1,1) 
-      , lpFilterCutoff ( "Low-pass Filter Cutoff","Frequency at which the low-pass filter starts attenuating higher frequencies.  Named most likely to result in 'Huh why can't I hear anything?' at her high-school grad. ", 11,1,0,1) 		
-      , lpFilterCutoffSweep ( "Low-pass Filter Cutoff Sweep","Sweeps the low-pass cutoff up or down.", 11,0,-1,1) 	
-      , lpFilterResonance ( "Low-pass Filter Resonance","Changes the attenuation rate for the low-pass filter, changing the timbre.", 11,0,0,1) 		
-      , hpFilterCutoff ( "High-pass Filter Cutoff","Frequency at which the high-pass filter starts attenuating lower frequencies.", 12,0,0,1) 	
-      , hpFilterCutoffSweep ( "High-pass Filter Cutoff Sweep","Sweeps the high-pass cutoff up or down.", 12,0,-1,1) 	
-      , bitCrush ( "Bit Crush","Resamples the audio at a lower frequency.", 14,0,0,1)
-      , bitCrushSweep ( "Bit Crush Sweep","Sweeps the Bit Crush filter up or down.", 14,0,-1,1) 
+    : masterVolume (  1,0.5,0,1) 	
+      , attackTime (  1,0,0,1)		
+      , sustainTime (  1,0.3,0,1) 	
+      , sustainPunch (  1,0,0,1) 		
+      , decayTime (  1,0.4,0,1) 	
+      , compressionAmount (  15,0.3,0,1)
+      , startFrequency (  2,0.3,0,1) 		
+      , minFrequency (  2,0.0,0,1) 		
+      , slide (  3,0.0,-1,1) 	
+      , deltaSlide (  3,0.0,-1,1) 		
+      , vibratoDepth (  4,0,0,1) 		
+      , vibratoSpeed (  4,0,0,1) 		
+      , overtones (  13,0,0,1) 		
+      , overtoneFalloff (  13,0,0,1) 
+      , changeRepeat (  5,0,0,1) 		
+      , changeAmount (  5,0,-1,1) 		
+      , changeSpeed (  5,0,0,1) 		
+      , changeAmount2 (  5,0,-1,1) 	
+      , changeSpeed2 (  5,0,0,1) 		
+      , squareDuty (  8,0,0,1) 		
+      , dutySweep (  8,0,-1,1) 		
+      , repeatSpeed (  9,0,0,1) 	
+      , flangerOffset (  10,0,-1,1) 		
+      , flangerSweep (  10,0,-1,1) 
+      , lpFilterCutoff (  11,1,0,1) 		
+      , lpFilterCutoffSweep (  11,0,-1,1) 	
+      , lpFilterResonance (  11,0,0,1) 		
+      , hpFilterCutoff (  12,0,0,1) 	
+      , hpFilterCutoffSweep (  12,0,-1,1) 	
+      , bitCrush (  14,0,0,1)
+      , bitCrushSweep (  14,0,-1,1) 
   {
     resetParams();
 
