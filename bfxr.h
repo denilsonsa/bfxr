@@ -447,7 +447,6 @@ namespace Synthesizer
   {
     makeValid();
     resetParams();
-
   }
 
 #define ALLVALUES\
@@ -823,8 +822,6 @@ namespace Synthesizer
       : _params(p)
     {
       _finished = false;
-      _sampleCount = 0;
-      _bufferSample = 0.0;
 
       reset(true);
     }
@@ -954,7 +951,7 @@ namespace Synthesizer
           else if(_hpFilterCutoff > 0.1) 		_hpFilterCutoff = 0.1;
         }
 
-        _superSample = 0.0;
+        double _superSample = 0.0;
         for(int j= 0; j < 8; j++)
         {
           // Cycles through the period
@@ -996,7 +993,7 @@ namespace Synthesizer
             }
           }
 
-          _sample=0;
+          double _sample=0;
           double overtonestrength=1;
           for (int k=0;k<=_overtones;k++)
           {
@@ -1182,6 +1179,7 @@ namespace Synthesizer
      */
     void reset(bool totalReset)
     {
+#if 1
       auto& p = _params;
 
       _period = 100.0 / (p.startFrequency * p.startFrequency + 0.001);
@@ -1309,6 +1307,7 @@ namespace Synthesizer
         if (p.repeatSpeed == 0.0) 	_repeatLimit = 0;
         else 						_repeatLimit = int((1.0-p.repeatSpeed) * (1.0-p.repeatSpeed) * 20000) + 32;
       }
+#endif
     }
 
     unsigned int GetNumberOfSamples()
@@ -1326,10 +1325,9 @@ namespace Synthesizer
     }
 
     static constexpr int LoResNoisePeriod= 8;
+    static constexpr double MIN_LENGTH = 0.18;
 
     SfxrParams _params;	// Params instance
-
-    static constexpr double MIN_LENGTH = 0.18;
 
     //--------------------------------------------------------------------------
     //
@@ -1428,10 +1426,10 @@ namespace Synthesizer
 
     PinkNoise _pinkNumber;
 
-    double _superSample;					// Actual sample writen to the wave
-    double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
-    unsigned int _sampleCount;						// Number of samples added to the buffer sample
-    double _bufferSample;					// Another supersample used to create a 22050Hz wave
+    // double _superSample;					// Actual sample writen to the wave
+    // double _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
+    // unsigned int _sampleCount;						// Number of samples added to the buffer sample
+    // double _bufferSample;					// Another supersample used to create a 22050Hz wave
 
     double _bitcrush_freq;					// inversely proportional to the number of samples to skip 
     double _bitcrush_freq_sweep;			// change of the above
