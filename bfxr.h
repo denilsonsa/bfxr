@@ -109,8 +109,6 @@ namespace Synthesizer
     public:
 
       struct Param {
-        double random_power = 1.0;
-
         double get() const { return current_value; }
         void set(double t)
         {
@@ -312,6 +310,42 @@ namespace Synthesizer
 #define BFXR_PARAM_bitCrushSweep_MIN -1
 #define BFXR_PARAM_bitCrushSweep_MAX 1
 
+
+
+#define BFXR_PARAM_masterVolume_RANDOM_POWER 1.0
+#define BFXR_PARAM_attackTime_RANDOM_POWER 4
+#define BFXR_PARAM_sustainTime_RANDOM_POWER 2
+#define BFXR_PARAM_sustainPunch_RANDOM_POWER 2
+#define BFXR_PARAM_decayTime_RANDOM_POWER 1.0
+#define BFXR_PARAM_compressionAmount_RANDOM_POWER 1.0
+#define BFXR_PARAM_startFrequency_RANDOM_POWER 1.0
+#define BFXR_PARAM_minFrequency_RANDOM_POWER 1.0
+#define BFXR_PARAM_slide_RANDOM_POWER 1.0
+#define BFXR_PARAM_deltaSlide_RANDOM_POWER 1.0
+#define BFXR_PARAM_vibratoDepth_RANDOM_POWER 3
+#define BFXR_PARAM_vibratoSpeed_RANDOM_POWER 1.0
+#define BFXR_PARAM_overtones_RANDOM_POWER 3
+#define BFXR_PARAM_overtoneFalloff_RANDOM_POWER 0.25
+#define BFXR_PARAM_changeRepeat_RANDOM_POWER 1.0
+#define BFXR_PARAM_changeAmount_RANDOM_POWER 1.0
+#define BFXR_PARAM_changeSpeed_RANDOM_POWER 1.0
+#define BFXR_PARAM_changeAmount2_RANDOM_POWER 1.0
+#define BFXR_PARAM_changeSpeed2_RANDOM_POWER 1.0
+#define BFXR_PARAM_squareDuty_RANDOM_POWER 1.0
+#define BFXR_PARAM_dutySweep_RANDOM_POWER 3
+#define BFXR_PARAM_repeatSpeed_RANDOM_POWER 1.0
+#define BFXR_PARAM_flangerOffset_RANDOM_POWER 3
+#define BFXR_PARAM_flangerSweep_RANDOM_POWER 3
+#define BFXR_PARAM_lpFilterCutoff_RANDOM_POWER 0.3
+#define BFXR_PARAM_lpFilterCutoffSweep_RANDOM_POWER 1.0
+#define BFXR_PARAM_lpFilterResonance_RANDOM_POWER 1.0
+#define BFXR_PARAM_hpFilterCutoff_RANDOM_POWER 5
+#define BFXR_PARAM_hpFilterCutoffSweep_RANDOM_POWER 1.0
+#define BFXR_PARAM_bitCrush_RANDOM_POWER 4
+#define BFXR_PARAM_bitCrushSweep_RANDOM_POWER 5
+
+
+
 namespace Synthesizer 
 {
   void GenerateSound(const SfxrParams& params, std::vector<double>* data);
@@ -406,21 +440,6 @@ namespace Synthesizer
     makeValid();
     resetParams();
 
-    attackTime.random_power = 4;
-    sustainTime.random_power = 2;
-    sustainPunch.random_power = 2;
-    overtones.random_power = 3;
-    overtoneFalloff.random_power = 0.25;
-    vibratoDepth.random_power = 3;
-    dutySweep.random_power = 3;
-    flangerOffset.random_power = 3;
-    flangerSweep.random_power = 3;
-    lpFilterCutoff.random_power = 0.3;
-    // lpFilterCutoffSweep.random_power = 3;
-    hpFilterCutoff.random_power = 5;
-    // hpFilterCutoffSweep.random_power = 5;
-    bitCrush.random_power = 4;
-    bitCrushSweep.random_power = 5;
   }
 
 #define ALLVALUES\
@@ -696,7 +715,7 @@ namespace Synthesizer
       {\
         const auto min = BFXR_PARAM_##param##_MIN;\
         const auto max = BFXR_PARAM_##param##_MAX;\
-        const auto r = pow(random(), param.random_power);\
+        const auto r = pow(random(), BFXR_PARAM_##param##_RANDOM_POWER);\
         param.set(min  + (max-min)*r);\
       }\
     } while(false)
