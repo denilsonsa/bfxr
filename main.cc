@@ -420,7 +420,7 @@ class App : public AppBase
         do {\
           ImGui::PushID(id++);\
           float current_value = param.p.get();\
-          auto changed = ImGui::SliderFloat(TEXT_PARAM_##p, &current_value, param.p.min_value, param.p.max_value);\
+          auto changed = ImGui::SliderFloat(TEXT_PARAM_##p, &current_value, BFXR_PARAM_##p##_MIN, BFXR_PARAM_##p##_MAX);\
           if(changed) {param.p.set(current_value); sound_changed = true;}\
           ImGui::SameLine();\
           Locked(&param.p.locked);\

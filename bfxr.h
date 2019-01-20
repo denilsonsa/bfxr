@@ -109,26 +109,12 @@ namespace Synthesizer
     public:
 
       struct Param {
-        // real name, decription, grouping, default, min, max, 
-        Param(int, double def, double min, double max)
-          :   default_value(def)
-            , min_value(min)
-            , max_value(max)
-        {
-        }
-
-        double default_value;
-        double min_value;
-        double max_value;
-
         double random_power = 1.0;
 
         double get() const { return current_value; }
         void set(double t)
         {
-          if(t > max_value) { current_value = max_value; }
-          else if(t < min_value) { current_value = min_value; }
-          else  { current_value = t; }
+          current_value = t;
         }
         bool locked = false;
         double current_value = 0;
@@ -196,9 +182,135 @@ namespace Synthesizer
       void resetParams();
       void mutate(double mutation = 0.05);
       void randomize();
+
+      // make sure all the doubles are within range
+      void makeValid();
   };
 }
 
+#define BFXR_PARAM_masterVolume_DEF 0.5
+#define BFXR_PARAM_masterVolume_MIN 0
+#define BFXR_PARAM_masterVolume_MAX 1
+
+#define BFXR_PARAM_attackTime_DEF 0
+#define BFXR_PARAM_attackTime_MIN 0
+#define BFXR_PARAM_attackTime_MAX 1
+
+#define BFXR_PARAM_sustainTime_DEF 0.3
+#define BFXR_PARAM_sustainTime_MIN 0
+#define BFXR_PARAM_sustainTime_MAX 1
+
+#define BFXR_PARAM_sustainPunch_DEF 0
+#define BFXR_PARAM_sustainPunch_MIN 0
+#define BFXR_PARAM_sustainPunch_MAX 1
+
+#define BFXR_PARAM_decayTime_DEF 0.4
+#define BFXR_PARAM_decayTime_MIN 0
+#define BFXR_PARAM_decayTime_MAX 1
+
+#define BFXR_PARAM_compressionAmount_DEF 0.3
+#define BFXR_PARAM_compressionAmount_MIN 0
+#define BFXR_PARAM_compressionAmount_MAX 1
+
+#define BFXR_PARAM_startFrequency_DEF 0.3
+#define BFXR_PARAM_startFrequency_MIN 0
+#define BFXR_PARAM_startFrequency_MAX 1
+
+#define BFXR_PARAM_minFrequency_DEF 0.0
+#define BFXR_PARAM_minFrequency_MIN 0
+#define BFXR_PARAM_minFrequency_MAX 1
+
+#define BFXR_PARAM_slide_DEF 0.0
+#define BFXR_PARAM_slide_MIN -1
+#define BFXR_PARAM_slide_MAX 1
+
+#define BFXR_PARAM_deltaSlide_DEF 0.0
+#define BFXR_PARAM_deltaSlide_MIN -1
+#define BFXR_PARAM_deltaSlide_MAX 1
+
+#define BFXR_PARAM_vibratoDepth_DEF 0
+#define BFXR_PARAM_vibratoDepth_MIN 0
+#define BFXR_PARAM_vibratoDepth_MAX 1
+
+#define BFXR_PARAM_vibratoSpeed_DEF 0
+#define BFXR_PARAM_vibratoSpeed_MIN 0
+#define BFXR_PARAM_vibratoSpeed_MAX 1
+
+#define BFXR_PARAM_overtones_DEF 0
+#define BFXR_PARAM_overtones_MIN 0
+#define BFXR_PARAM_overtones_MAX 1
+
+#define BFXR_PARAM_overtoneFalloff_DEF 0
+#define BFXR_PARAM_overtoneFalloff_MIN 0
+#define BFXR_PARAM_overtoneFalloff_MAX 1
+
+#define BFXR_PARAM_changeRepeat_DEF 0
+#define BFXR_PARAM_changeRepeat_MIN 0
+#define BFXR_PARAM_changeRepeat_MAX 1
+
+#define BFXR_PARAM_changeAmount_DEF 0
+#define BFXR_PARAM_changeAmount_MIN -1
+#define BFXR_PARAM_changeAmount_MAX 1
+
+#define BFXR_PARAM_changeSpeed_DEF 0
+#define BFXR_PARAM_changeSpeed_MIN 0
+#define BFXR_PARAM_changeSpeed_MAX 1
+
+#define BFXR_PARAM_changeAmount2_DEF 0
+#define BFXR_PARAM_changeAmount2_MIN -1
+#define BFXR_PARAM_changeAmount2_MAX 1
+
+#define BFXR_PARAM_changeSpeed2_DEF 0
+#define BFXR_PARAM_changeSpeed2_MIN 0
+#define BFXR_PARAM_changeSpeed2_MAX 1
+
+#define BFXR_PARAM_squareDuty_DEF 0
+#define BFXR_PARAM_squareDuty_MIN 0
+#define BFXR_PARAM_squareDuty_MAX 1
+
+#define BFXR_PARAM_dutySweep_DEF 0
+#define BFXR_PARAM_dutySweep_MIN -1
+#define BFXR_PARAM_dutySweep_MAX 1
+
+#define BFXR_PARAM_repeatSpeed_DEF 0
+#define BFXR_PARAM_repeatSpeed_MIN 0
+#define BFXR_PARAM_repeatSpeed_MAX 1
+
+#define BFXR_PARAM_flangerOffset_DEF 0
+#define BFXR_PARAM_flangerOffset_MIN -1
+#define BFXR_PARAM_flangerOffset_MAX 1
+
+#define BFXR_PARAM_flangerSweep_DEF 0
+#define BFXR_PARAM_flangerSweep_MIN -1
+#define BFXR_PARAM_flangerSweep_MAX 1
+
+#define BFXR_PARAM_lpFilterCutoff_DEF 1
+#define BFXR_PARAM_lpFilterCutoff_MIN 0
+#define BFXR_PARAM_lpFilterCutoff_MAX 1
+
+#define BFXR_PARAM_lpFilterCutoffSweep_DEF 0
+#define BFXR_PARAM_lpFilterCutoffSweep_MIN -1
+#define BFXR_PARAM_lpFilterCutoffSweep_MAX 1
+
+#define BFXR_PARAM_lpFilterResonance_DEF 0
+#define BFXR_PARAM_lpFilterResonance_MIN 0
+#define BFXR_PARAM_lpFilterResonance_MAX 1
+
+#define BFXR_PARAM_hpFilterCutoff_DEF 0
+#define BFXR_PARAM_hpFilterCutoff_MIN 0
+#define BFXR_PARAM_hpFilterCutoff_MAX 1
+
+#define BFXR_PARAM_hpFilterCutoffSweep_DEF 0
+#define BFXR_PARAM_hpFilterCutoffSweep_MIN -1
+#define BFXR_PARAM_hpFilterCutoffSweep_MAX 1
+
+#define BFXR_PARAM_bitCrush_DEF 0
+#define BFXR_PARAM_bitCrush_MIN 0
+#define BFXR_PARAM_bitCrush_MAX 1
+
+#define BFXR_PARAM_bitCrushSweep_DEF 0
+#define BFXR_PARAM_bitCrushSweep_MIN -1
+#define BFXR_PARAM_bitCrushSweep_MAX 1
 
 namespace Synthesizer 
 {
@@ -290,39 +402,8 @@ namespace Synthesizer
    */
 
   SfxrParams::SfxrParams()
-    // real name, decription, grouping, default, min, max, 
-    : masterVolume (  1,0.5,0,1) 	
-      , attackTime (  1,0,0,1)		
-      , sustainTime (  1,0.3,0,1) 	
-      , sustainPunch (  1,0,0,1) 		
-      , decayTime (  1,0.4,0,1) 	
-      , compressionAmount (  15,0.3,0,1)
-      , startFrequency (  2,0.3,0,1) 		
-      , minFrequency (  2,0.0,0,1) 		
-      , slide (  3,0.0,-1,1) 	
-      , deltaSlide (  3,0.0,-1,1) 		
-      , vibratoDepth (  4,0,0,1) 		
-      , vibratoSpeed (  4,0,0,1) 		
-      , overtones (  13,0,0,1) 		
-      , overtoneFalloff (  13,0,0,1) 
-      , changeRepeat (  5,0,0,1) 		
-      , changeAmount (  5,0,-1,1) 		
-      , changeSpeed (  5,0,0,1) 		
-      , changeAmount2 (  5,0,-1,1) 	
-      , changeSpeed2 (  5,0,0,1) 		
-      , squareDuty (  8,0,0,1) 		
-      , dutySweep (  8,0,-1,1) 		
-      , repeatSpeed (  9,0,0,1) 	
-      , flangerOffset (  10,0,-1,1) 		
-      , flangerSweep (  10,0,-1,1) 
-      , lpFilterCutoff (  11,1,0,1) 		
-      , lpFilterCutoffSweep (  11,0,-1,1) 	
-      , lpFilterResonance (  11,0,0,1) 		
-      , hpFilterCutoff (  12,0,0,1) 	
-      , hpFilterCutoffSweep (  12,0,-1,1) 	
-      , bitCrush (  14,0,0,1)
-      , bitCrushSweep (  14,0,-1,1) 
   {
+    makeValid();
     resetParams();
 
     attackTime.random_power = 4;
@@ -374,6 +455,13 @@ namespace Synthesizer
   ONVAR(hpFilterCutoffSweep);\
   ONVAR(bitCrush);\
   ONVAR(bitCrushSweep);
+
+  void SfxrParams::makeValid()
+  {
+#define ONVAR(n) do { n.set( BFXR_PARAM_##n##_DEF); } while(false)
+    ALLVALUES
+#undef ONVAR
+  }
 
   void SfxrParams::setAllLocked(bool locked)
   {
@@ -577,7 +665,7 @@ namespace Synthesizer
   void SfxrParams::resetParams()
   {
     waveType = WaveType::Square;
-#define ONVAR(v) do { v.set(v.default_value); v.locked = false; } while(false)
+#define ONVAR(v) do { v.set(BFXR_PARAM_##v##_DEF); v.locked = false; } while(false)
     ALLVALUES
 #undef ONVAR
       masterVolume.locked = true;
@@ -606,8 +694,8 @@ namespace Synthesizer
     {\
       if (!param.locked)\
       {\
-        const auto min = param.min_value;\
-        const auto max = param.max_value;\
+        const auto min = BFXR_PARAM_##param##_MIN;\
+        const auto max = BFXR_PARAM_##param##_MAX;\
         const auto r = pow(random(), param.random_power);\
         param.set(min  + (max-min)*r);\
       }\
