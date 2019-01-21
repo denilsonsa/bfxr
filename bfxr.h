@@ -1,5 +1,5 @@
-#ifndef SFXPARAMS_H
-#define SFXPARAMS_H
+#ifndef BFXR_H
+#define BFXR_H
 
 // ----------------------------------------------------------------------
 // Documentation section
@@ -69,7 +69,7 @@ namespace Synthesizer
 namespace Synthesizer   
 {
   /**
-   * SfxrParams
+   * BfxrParams
    * 
    * Copyright 2010 Thomas Vian
    *
@@ -104,7 +104,7 @@ namespace Synthesizer
     COUNT
   };
 
-  class SfxrParams 
+  class BfxrParams 
   {
     public:
       WaveType waveType;
@@ -175,7 +175,7 @@ namespace Synthesizer
       bool bitCrush_locked = false;
       bool bitCrushSweep_locked = false;
 
-      SfxrParams();
+      BfxrParams();
 
       void setAllLocked(bool locked);
       void generatePickupCoin();
@@ -356,7 +356,7 @@ namespace Synthesizer
 
 namespace Synthesizer 
 {
-  void GenerateSound(const SfxrParams& params, std::vector<double>* data);
+  void GenerateSound(const BfxrParams& params, std::vector<double>* data);
 
 
   // Copied straight out of sfxr source
@@ -429,7 +429,7 @@ namespace Synthesizer
 namespace Synthesizer   
 {
   /**
-   * SfxrParams
+   * BfxrParams
    * 
    * Copyright 2010 Thomas Vian
    *
@@ -448,7 +448,7 @@ namespace Synthesizer
    * @author Thomas Vian
    */
 
-  SfxrParams::SfxrParams()
+  BfxrParams::BfxrParams()
   {
     makeValid();
     resetParams();
@@ -487,14 +487,14 @@ namespace Synthesizer
   ONVAR(bitCrush);\
   ONVAR(bitCrushSweep);
 
-  void SfxrParams::makeValid()
+  void BfxrParams::makeValid()
   {
 #define ONVAR(n) do { n = BFXR_PARAM_##n##_DEF; } while(false)
     ALLVALUES
 #undef ONVAR
   }
 
-  void SfxrParams::setAllLocked(bool locked)
+  void BfxrParams::setAllLocked(bool locked)
   {
     waveType_locked = locked;
 #define ONVAR(p) p##_locked = locked
@@ -502,7 +502,7 @@ namespace Synthesizer
 #undef ONVAR
   }
 
-  void SfxrParams::generatePickupCoin()
+  void BfxrParams::generatePickupCoin()
   {
     resetParams();
 
@@ -523,7 +523,7 @@ namespace Synthesizer
 
   }
 
-  void SfxrParams::generateLaserShoot()
+  void BfxrParams::generateLaserShoot()
   {
     resetParams();
 
@@ -573,7 +573,7 @@ namespace Synthesizer
     if(random() < 0.5) hpFilterCutoff = random() * 0.3;
   }
 
-  void SfxrParams::generateExplosion()
+  void BfxrParams::generateExplosion()
   {
     resetParams();
     waveType = WaveType::Noise;
@@ -611,7 +611,7 @@ namespace Synthesizer
     }
   }
 
-  void SfxrParams::generatePowerup()
+  void BfxrParams::generatePowerup()
   {
     resetParams();
 
@@ -640,7 +640,7 @@ namespace Synthesizer
     decayTime = 0.1 + random() * 0.4;
   }
 
-  void SfxrParams::generateHitHurt()
+  void BfxrParams::generateHitHurt()
   {
     resetParams();
 
@@ -662,7 +662,7 @@ namespace Synthesizer
     if(random() < 0.5) hpFilterCutoff = random() * 0.3;
   }
 
-  void SfxrParams::generateJump()
+  void BfxrParams::generateJump()
   {
     resetParams();
 
@@ -678,7 +678,7 @@ namespace Synthesizer
     if(random() < 0.5) lpFilterCutoff = 1.0 - random() * 0.6;
   }
 
-  void SfxrParams::generateBlipSelect()
+  void BfxrParams::generateBlipSelect()
   {
     resetParams();
 
@@ -693,7 +693,7 @@ namespace Synthesizer
     hpFilterCutoff = 0.1;
   }
 
-  void SfxrParams::resetParams()
+  void BfxrParams::resetParams()
   {
     waveType = WaveType::Square;
 #define ONVAR(v) do { v =BFXR_PARAM_##v##_DEF; v##_locked = false; } while(false)
@@ -702,7 +702,7 @@ namespace Synthesizer
       masterVolume_locked = true;
   }
 
-  void SfxrParams::mutate(double mutation)
+  void BfxrParams::mutate(double mutation)
   {			
     // should waveType be mutated... I dont think so
 #define ONVAR(param) do \
@@ -719,7 +719,7 @@ namespace Synthesizer
 #undef ONVAR
   }
 
-  void SfxrParams::randomize()
+  void BfxrParams::randomize()
   {
 #define ONVAR(param) do \
     {\
@@ -803,7 +803,7 @@ namespace Synthesizer
   }
 
   /**
-   * SfxrSynth
+   * BfxrSynth
    * 
    * Copyright 2010 Thomas Vian
    *
@@ -821,9 +821,9 @@ namespace Synthesizer
    * 
    * @author Thomas Vian
    */
-  struct SfxrSynth 
+  struct BfxrSynth 
   {
-    SfxrSynth(const SfxrParams& p)
+    BfxrSynth(const BfxrParams& p)
       : _params(p)
     {
       _finished = false;
@@ -1332,7 +1332,7 @@ namespace Synthesizer
     static constexpr int LoResNoisePeriod= 8;
     static constexpr double MIN_LENGTH = 0.18;
 
-    SfxrParams _params;	// Params instance
+    BfxrParams _params;	// Params instance
 
     //--------------------------------------------------------------------------
     //
@@ -1444,9 +1444,9 @@ namespace Synthesizer
     double _compression_factor;
   };
 
-  void GenerateSound(const SfxrParams& params, std::vector<double>* data)
+  void GenerateSound(const BfxrParams& params, std::vector<double>* data)
   {
-    SfxrSynth synth{params};
+    BfxrSynth synth{params};
     synth.GenerateSound(data);
   }
 
@@ -1528,5 +1528,5 @@ namespace Synthesizer
 
 #endif // BFXR_IMPLEMENTATION
 
-#endif  // SFXPARAMS_H
+#endif  // BFXR_H
 

@@ -373,7 +373,7 @@ class App : public AppBase
     ImGui::End();
 
 
-    if(ImGui::Begin("Sfxr"))
+    if(ImGui::Begin("Bfxr"))
     {
       bool sound_changed = false;
 
@@ -446,7 +446,7 @@ class App : public AppBase
   void SynthSound() { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
 
   bool play_on_change = true;
-  Synthesizer::SfxrParams param;
+  Synthesizer::BfxrParams param;
   std::vector<double> samples;
 
   float
