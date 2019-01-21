@@ -31,7 +31,7 @@
 // ----------------------------------------------------------------------
 
 
-namespace Synthesizer
+namespace bfxr
 {
   // Exposes AllOnes<N>::Value where N is a positive integer and Value is the number
   // of 1s in the binary value 0b11 (in this case N=2)
@@ -66,7 +66,7 @@ namespace Synthesizer
   }; 
 }
 
-namespace Synthesizer   
+namespace bfxr
 {
   /**
    * BfxrParams
@@ -354,7 +354,7 @@ namespace Synthesizer
 
 
 
-namespace Synthesizer 
+namespace bfxr
 {
   void GenerateSound(const BfxrParams& params, std::vector<double>* data);
 
@@ -380,7 +380,7 @@ namespace Synthesizer
 #include <cmath>
 #include <vector>
 
-namespace Synthesizer
+namespace bfxr
 {
   double random()
   {
@@ -426,7 +426,7 @@ namespace Synthesizer
 }
 
 
-namespace Synthesizer   
+namespace bfxr
 {
   /**
    * BfxrParams
@@ -793,7 +793,7 @@ namespace Synthesizer
 
 
 
-namespace Synthesizer 
+namespace bfxr
 {
   constexpr double PI = 3.14;
 

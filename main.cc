@@ -338,7 +338,7 @@ namespace {
 }
 
 
-      bool radio(const char* str, Synthesizer::WaveType* val, Synthesizer::WaveType wt)
+      bool radio(const char* str, bfxr::WaveType* val, bfxr::WaveType wt)
       { if(ImGui::RadioButton(str, *val == wt)) { *val = wt; return true; } else { return false; } }
 
       void Locked(bool* b) {
@@ -401,22 +401,22 @@ class App : public AppBase
       }
       if(!samples.empty() && ImGui::Button("Save wav"))
       {
-        Synthesizer::SaveWav("sample.wav", samples);
+        bfxr::SaveWav("sample.wav", samples);
       }
       ImGui::Separator();
 
 #define RAD(TEXT, DESC, WT) if(radio(TEXT, &param.waveType, WT)) { sound_changed = true; } ImGui::SameLine(); ShowHelpMarker(DESC)
-      RAD(TEXT_WT_SQUARE, TEXT_WT_SQUARE_DESCRIPTION, Synthesizer::WaveType::Square); ImGui::SameLine();
-      RAD(TEXT_WT_SAW, TEXT_WT_SAW_DESCRIPTION, Synthesizer::WaveType::Saw); ImGui::SameLine();
-      RAD(TEXT_WT_SIN, TEXT_WT_SIN_DESCRIPTION, Synthesizer::WaveType::Sin); ImGui::SameLine();
-      RAD(TEXT_WT_WHITE, TEXT_WT_WHITE_DESCRIPTION, Synthesizer::WaveType::Noise); ImGui::SameLine();
-      RAD(TEXT_WT_TRIANGLE, TEXT_WT_TRIANGLE_DESCRIPTION, Synthesizer::WaveType::Triangle); ImGui::SameLine();
-      RAD(TEXT_WT_PINK, TEXT_WT_PINK_DESCRIPTION, Synthesizer::WaveType::Pink); ImGui::SameLine();
-      RAD(TEXT_WT_TAN, TEXT_WT_TAN_DESCRIPTION, Synthesizer::WaveType::Tan); ImGui::SameLine();
-      RAD(TEXT_WT_WHISTLE, TEXT_WT_WHISTLE_DESCRIPTION, Synthesizer::WaveType::Whistle); ImGui::SameLine();
-      RAD(TEXT_WT_BREAKER, TEXT_WT_BREAKER_DESCRIPTION, Synthesizer::WaveType::Breaker); ImGui::SameLine();
-      RAD(TEXT_WT_ONEBIT, TEXT_WT_ONEBIT_DESCRIPTION, Synthesizer::WaveType::OneBitNoise); ImGui::SameLine();
-      RAD(TEXT_WT_BUZZ, TEXT_WT_BUZZ_DESCRIPTION, Synthesizer::WaveType::Buzz);
+      RAD(TEXT_WT_SQUARE, TEXT_WT_SQUARE_DESCRIPTION, bfxr::WaveType::Square); ImGui::SameLine();
+      RAD(TEXT_WT_SAW, TEXT_WT_SAW_DESCRIPTION, bfxr::WaveType::Saw); ImGui::SameLine();
+      RAD(TEXT_WT_SIN, TEXT_WT_SIN_DESCRIPTION, bfxr::WaveType::Sin); ImGui::SameLine();
+      RAD(TEXT_WT_WHITE, TEXT_WT_WHITE_DESCRIPTION, bfxr::WaveType::Noise); ImGui::SameLine();
+      RAD(TEXT_WT_TRIANGLE, TEXT_WT_TRIANGLE_DESCRIPTION, bfxr::WaveType::Triangle); ImGui::SameLine();
+      RAD(TEXT_WT_PINK, TEXT_WT_PINK_DESCRIPTION, bfxr::WaveType::Pink); ImGui::SameLine();
+      RAD(TEXT_WT_TAN, TEXT_WT_TAN_DESCRIPTION, bfxr::WaveType::Tan); ImGui::SameLine();
+      RAD(TEXT_WT_WHISTLE, TEXT_WT_WHISTLE_DESCRIPTION, bfxr::WaveType::Whistle); ImGui::SameLine();
+      RAD(TEXT_WT_BREAKER, TEXT_WT_BREAKER_DESCRIPTION, bfxr::WaveType::Breaker); ImGui::SameLine();
+      RAD(TEXT_WT_ONEBIT, TEXT_WT_ONEBIT_DESCRIPTION, bfxr::WaveType::OneBitNoise); ImGui::SameLine();
+      RAD(TEXT_WT_BUZZ, TEXT_WT_BUZZ_DESCRIPTION, bfxr::WaveType::Buzz);
 #undef RAD
 
       int id = 0;
@@ -443,10 +443,10 @@ class App : public AppBase
     ImGui::End();
   }
 
-  void SynthSound() { samples.resize(0); Synthesizer::GenerateSound(param, &samples); }
+  void SynthSound() { samples.resize(0); bfxr::GenerateSound(param, &samples); }
 
   bool play_on_change = true;
-  Synthesizer::BfxrParams param;
+  bfxr::BfxrParams param;
   std::vector<double> samples;
 
   float
