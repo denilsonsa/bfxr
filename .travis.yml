@@ -5,8 +5,22 @@ git:
     submodules: false
 # Use sed to replace the SSH URL with the public URL, then initialize submodules
 before_install:
-    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    # osx expects -i to have a empty argument...
+    - case $TRAVIS_OS_NAME in osx) sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules;; linux) sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules;; esac
     - git submodule update --init --recursive
+
+addons:
+  homebrew:
+    packages:
+      - sdl2
+  apt:
+    packages:
+      # opengl
+      - libgl1-mesa-dev
+      # sdl library
+      - libsdl2-dev
+      # native file dialog
+      - libgtk-3-dev
 
 os:
   - linux
