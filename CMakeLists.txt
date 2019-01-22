@@ -91,11 +91,13 @@ set(app_src ${app_src} external/nativefiledialog/src/nfd_common.c)
 include_directories(SYSTEM external/nativefiledialog/src/include)
 if(WIN32)
   set(app_src ${app_src} external/nativefiledialog/src/nfd_win.cpp)
+  set(libs ${libs} comctl32.lib)
   message(STATUS "nfd is windows: not complete")
 endif()
 
 if(APPLE)
   set(app_src ${app_src} external/nativefiledialog/src/nfd_cocoa.m)
+  set(libs ${libs} "-framework AppKit")
   message(STATUS "nfd is cocoa: not complete")
 endif()
 
