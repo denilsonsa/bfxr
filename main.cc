@@ -47,6 +47,15 @@ void ShowHelpMarker(const char* desc)
     }
 }
 
+// https://stackoverflow.com/a/874160/180307
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+
 class AppBase
 {
  public:
@@ -404,10 +413,16 @@ class App : public AppBase
       if(!samples.empty() && ImGui::Button("Save wav"))
       {
         nfdchar_t* target = NULL;
-        const auto r = NFD_SaveDialog(nullptr, nullptr, &target);
+        const auto r = NFD_SaveDialog("*.wav", nullptr, &target);
         if(r == NFD_OKAY)
         {
-          bfxr::SaveWav(target, samples);
+          std::string file = target;
+          free(target);
+          if(!hasEnding(file, ".wav"))
+          {
+            file += ".wav";
+          }
+          bfxr::SaveWav(file.c_str(), samples);
         }
       }
       ImGui::Separator();
