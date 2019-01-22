@@ -8,6 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(cpack-config.cmake)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules")
 
@@ -119,3 +121,14 @@ target_link_libraries(bfxr
                       ${libs}
                       )
 
+install(TARGETS bfxr DESTINATION ".")
+
+if(APPLE)
+  # install dependencies
+  # install(SCRIPT macdylibbundler.cmake)
+
+  # make apple installer look prettier
+  set_target_properties(bfxr PROPERTIES MACOSX_BUNDLE_ICON_FILE "application")
+  # set_target_properties(bfxr PROPERTIES MACOSX_BUNDLE_INFO_PLIST
+  # "${CMAKE_CURRENT_SOURCE_DIR}/bundle-info.plist")
+endif()
