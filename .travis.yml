@@ -10,6 +10,9 @@ before_install:
     - git submodule update --init --recursive
 
 addons:
+  homebrew:
+    packages:
+      - sdl2
   apt:
     packages:
       # opengl
