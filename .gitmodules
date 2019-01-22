@@ -4,3 +4,6 @@
 [submodule "external/IconFontCppHeaders"]
 	path = external/IconFontCppHeaders
 	url = git@github.com:juliettef/IconFontCppHeaders.git
+[submodule "external/nativefiledialog"]
+	path = external/nativefiledialog
+	url = git@github.com:mlabbe/nativefiledialog.git

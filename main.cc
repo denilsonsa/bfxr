@@ -10,6 +10,8 @@
 #include <glad/glad.h>
 #include "imgui.h"
 
+#include "nfd.h"
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui_internal.h"
 
@@ -401,7 +403,12 @@ class App : public AppBase
       }
       if(!samples.empty() && ImGui::Button("Save wav"))
       {
-        bfxr::SaveWav("sample.wav", samples);
+        nfdchar_t* target = NULL;
+        const auto r = NFD_SaveDialog(nullptr, nullptr, &target);
+        if(r == NFD_OKAY)
+        {
+          bfxr::SaveWav(target, samples);
+        }
       }
       ImGui::Separator();
 

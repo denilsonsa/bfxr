@@ -35,11 +35,13 @@ include_directories(SYSTEM external/glad/include)
 include_directories(SYSTEM fake/)
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(binary_to_compressed_c external/imgui/misc/fonts/binary_to_compressed_c.cpp)
+add_executable(binary_to_compressed_c
+  external/imgui/misc/fonts/binary_to_compressed_c.cpp)
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/font_noto_sans_display.h"
   COMMAND  binary_to_compressed_c
-  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/NotoSansDisplay-Regular.ttf NotoSansDisplay > font_noto_sans_display.h
+  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/NotoSansDisplay-Regular.ttf
+    NotoSansDisplay > font_noto_sans_display.h
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating binary font: Noto Sans Display"
 )
@@ -49,7 +51,8 @@ source_group("fonts" FILES ${CMAKE_CURRENT_BINARY_DIR}/font_noto_sans_display.h)
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/font_forkawesome.h"
   COMMAND  binary_to_compressed_c
-  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/forkawesome.ttf ForkAwesome > font_forkawesome.h
+  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/forkawesome.ttf
+    ForkAwesome > font_forkawesome.h
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating binary font"
   )
@@ -83,9 +86,34 @@ set(app_src ${app_src}
     external/glad/include/glad/glad.h
     )
 
+set(libs)
+set(app_src ${app_src} external/nativefiledialog/src/nfd_common.c)
+include_directories(SYSTEM external/nativefiledialog/src/include)
+if(WIN32)
+  set(app_src ${app_src} external/nativefiledialog/src/nfd_win.cpp)
+  message(STATUS "nfd is windows: not complete")
+endif()
+
+if(APPLE)
+  set(app_src ${app_src} external/nativefiledialog/src/nfd_cocoa.m)
+  message(STATUS "nfd is cocoa: not complete")
+endif()
+
+if(UNIX)
+  if(NOT APPLE)
+    find_package(GTK3 REQUIRED)
+    set(app_src ${app_src} external/nativefiledialog/src/nfd_gtk.c)
+    include_directories(SYSTEM ${GTK3_INCLUDE_DIRS})
+    set(libs ${libs} ${GTK3_LIBRARIES})
+    message(STATUS "nfd is gtk")
+  endif()
+endif()
+
+message(STATUS "libs are ${libs}")
 add_executable(bfxr WIN32 MACOSX_BUNDLE ${app_src})
 target_link_libraries(bfxr
                       ${SDL2_LIBRARY}
                       ${CMAKE_DL_LIBS}
+                      ${libs}
                       )
 
