@@ -6,7 +6,7 @@ git:
 # Use sed to replace the SSH URL with the public URL, then initialize submodules
 before_install:
     # osx expects -i to have a empty argument...
-    - if ["$TRAVIS_OS_NAME" = 'osx']; then sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules; else sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules; fi
+    - case $TRAVIS_OS_NAME in osx) sed -i '' 's/git@github.com:/https:\/\/github.com\//' .gitmodules;; linux) sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules;; esac
     - git submodule update --init --recursive
 
 addons:
