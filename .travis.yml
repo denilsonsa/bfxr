@@ -1,0 +1,6 @@
+language: cpp
+os:
+  - linux
+  - osx
+dist: xenial
+script: mkdir build && cd build && cmake .. && make
