@@ -28,4 +28,4 @@ os:
 
 dist: xenial
 
-script: mkdir build && cd build && cmake .. && make
+script: mkdir build && cd build && cmake .. && make && make package

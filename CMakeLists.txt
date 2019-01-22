@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.1.0)
 set_property(GLOBAL PROPERTY USE_FOLDERS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-project(music)
+project(bfxr)
 
 set(BUILD_STATIC_LIBS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(BFXR_VERSION_MAJOR "1")
+set(BFXR_VERSION_MINOR "0")
+set(BFXR_VERSION_REVISION "0")
 
 include(cpack-config.cmake)
 
