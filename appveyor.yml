@@ -1,0 +1,19 @@
+branches:
+  only:
+    - master
+
+image: Visual Studio 2017
+
+build_script:
+  - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake ..'
+  - cmd: 'msbuild %APPVEYOR_BUILD_FOLDER%\build\bfxr.sln'
+
+platform:
+  - x86
+  - x64
+
+configuration: Release
+
+build:
+  parallel: true
+
