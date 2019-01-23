@@ -1,3 +1,6 @@
+version: 1.0.{build}
+skip_tags: true
+
 branches:
   only:
     - master
@@ -11,9 +14,4 @@ build_script:
 platform:
   - x86
   - x64
-
-configuration: Release
-
-build:
-  parallel: true
 
