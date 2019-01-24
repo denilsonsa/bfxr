@@ -8,10 +8,10 @@ branches:
 image: Visual Studio 2017
 
 build_script:
-  - ps: (new-object net.webclient).DownloadFile('https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip', '%APPVEYOR_BUILD_FOLDER%\sdl2.zip')
+  - cmd: %APPVEYOR_BUILD_FOLDER%\tool.py 'https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip' '%APPVEYOR_BUILD_FOLDER%\sdl2.zip'
   - ps: Expand-Archive %APPVEYOR_BUILD_FOLDER%\sdl2.zip -DestinationPath %APPVEYOR_BUILD_FOLDER%\sdl2
   - cmd: 'mkdir %APPVEYOR_BUILD_FOLDER%\build'
-  - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake -d SDL_HINT_PATH=%APPVEYOR_BUILD_FOLDER%\sdl2 ..'
+  - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake -d SDL_HINT_PATH=%APPVEYOR_BUILD_FOLDER%\sdl2\SDL2-2.0.9\ ..'
   - cmd: 'msbuild %APPVEYOR_BUILD_FOLDER%\build\bfxr.sln'
 
 platform:
