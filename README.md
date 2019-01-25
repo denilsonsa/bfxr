@@ -1,5 +1,8 @@
 # Bfxr
 
+[![Travis Build status](https://travis-ci.org/madeso/bfxr.svg?branch=master)](https://travis-ci.org/madeso/bfxr)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/g5rknca4y5tw3ifm/branch/master?svg=true)](https://ci.appveyor.com/project/madeso/bfxr/branch/master)
+
 C++ port of bfxr by increpare
 
 Single-header stb like Library without gui and dear imgui + sdl2 gui provided
