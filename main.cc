@@ -363,28 +363,51 @@ class App : public AppBase
   {
   }
 
+  // grab from cmdline or something...
+  bool dev = false;
+
   void
   Draw() override
   {
     // imgui: demo window
-    ImGui::ShowDemoWindow();
-
-    if(ImGui::Begin("UI"))
+    if(dev)
     {
-      if(ImGui::Button("Light"))
-      {
-        ImGui::StyleColorsLight();
-      }
-      ImGui::SameLine();
-      if(ImGui::Button("Dark"))
-      {
-        ImGui::StyleColorsDark();
-      }
+      ImGui::ShowDemoWindow();
     }
-    ImGui::End();
 
 
-    if(ImGui::Begin("Bfxr"))
+    if(dev)
+    {
+      if(ImGui::Begin("UI"))
+      {
+        if(ImGui::Button("Light"))
+        {
+          ImGui::StyleColorsLight();
+        }
+        ImGui::SameLine();
+        if(ImGui::Button("Dark"))
+        {
+          ImGui::StyleColorsDark();
+        }
+      }
+      ImGui::End();
+    }
+
+    bool display_main = false;
+    if(dev)
+    {
+      display_main = ImGui::Begin("Bfxr");
+    }
+    else
+    {
+      ImGuiIO&     io          = ImGui::GetIO();
+      ImGui::SetNextWindowSize(io.DisplaySize);
+      ImGui::SetNextWindowPos(ImVec2(0, 0));
+      display_main = ImGui::Begin("Bfxr", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    }
+
+
+    if(display_main)
     {
       bool sound_changed = false;
 
