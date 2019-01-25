@@ -2,6 +2,30 @@
 import argparse
 import urllib.request
 import zipfile
+import re
+import os
+
+
+def fake_sed(reg, rep, path):
+
+    with open(path, "r") as sources:
+        lines = sources.readlines()
+    with open(path, "w") as sources:
+        for line in lines:
+            new_line = re.sub(reg, rep, line)
+            sources.write(new_line)
+            if line == new_line:
+                print('same line: ', line)
+            else:
+                print('line was ', line)
+                print('line is ', new_line)
+
+
+def handle_gitfix(args):
+    gitmodules = os.path.join(args.root, '.gitmodules')
+    print('.gitmodules is', gitmodules)
+    fake_sed(r'git@github.com', 'https:\\/\\/github.com\\/', gitmodules)
+
 
 def handle_download(args):
     print('Downloading', args.url)
@@ -23,6 +47,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.set_defaults(handler=None)
     subparsers = parser.add_subparsers()
+
+    gitfix_parser = subparsers.add_parser('gitfix')
+    gitfix_parser.set_defaults(handler=handle_gitfix)
+    gitfix_parser.add_argument('root')
 
     download_parser = subparsers.add_parser('download')
     download_parser.set_defaults(handler=handle_download)

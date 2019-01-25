@@ -9,6 +9,7 @@ image: Visual Studio 2017
 
 install:
   - cd %APPVEYOR_BUILD_FOLDER%
+  - %APPVEYOR_BUILD_FOLDER%\tool.py gitfix %APPVEYOR_BUILD_FOLDER%
   - git submodule update --init --recursive
 
 build_script:
