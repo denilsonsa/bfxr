@@ -17,7 +17,7 @@ build_script:
   - cmd: '%APPVEYOR_BUILD_FOLDER%\tool.py unzip %APPVEYOR_BUILD_FOLDER%\sdl2.zip %APPVEYOR_BUILD_FOLDER%\sdl2'
   - cmd: 'mkdir %APPVEYOR_BUILD_FOLDER%\build'
   - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake -D SDL2_HINT_ROOT=%APPVEYOR_BUILD_FOLDER%\sdl2\SDL2-2.0.9\ ..'
-  - cmd: 'msbuild %APPVEYOR_BUILD_FOLDER%\build\bfxr.sln'
+  - cmd: 'cmake --build %APPVEYOR_BUILD_FOLDER%\build'
 
 platform:
   - x86
