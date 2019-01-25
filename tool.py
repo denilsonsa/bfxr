@@ -13,11 +13,6 @@ def fake_sed(reg, rep, path):
         for line in lines:
             new_line = re.sub(reg, rep, line)
             sources.write(new_line)
-            if line == new_line:
-                print('same line: ', line)
-            else:
-                print('line was ', line)
-                print('line is ', new_line)
 
 
 def handle_gitfix(args):
