@@ -7,7 +7,6 @@ import os
 
 
 def fake_sed(reg, rep, path):
-
     with open(path, "r") as sources:
         lines = sources.readlines()
     with open(path, "w") as sources:
@@ -24,7 +23,7 @@ def fake_sed(reg, rep, path):
 def handle_gitfix(args):
     gitmodules = os.path.join(args.root, '.gitmodules')
     print('.gitmodules is', gitmodules)
-    fake_sed(r'git@github.com', 'https:\\/\\/github.com\\/', gitmodules)
+    fake_sed(r'git@github.com:', 'https://github.com/', gitmodules)
 
 
 def handle_download(args):
