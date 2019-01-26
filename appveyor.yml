@@ -16,11 +16,18 @@ build_script:
   - cmd: '%APPVEYOR_BUILD_FOLDER%\tool.py download https://www.libsdl.org/release/SDL2-devel-2.0.9-VC.zip %APPVEYOR_BUILD_FOLDER%\sdl2.zip'
   - cmd: '%APPVEYOR_BUILD_FOLDER%\tool.py unzip %APPVEYOR_BUILD_FOLDER%\sdl2.zip %APPVEYOR_BUILD_FOLDER%\sdl2'
   - cmd: 'mkdir %APPVEYOR_BUILD_FOLDER%\build'
+  - cmd: 'mkdir %APPVEYOR_BUILD_FOLDER%\install'
   - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake -D SDL2_HINT_ROOT=%APPVEYOR_BUILD_FOLDER%\sdl2\SDL2-2.0.9\ ..'
-  - cmd: 'cmake --build %APPVEYOR_BUILD_FOLDER%\build --config Release'
+  - cmd: 'cmake --build %APPVEYOR_BUILD_FOLDER%\build --config Release --target install'
 
 platform:
   - x86
+
+after_build:
+  - cmd: '7z a %APPVEYOR_BUILD_FOLDER%\install\artifact.zip %APPVEYOR_BUILD_FOLDER%\install\*'
+
+artifacts:
+  - path: install\artifact.zip
 
 deploy:
   - provider: BinTray
