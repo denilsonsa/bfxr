@@ -28,7 +28,7 @@ os:
 
 dist: xenial
 
-script: mkdir ~/install && mkdir build && cd build && cmake -D CMAKE_INSTALL_PREFIX=~/install/ .. && make && make package
+script: mkdir ~/deploy && mkdir build && cd build && cmake -D CMAKE_INSTALL_PREFIX=~/deploy/ .. && make && make package
 
 deploy:
   provider: bintray
