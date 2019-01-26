@@ -22,3 +22,17 @@ build_script:
 platform:
   - x86
 
+deploy:
+  - provider: BinTray
+    username: madeso
+    api_key:
+      # api key from https://bintray.com/profile/edit
+      # encrypted in https://ci.appveyor.com/tools/encrypt
+      secure: 4+yuIks0NBwT5o8cMeC0uc2qRFlG8y3rhyRtalbby0wwlCTBlquzVQqQSVdm2a1J
+    subject: madeso
+    repo: bfxr-generic
+    package: bfxr-master
+    version: master
+    publish: true
+    override: true
+    explode: true

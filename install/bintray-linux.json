@@ -1,0 +1,23 @@
+{
+  "package": {
+    "name": "bfxr-master",
+    "repo": "bfxr-generic",
+    "subject": "madeso"
+  },
+
+  "version": {
+    "name": "master"
+  },
+
+  "files":
+    [
+      {
+        "includePattern": "install/(.*)",
+        "uploadPattern": "linux/$1",
+        "matrixParams": {
+          "override": 1
+        }
+      }
+    ],
+  "publish": true
+}
