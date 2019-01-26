@@ -1,5 +1,15 @@
-BfxrParams
+Bfxr has different parts licensed under 3 different licenses
 
+bfxr.h
+Main license unless otherwise specified: Apache 2.0
+Save to wav function: MIT
+Pink noise generator and: zlib
+
+other files:
+imgui ui: zlib
+fork awesome and noto sans display fonts: SIL OFL
+
+Apache 2.0:
 Copyright 2010 Thomas Vian
 
 Licensed under the Apache License, Version 2.0 (the "License");
