@@ -36,3 +36,4 @@ deploy:
   user: "madeso"
   key: ${TRAVIS_BINTRAY_SECRET}
   dry-run: false
+  skip_cleanup: true
