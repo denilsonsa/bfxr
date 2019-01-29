@@ -20,6 +20,8 @@ build_script:
   - cmd: 'cd %APPVEYOR_BUILD_FOLDER%\build && cmake -D CMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%/deploy/ -D SDL2_HINT_ROOT=%APPVEYOR_BUILD_FOLDER%\sdl2\SDL2-2.0.9\ ..'
   - cmd: 'cmake --build %APPVEYOR_BUILD_FOLDER%\build --config Release --target package'
 
+on_failure:
+  - cmd: 'type "C:\\projects\\bfxr\\build\\_CPack_Packages\\win32\\WIX\\wix.log"
 platform:
   - x86
 
