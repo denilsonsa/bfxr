@@ -21,7 +21,8 @@ build_script:
   - cmd: 'cmake --build %APPVEYOR_BUILD_FOLDER%\build --config Release --target package'
 
 on_failure:
-  - cmd: 'type "C:\\projects\\bfxr\\build\\_CPack_Packages\\win32\\WIX\\wix.log"
+  - cmd: 'type "C:\\projects\\bfxr\\build\\_CPack_Packages\\win32\\WIX\\wix.log"'
+
 platform:
   - x86
 
