@@ -30,9 +30,11 @@ dist: xenial
 
 script: mkdir ~/deploy && mkdir build && cd build && cmake -D CMAKE_INSTALL_PREFIX=~/deploy/ .. && make && make package
 
+before_deploy: ls ${TRAVIS_BUILD_DIR}/install && echo ${TRAVIS_BUILD_DIR}/install/bintray-${TRAVIS_OS_NAME}.json
+
 deploy:
   provider: bintray
-  file: install/bintray-${TRAVIS_OS_NAME}.json
+  file: ${TRAVIS_BUILD_DIR}/install/bintray-${TRAVIS_OS_NAME}.json
   user: "madeso"
   key: ${TRAVIS_BINTRAY_SECRET}
   dry-run: false
