@@ -12,7 +12,7 @@
   "files":
     [
       {
-        "includePattern": "\./deploy/(.*)",
+        "includePattern": "${TRAVIS_BUILD_DIR}/deploy/(.*)",
         "uploadPattern": "linux/$1",
         "matrixParams": {
           "override": 1
