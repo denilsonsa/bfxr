@@ -12,7 +12,7 @@
   "files":
     [
       {
-        "includePattern": "install/(.*)",
+        "includePattern": "\./deploy/(.*)",
         "uploadPattern": "linux/$1",
         "matrixParams": {
           "override": 1
