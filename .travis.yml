@@ -30,7 +30,7 @@ dist: xenial
 
 script: mkdir build && cd build && cmake -D CMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/deploy/ .. && make && make package
 
-before_deploy: ls ${TRAVIS_BUILD_DIR}/install && echo ${TRAVIS_BUILD_DIR}/install/bintray-${TRAVIS_OS_NAME}.json
+before_deploy: ls ${TRAVIS_BUILD_DIR}/install && echo "" && ls ${TRAVIS_BUILD_DIR}/deploy && echo ${TRAVIS_BUILD_DIR}/install/bintray-${TRAVIS_OS_NAME}.json
 
 deploy:
   provider: bintray
