@@ -12,7 +12,7 @@
   "files":
     [
       {
-        "includePattern": "\./deploy/(.*)",
+        "includePattern": "\.\./deploy/(.*)",
         "uploadPattern": "$1",
         "matrixParams": {
           "override": 1
