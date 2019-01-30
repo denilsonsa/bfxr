@@ -12,8 +12,8 @@
   "files":
     [
       {
-        "includePattern": "deploy/(.*)",
-        "uploadPattern": "osx/$1",
+        "includePattern": "\./deploy/(.*)",
+        "uploadPattern": "$1",
         "matrixParams": {
           "override": 1
         }
