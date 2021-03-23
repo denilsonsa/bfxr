@@ -28,7 +28,7 @@ Note: This is a work in progress.
 
 
 ## History
-* Dr. Petter writes sfxr
+* Dr. Petter writes sfxr and licenses it under 'mit'
 * Tom Vian ports is to action script and calls it as3sfxr
-* increpare makes additions and renames it to bfxr
+* increpare makes additions and renames it to bfxr and licenses it under 'apache license 2'
 * I (madeso) ports it "back" to C++
