@@ -1292,10 +1292,10 @@ namespace bfxr
         _flangerDeltaOffset = p.flangerSweep * p.flangerSweep * p.flangerSweep * 0.2;
         _flangerPos = 0;
 
-        _flangerBuffer.reserve(1024);
-        _noiseBuffer.reserve(32);
-        _pinkNoiseBuffer.reserve(32);
-        _loResNoiseBuffer.reserve(32);
+        _flangerBuffer.resize(1024);
+        _noiseBuffer.resize(32);
+        _pinkNoiseBuffer.resize(32);
+        _loResNoiseBuffer.resize(32);
 
         _oneBitNoiseState = 1 << 14;
         _oneBitNoise = 0;
