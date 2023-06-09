@@ -250,7 +250,7 @@ class AppBase
   Draw() = 0;
 
   virtual float
-  SynthSample(int time) = 0;
+  SynthSample(unsigned int time) = 0;
 
   void
   OnRender()
@@ -329,8 +329,8 @@ class AppBase
   }
 
  protected:
-  int sample_position     = 0;
-  int sample_length = 0;
+  unsigned int sample_position     = 0;
+  unsigned int sample_length = 0;
   int   sample_frequency    = 44100;
   float audio_callback_time = 0;
   int   samples_consumed    = 0;
@@ -495,9 +495,9 @@ class App : public AppBase
   std::vector<double> samples;
 
   float
-  SynthSample(int time) override
+  SynthSample(unsigned int time) override
   {
-    if(samples.empty()) { return 0.0f; }
+    if(time >= samples.size()) { return 0.0f; }
     else return samples[time];
   }
 };
